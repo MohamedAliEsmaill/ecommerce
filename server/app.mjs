@@ -10,7 +10,6 @@ import Order from "./models/Order.mjs";
 
 dotenv.config();
 const app = express();
-
 const PORT = process.env.PORT || 3000;
 
 mongoose
@@ -33,9 +32,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(authRoutes);
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+app.use("/api/users", userRouter);
+app.use("/api/orders", orderRouter);
+app.use("/api/products", productRouter);
+app.use("/api/featuredproducts", featuredProductsRouter);
 
 app.listen(PORT, () => {
   console.log(`Listening on 127.0.0.1:${PORT}`);
