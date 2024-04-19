@@ -1,7 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import authRoutes from "./routes/authRoutes.mjs";
+import authRouter from "./routes/authRouter.mjs";
+import userRouter from "./routes/userRouter.mjs";
+import orderRouter from "./routes/orderRouter.mjs";
+import productRouter from "./routes/productRouter.mjs";
+import featuredProductsRouter from "./routes/featuredProductsRouter.mjs";
 import { faker } from "@faker-js/faker";
 import Product from "./models/Product.mjs";
 import FeaturedProducts from "./models/FeaturedProducts.mjs";
@@ -30,8 +34,8 @@ process.on("unhandledRejection", (error) => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(authRoutes);
 
+app.use(authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/products", productRouter);
