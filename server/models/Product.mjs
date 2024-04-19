@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-
 // Define your schema
 const ProductSchema = new mongoose.Schema({
     productId: {
@@ -25,11 +24,9 @@ const ProductSchema = new mongoose.Schema({
         required: true,
     },
     images: {
-        type: [String],
+        type: [String], // Define images as an array of strings
     },
-}, { _id: 'productId' });
-
-ProductSchema.index({ productId: 1 }, { unique: true });
+});
 
 // Create a model
 const Product = mongoose.model('Product', ProductSchema);
