@@ -1,13 +1,20 @@
 import express from "express";
-import orderController from "../controllers/orderController.mjs";
+import {
+  getAllOrders,
+  getOrderById,
+  addOrder,
+  updateOrderToAccepted,
+  updateOrderToRejected,
+  deleteOrder,
+} from "../controllers/ordersController.mjs";
 
 const router = express.Router();
 
-router.get("/", orderController.getAllOrders);
-router.get("/:id", orderController.getOrderById);
-router.post("/", orderController.createOrder);
-router.put("/:id/accept", orderController.updateOrderToAccepted);
-router.put("/:id/reject", orderController.updateOrderToRejected);
-router.delete("/:id/cancel", orderController.cancelOrder);
+router.get("/", getAllOrders);
+router.get("/:id", getOrderById);
+router.post("/", addOrder);
+router.put("/:id/accept", updateOrderToAccepted);
+router.put("/:id/reject", updateOrderToRejected);
+router.delete("/:id/cancel", deleteOrder);
 
 export default router;
