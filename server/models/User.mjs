@@ -22,7 +22,6 @@ const userSchema = new mongoose.Schema({
   phone: { type: String, required: true },
   address: { type: String },
   isAdmin: { type: Boolean, required: true, default: false },
-  // TODO - todo note orders and carts logic
   orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
   carts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
   image: {
