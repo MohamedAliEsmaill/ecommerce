@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 // Define your schema
 const ProductSchema = new mongoose.Schema({
-    title: {
+    name: {
         type: String,
         required: true,
         unique: true,
