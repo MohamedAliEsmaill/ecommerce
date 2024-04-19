@@ -11,6 +11,7 @@ import Product from "./models/Product.mjs";
 import FeaturedProducts from "./models/FeaturedProducts.mjs";
 import User from "./models/User.mjs";
 import Order from "./models/Order.mjs";
+import { verifyToken } from "./middleware/authJWT.mjs";
 
 dotenv.config();
 const app = express();
@@ -37,7 +38,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(authRouter);
 app.use("/api/users", userRouter);
-app.use("/api/orders", orderRouter);
+app.use("/api/orders", verifyToken, orderRouter);
 app.use("/api/products", productRouter);
 app.use("/api/featuredproducts", featuredProductsRouter);
 
