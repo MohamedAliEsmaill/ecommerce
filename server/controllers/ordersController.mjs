@@ -110,7 +110,7 @@ export const deleteOrder = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
     if (order) {
-      await order.remove();
+      await order.deleteOne();
       res.json({ message: "Order deleted" });
     } else {
       res.status(404);
