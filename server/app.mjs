@@ -42,7 +42,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/users", authRoutes);
 
 app.use("/api/users", userRouter);
-app.use("/api/orders", verifyToken, orderRouter);
+app.use("/api/orders", orderRouter);
 app.use("/api/products", productRouter);
 app.use("/api/featuredproducts", featuredProductsRouter);
 
@@ -63,4 +63,3 @@ process.on("unhandledRejection", (err) => {
     process.exit(1);
   });
 });
-
