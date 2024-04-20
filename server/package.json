@@ -2,27 +2,24 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.mjs",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon app.mjs"
   },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
+    "mailtrap": "^3.3.0",
     "mongoose": "^8.3.2",
     "nodemailer": "^6.9.13",
-    "nodemon": "^3.0.1",
-    "validator": "^13.11.0",
-    "mailtrap":"^3.3.0"
-
+    "validator": "^13.11.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.4.1"
+    "@faker-js/faker": "^8.4.1",
+    "nodemon": "^3.1.0"
   }
 }
