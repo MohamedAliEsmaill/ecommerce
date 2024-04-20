@@ -1,27 +1,35 @@
 import express from "express";
-import { signup, signin } from "../controllers/authController.mjs";
-import { verifyToken } from "../middleware/authJWT.mjs";
+import {
+  signup,
+  login,
+  logout,
+  forgotPassword,
+  resetPassword,
+  updatePassword,
+  protect,
+} from "../controllers/authController.mjs";
 
 const router = express.Router();
 
-router.post("/api/register", signup, (req, res) => {});
-router.post("/api/login", signin, (req, res) => {});
-router.get("/api/Authorization", verifyToken, function (req, res) {
-  const user = req.user;
-  if (!user) {
-    res.status(403).send({
-      message: "Invalid JWT token",
-    });
-  }
-  if (req.user.isAdmin) {
-    res.status(200).send({
-      message: "Congratulations! but there is no hidden content",
-    });
-  } else {
-    res.status(403).send({
-      message: "Unauthorized access",
-    });
-  }
-});
+router.post("/signup", signup);
+router.post("/login", login);
+router.get("/logout", logout);
+router.post("/forgotPassword", forgotPassword);
+router.patch("/resetPassword/:token", resetPassword);
+router.patch("/updatePassword", protect, updatePassword);
+
+// ALL THE BELOW ROUTES NEEDS ADMIN AUTHORIZATION
+// router.use(protect, restrictTo("admin"));
+
+// router
+//   .route("/")
+//   .get(getAllUsers)
+//   .post(createUser);
+
+// router
+//   .route("/:id")
+//   .get(getUser)
+//   .patch(updateUser)
+//   .delete(deleteUser);
 
 export default router;
