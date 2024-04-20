@@ -51,6 +51,7 @@ const userSchema = new mongoose.Schema({
     enum: ["user", "admin"],
     default: "user",
   },
+
   orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
   carts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
   image: {
@@ -78,6 +79,7 @@ userSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, 12);
   this.passwordConfirm = this.password;
   next();
+
 });
 
 // Create password reset token and set expiry
