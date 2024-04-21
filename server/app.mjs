@@ -20,7 +20,7 @@ process.on("uncaughtException", (err) => {
   process.exit(1);
 });
 
-dotenv.config({ path: "./config.env" });
+dotenv.config({ path: "./.env" });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
