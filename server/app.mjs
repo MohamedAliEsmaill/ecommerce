@@ -2,15 +2,12 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import appError from "./utils/appError.mjs";
+import authRouter from "./routes/authRouter.mjs";
 import userRouter from "./routes/userRouter.mjs";
 import orderRouter from "./routes/orderRouter.mjs";
 import productRouter from "./routes/productRouter.mjs";
 import featuredProductsRouter from "./routes/featuredProductsRouter.mjs";
-import { faker } from "@faker-js/faker";
-import Product from "./models/Product.mjs";
-import FeaturedProducts from "./models/FeaturedProducts.mjs";
-import User from "./models/User.mjs";
-import Order from "./models/Order.mjs";
+import { protect } from "./controllers/authController.mjs";
 
 process.on("uncaughtException", (err) => {
   console.log("uncaught exception ... shutting down");
