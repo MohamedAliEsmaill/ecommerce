@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import authRouter from "./routes/authRouter.mjs";
 import appError from "./utils/appError.mjs";
+import { protect } from "./controllers/authController.mjs";
 import { faker } from "@faker-js/faker";
 import Product from "./models/Product.mjs";
 import FeaturedProducts from "./models/FeaturedProducts.mjs";
@@ -44,7 +45,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/users", authRouter);
 app.use("/api/users", userRouter);
-app.use("/api/orders", orderRouter);
+app.use("/api/orders", protect, orderRouter);
 app.use("/api/products", productRouter);
 app.use("/api/featuredproducts", featuredProductsRouter);
 
