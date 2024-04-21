@@ -1,18 +1,13 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import authRouter from "./routes/authRouter.mjs";
 import appError from "./utils/appError.mjs";
-import { protect } from "./controllers/authController.mjs";
-import { faker } from "@faker-js/faker";
-import Product from "./models/Product.mjs";
-import FeaturedProducts from "./models/FeaturedProducts.mjs";
-import User from "./models/User.mjs";
-import Order from "./models/Order.mjs";
+import authRouter from "./routes/authRouter.mjs";
 import userRouter from "./routes/userRouter.mjs";
 import orderRouter from "./routes/orderRouter.mjs";
 import productRouter from "./routes/productRouter.mjs";
 import featuredProductsRouter from "./routes/featuredProductsRouter.mjs";
+import { protect } from "./controllers/authController.mjs";
 
 process.on("uncaughtException", (err) => {
   console.log("uncaught exception ... shutting down");
@@ -23,10 +18,12 @@ process.on("uncaughtException", (err) => {
 dotenv.config({ path: "./.env" });
 
 const app = express();
+
 const PORT = process.env.PORT || 3000;
+const DATABASE_URL = process.env.DATABASE_URL;
 
 mongoose
-  .connect("mongodb://localhost:27017/ecommerce", {
+  .connect(DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -45,12 +42,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/users", authRouter);
 app.use("/api/users", userRouter);
+app.use("/api/profile", userRouter);
 app.use("/api/orders", protect, orderRouter);
 app.use("/api/products", productRouter);
 app.use("/api/featuredproducts", featuredProductsRouter);
 
 app.listen(PORT, () => {
-  console.log(`Listening on 127.0.0.1:${PORT}`);
+  console.log(`Listening on http://127.0.0.1:${PORT}`);
 });
 
 app.all("*", (req, res, next) => {
