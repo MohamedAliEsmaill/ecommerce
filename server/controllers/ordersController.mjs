@@ -61,6 +61,8 @@ export const addOrder = async (req, res) => {
 
   try {
     createdOrder.save();
+    req.user.cart = [];
+    await req.user.save();
     res.status(201).json(createdOrder);
   } catch (error) {
     res.status(500);
