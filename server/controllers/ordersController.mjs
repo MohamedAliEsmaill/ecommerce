@@ -45,28 +45,30 @@ export const getAllOrders = async (req, res) => {
 export const addOrder = async (req, res) => {
   const { products, totalPrice } = req.body;
 
-  if (products && products.length === 0) {
-    res.status(400);
-    throw new Error(
-      "No products in the order, please add products to the order"
-    );
+  if (!products || products.length === 0) {
+    res
+      .status(400)
+      .json({
+        error: "No products in the order, please add products to the order",
+      });
+    return;
   }
 
-  const createdOrder = await Order.create({
-    products,
-    totalPrice,
-    user: req.user._id,
-    date: Date.now(),
-  });
-
   try {
-    createdOrder.save();
+    const createdOrder = await Order.create({
+      products,
+      totalPrice,
+      user: req.user._id,
+      date: Date.now(),
+    });
+
     req.user.cart = [];
     await req.user.save();
+
     res.status(201).json(createdOrder);
   } catch (error) {
-    res.status(500);
-    throw new Error("Error while creating the order");
+    console.error("Error while creating the order:", error);
+    res.status(500).json({ error: "Error while creating the order" });
   }
 };
 
