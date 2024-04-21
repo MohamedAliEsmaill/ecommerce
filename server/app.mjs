@@ -1,9 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import authRouter from "./routes/authRouter.mjs";
 import appError from "./utils/appError.mjs";
-import { protect } from "./controllers/authController.mjs";
 import userRouter from "./routes/userRouter.mjs";
 import orderRouter from "./routes/orderRouter.mjs";
 import productRouter from "./routes/productRouter.mjs";

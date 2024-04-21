@@ -8,6 +8,7 @@ import {
   updatePassword,
   updateProfile,
 } from "../controllers/profileController.mjs";
+
 const router = express.Router();
 
 router.post("/view", protect, getProfile);
