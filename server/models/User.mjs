@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "user must have a password"],
     minlength: 8,
-    select: false,
+    select: true,
   },
   passwordConfirm: {
     type: String,
@@ -79,7 +79,6 @@ userSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, 12);
   this.passwordConfirm = this.password;
   next();
-
 });
 
 // Create password reset token and set expiry

@@ -1,14 +1,18 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import authRoutes from "./routes/authRoutes.mjs";
+import authRouter from "./routes/authRouter.mjs";
 import appError from "./utils/appError.mjs";
+import { protect } from "./controllers/authController.mjs";
 import { faker } from "@faker-js/faker";
 import Product from "./models/Product.mjs";
 import FeaturedProducts from "./models/FeaturedProducts.mjs";
 import User from "./models/User.mjs";
 import Order from "./models/Order.mjs";
-import { verifyToken } from "./middleware/authJWT.mjs";
+import userRouter from "./routes/userRouter.mjs";
+import orderRouter from "./routes/orderRouter.mjs";
+import productRouter from "./routes/productRouter.mjs";
+import featuredProductsRouter from "./routes/featuredProductsRouter.mjs";
 
 process.on("uncaughtException", (err) => {
   console.log("uncaught exception ... shutting down");
@@ -39,10 +43,9 @@ process.on("unhandledRejection", (error) => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/api/users", authRoutes);
-
+app.use("/api/users", authRouter);
 app.use("/api/users", userRouter);
-app.use("/api/orders", orderRouter);
+app.use("/api/orders", protect, orderRouter);
 app.use("/api/products", productRouter);
 app.use("/api/featuredproducts", featuredProductsRouter);
 
