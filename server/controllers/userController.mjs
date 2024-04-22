@@ -59,6 +59,45 @@ export async function getCart(req, res, next) {
 }
 
 /**
+ * this function is delete product from cart for the current user
+ *
+ */
+export async function deleteCart(req, res, next) {
+    try {
+        if (!req.user) {
+            return res.status(401).json({
+                error: "Unauthorized: User not found"
+            });
+        }
+        let userId = req.user._id;
+        let currentUser = await User.findById(userId);
+        const productId = req.body.productId;
+
+        if (!productId) {
+            return res.status(400).json({
+                error: "Product ID is required."
+            });
+        }
+        const productIndex = currentUser.carts.indexOf(productId);
+        if (productIndex === -1) {
+            return res.status(404).json({
+                error: "Product not found in cart."
+            });
+        }
+        currentUser.carts.splice(productIndex, 1);
+        await currentUser.save();
+        res.status(200).json({
+            message: "Product removed from cart for the current user."
+        });
+    } catch (err) {
+        res.status(400).json({
+            message: err.message
+        });
+    }
+}
+
+
+/**
  * this function is calculate Occurrences of Products in cert 
  * @result:{ 'productId': 'Occurrence'}
  */
