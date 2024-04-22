@@ -5,18 +5,73 @@
       <p>Register for new customer</p>
     </div>
 
-    <form class="mt-6 flex flex-col">
+    <form
+      [formGroup]="signupForm"
+      (ngSubmit)="onSubmit()"
+      class="mt-6 flex flex-col"
+    >
       <label for="name">Full Name</label>
-      <input class="mb-3 mt-3 border px-4 py-2" type="text" placeholder="Bogdan Bulakh" />
+      <input
+        id="name"
+        formControlName="fullName"
+        class="mb-3 mt-3 border px-4 py-2"
+        type="text"
+        placeholder="Bogdan Bulakh"
+        required
+      />
 
       <label class="mt-3" for="email">Email Address</label>
-      <input class="mt-3 border px-4 py-2" type="email" placeholder="user@mail.com" />
+      <input
+        id="email"
+        formControlName="email"
+        class="mt-3 border px-4 py-2"
+        type="email"
+        placeholder="user@mail.com"
+        required
+      />
 
-      <label class="mt-5" for="email">Password</label>
-      <input class="mt-3 border px-4 py-2" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;" />
+      <label class="mt-3" for="email">Username</label>
+      <input
+        id="username"
+        formControlName="username"
+        class="mt-3 border px-4 py-2"
+        type="text"
+        placeholder="Username"
+        required
+      />
 
-      <label class="mt-5" for="email">Confirm password</label>
-      <input class="mt-3 border px-4 py-2" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;" />
+      <label class="mt-3" for="phone">Phone Number</label>
+      <input
+        id="phone"
+        formControlName="phone"
+        class="mt-3 border px-4 py-2"
+        type="tel"
+        placeholder="Phone Number"
+        required
+      />
+
+      <label class="mt-5" for="password">Password</label>
+      <input
+        id="password"
+        class="mt-3 border px-4 py-2"
+        type="text"
+        formControlName="password"
+        required
+        placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+      />
+
+      <label class="mt-5" for="password">Confirm password</label>
+      <input
+        id="Confirmpassword"
+        class="mt-3 border px-4 py-2"
+        type="text"
+        formControlName="passwordConfirm"
+        required
+        placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+      />
+      <button type="submit" class="my-5 w-full bg-violet-900 py-2 text-white">
+        CREATE ACCOUNT
+      </button>
     </form>
 
     <div class="mt-4 flex justify-between">
@@ -26,12 +81,9 @@
           I have read and agree with
           <a href="#" class="text-violet-900">terms &amp; conditions</a>
         </label>
+        <br />
       </form>
     </div>
-
-    <button class="my-5 w-full bg-violet-900 py-2 text-white">
-      CREATE ACCOUNT
-    </button>
 
     <p class="text-center text-gray-500">OR SIGN UP WITH</p>
 
@@ -42,7 +94,7 @@
 
     <p class="text-center">
       Already have an account?
-      <a href="login.html" class="text-violet-900">Login now</a>
+      <button routerLink="/login" class="text-violet-900">Login now</button>
     </p>
   </div>
 </section>
