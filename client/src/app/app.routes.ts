@@ -5,6 +5,8 @@ import { LoginComponent } from './layouts/login/login.component';
 import { SignupComponent } from './layouts/signup/signup.component';
 import { AuthServiceService } from './services/auth-service.service';
 import { IsLoggedService } from './services/is-logged.service';
+import { ForgotPasswordComponent } from './layouts/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './layouts/reset-password/reset-password.component';
 export const routes: Routes = [
   { path: 'contact-us', component: ContactUsComponent },
   {
@@ -19,6 +21,16 @@ export const routes: Routes = [
   {
     path: 'signup',
     component: SignupComponent,
+    canActivate: [IsLoggedService],
+  },
+  {
+    path: 'forget-password',
+    component: ForgotPasswordComponent,
+    canActivate: [IsLoggedService],
+  },
+  {
+    path: 'reset-password',
+    component: ResetPasswordComponent,
     canActivate: [IsLoggedService],
   },
 

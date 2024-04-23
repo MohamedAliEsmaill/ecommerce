@@ -12,7 +12,7 @@ export class UserServiceService {
 
   // Define the login method
   login(data: any): Observable<any> {
-    debugger;
+    // debugger;
     return this.http.post(`${this.apiUrl}/login`, data).pipe(
       // Handle any errors
       catchError(this.handleError)
@@ -25,6 +25,26 @@ export class UserServiceService {
       // Handle any errors
       catchError(this.handleError)
     );
+  }
+
+  forgetPassword(data: any): Observable<any> {
+    // debugger;
+    return this.http.post(`${this.apiUrl}/forgotPassword`, data).pipe(
+      // Handle any errors
+      catchError(this.handleError)
+    );
+  }
+
+  // Reset password with the provided reset token
+  resetPassword(newPassword: string, resetToken: string): Observable<any> {
+    const data = {
+      password: newPassword,
+      passwordConfirm: newPassword,
+      resetToken: resetToken,
+    };
+    return this.http
+      .patch(`${this.apiUrl}/resetPassword/${resetToken}`, data)
+      .pipe(catchError(this.handleError));
   }
 
   addCart(data: any): Observable<any> {
@@ -58,7 +78,7 @@ export class UserServiceService {
     }
     // Return an observable with an error message
     return throwError(
-      'An error occurred while trying to signup/login. Please try again later.'
+      `An error occurred while trying to Handle request Please try again later.`
     );
   }
   public isAdmin(): Boolean {
