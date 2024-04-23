@@ -7,11 +7,16 @@ import { AuthServiceService } from './services/auth-service.service';
 import { IsLoggedService } from './services/is-logged.service';
 import { ForgotPasswordComponent } from './layouts/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './layouts/reset-password/reset-password.component';
+import { CatalogComponent } from './layouts/catalog/catalog.component';
 export const routes: Routes = [
   { path: 'contact-us', component: ContactUsComponent },
   {
     path: 'about-us',
     component: AboutUsComponent,
+  },
+  {
+    path: 'catalog',
+    component: CatalogComponent,
   },
   {
     path: 'login',
