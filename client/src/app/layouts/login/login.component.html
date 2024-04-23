@@ -6,14 +6,34 @@
       <p>Welcome back, customer!</p>
     </div>
 
-    <form class="mt-6 flex flex-col">
-      <label for="email">Email Address</label>
-      <input class="mb-3 mt-3 border px-4 py-2" type="email" placeholder="youremail@domain.com" />
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()"
+      class="mt-6 flex flex-col"
+    >
+      <label for="username">Username</label>
+      <input
+        id="username"
+        formControlName="username"
+        class="mb-3 mt-3 border px-4 py-2"
+        type="text"
+        placeholder="Username"
+        required
+      />
 
-      <label for="email">Password</label>
-      <input class="mt-3 border px-4 py-2" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;" />
+      <label for="password">Password</label>
+      <input
+        id="password"
+        class="mt-3 border px-4 py-2"
+        type="password"
+        formControlName="password"
+        required
+        placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+      />
+      <button type="submit" class="my-5 w-full bg-violet-900 py-2 text-white">
+        LOGIN
+      </button>
     </form>
-
     <div class="mt-4 flex justify-between">
       <form class="flex gap-2">
         <input type="checkbox" />
@@ -21,10 +41,6 @@
       </form>
       <a href="#" class="text-violet-900">Forgot password</a>
     </div>
-
-    <button class="my-5 w-full bg-violet-900 py-2 text-white">
-      LOGIN
-    </button>
 
     <p class="text-center text-gray-500">OR LOGIN WITH</p>
 
@@ -35,7 +51,7 @@
 
     <p class="text-center">
       Don`t have account?
-      <a href="sign-up.html" class="text-violet-900">Register now</a>
+      <button routerLink="/signup" class="text-violet-900">Register now</button>
     </p>
   </div>
 </section>
