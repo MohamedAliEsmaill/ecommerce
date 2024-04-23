@@ -8,6 +8,7 @@ import orderRouter from "./routes/orderRouter.mjs";
 import productRouter from "./routes/productRouter.mjs";
 import featuredProductsRouter from "./routes/featuredProductsRouter.mjs";
 import { protect } from "./controllers/authController.mjs";
+import cors from "cors";
 
 process.on("uncaughtException", (err) => {
   console.log("uncaught exception ... shutting down");
@@ -18,6 +19,7 @@ process.on("uncaughtException", (err) => {
 dotenv.config({ path: "./.env" });
 
 const app = express();
+app.use(cors());
 
 const PORT = process.env.PORT || 3000;
 const DATABASE_URL = process.env.DATABASE_URL;

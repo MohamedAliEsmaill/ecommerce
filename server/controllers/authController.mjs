@@ -15,8 +15,18 @@ const signToken = (userId) => {
 const createSendToken = (user, statusCode, res) => {
   console.log(user._id);
   const token = signToken(user._id);
+  const role = user.role;
+  const fullName = user.fullName;
+  const email = user.email;
+  const username = user.username;
+  const phone = user.phone;
   res.status(statusCode).json({
     status: "success",
+    fullName,
+    email,
+    username,
+    phone,
+    role,
     token,
   });
 };
@@ -171,4 +181,3 @@ export const updatePassword = catchAsync(async (req, res, next) => {
 
   createSendToken(user, 200, res);
 });
-
