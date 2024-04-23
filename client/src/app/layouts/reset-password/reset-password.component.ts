@@ -7,7 +7,7 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { UserServiceService } from '../../services/user-service.service';
+import { UserServiceService } from '../../services/user/user-service.service';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-reset-password',
