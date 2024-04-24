@@ -43,26 +43,31 @@ export const getAllOrders = async (req, res) => {
 };
 
 export const addOrder = async (req, res) => {
-  const { products, totalPrice } = req.body;
+  const { products, totalPrice, address } = req.body;
 
-  if (!products || products.length === 0) {
-    res
-      .status(400)
-      .json({
-        error: "No products in the order, please add products to the order",
-      });
+  const processedProducts = Object.entries(products).flatMap(
+    ([productId, quantity]) => {
+      return Array(quantity).fill(productId);
+    }
+  );
+
+  if (!products || Object.keys(products).length === 0) {
+    res.status(400).json({
+      error: "No products in the order, please add products to the order",
+    });
     return;
   }
 
   try {
     const createdOrder = await Order.create({
-      products,
+      products: processedProducts,
       totalPrice,
+      address,
       user: req.user._id,
       date: Date.now(),
     });
 
-    req.user.cart = [];
+    req.user.carts = [];
     await req.user.save();
 
     res.status(201).json(createdOrder);
