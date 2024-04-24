@@ -84,16 +84,16 @@ export class UserServiceService {
     );
   }
   public isAdmin(): Boolean {
-    let userRole = localStorage.getItem('role');
-    if (userRole == 'user') {
-      return false;
-    } else {
+    let role = localStorage.getItem('role');
+    if (role == 'admin') {
       return true;
+    } else {
+      return false;
     }
   }
   public isLoggedIn(): Boolean {
     let IsLoggedInUser = localStorage.getItem('token');
-    if (IsLoggedInUser) {
+    if (IsLoggedInUser != null) {
       return true;
     } else {
       return false;
