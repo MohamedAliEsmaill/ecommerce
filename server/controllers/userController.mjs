@@ -1,6 +1,5 @@
 import User from "../models/User.mjs";
 
-
 /**
  * this function is added product to cart for the current user
  * 
@@ -45,11 +44,30 @@ export async function getCart(req, res, next) {
             });
         }
         let userId = req.user._id;
-        let currentUser = await User.findOne(userId);
-        let products = countProductOccurrences(currentUser.carts);
+        let currentUser = await User.findOne({ _id: userId }).populate('carts');
+        let products = currentUser.carts;
+        let productCountMap = countProductOccurrences(products);
+        const productsArray = [];
+        for (const [productId, count] of productCountMap.entries()) {
+            if (count >= 1) {
+                const product = products.find((p) => p._id.toString() === productId);
+                if (product) {
+                    const clonedProduct = {
+                        '_id': product._id,
+                        'name': product.name,
+                        'price': product.price,
+                        'desc': product.desc,
+                        'stock': product.stock,
+                        'images': product.images,
+                        'count': count
+                    }
+                    productsArray.push(clonedProduct);
+                }
+            }
+        }
         res.status(200).json({
-            message: "add product to cart for current user ",
-            data: products
+            message: "Retrieved product occurrences in the cart for the current user",
+            data: productsArray
         });
     } catch (e) {
         res.status(400).json({
@@ -57,6 +75,7 @@ export async function getCart(req, res, next) {
         });
     }
 }
+
 
 /**
  * this function is delete product from cart for the current user
@@ -102,15 +121,14 @@ export async function deleteCart(req, res, next) {
  * @result:{ 'productId': 'Occurrence'}
  */
 export function countProductOccurrences(cart) {
-    const productIds = new Map();
-    for (const productId of cart) {
-        const productIdString = productId.toString();
-        if (productIds.has(productIdString)) {
-            productIds.set(productIdString, productIds.get(productIdString) + 1);
+    const productCountMap = new Map();
+    cart.forEach((product) => {
+        const productId = product._id.toString();
+        if (productCountMap.has(productId)) {
+            productCountMap.set(productId, productCountMap.get(productId) + 1);
         } else {
-            productIds.set(productIdString, 1);
+            productCountMap.set(productId, 1);
         }
-    }
-    const productIdsCount = Object.fromEntries(productIds);
-    return productIdsCount;
+    });
+    return productCountMap;
 }
