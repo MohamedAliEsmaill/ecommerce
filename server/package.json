@@ -5,12 +5,13 @@
   "main": "app.mjs",
   "type": "module",
   "scripts": {
-    "dev": "nodemon app.mjs"
+    "dev": "nodemon app.mjs",
     "test": "mocha tests"
   },
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
@@ -21,8 +22,8 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
-    "nodemon": "^3.1.0"
     "chai": "^5.1.0",
-    "mocha": "^10.4.0"
+    "mocha": "^10.4.0",
+    "nodemon": "^3.1.0"
   }
 }
