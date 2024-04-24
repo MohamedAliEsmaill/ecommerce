@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { AddressComponent } from './address/address.component';
-import { DeliveryComponent } from './delivery/delivery.component';
-import { PaymentComponent } from './payment/payment.component';
-import { ReviewComponent } from './review/review.component';
+import { AddressComponent } from '../../components/address/address.component';
+import { DeliveryComponent } from '../../components/delivery/delivery.component';
+import { PaymentComponent } from '../../components/payment/payment.component';
+import { ReviewComponent } from '../../components/review/review.component';
 import { CommonModule } from '@angular/common';
 import { Order } from '../../interfaces/order';
 import { Product } from '../../interfaces/product';
