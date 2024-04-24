@@ -8,10 +8,6 @@ import { IsLoggedService } from './services/is-logged/is-logged.service';
 import { ForgotPasswordComponent } from './layouts/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './layouts/reset-password/reset-password.component';
 import { CheckOutComponent } from './components/check-out/check-out.component';
-import { AddressComponent } from './components/check-out/address/address.component';
-import { DeliveryComponent } from './components/check-out/delivery/delivery.component';
-import { PaymentComponent } from './components/check-out/payment/payment.component';
-import { ReviewComponent } from './components/check-out/review/review.component';
 import { CatalogComponent } from './layouts/catalog/catalog.component';
 import { ProductOverviewComponent } from './layouts/product-overview/product-overview.component';
 import { ProfileComponent } from './layouts/profile/profile.component';
@@ -62,6 +58,7 @@ export const routes: Routes = [
   {
     path: 'check-out',
     component: CheckOutComponent,
+    canActivate: [AuthServiceService],
   },
 
   // {
