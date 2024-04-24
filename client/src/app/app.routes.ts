@@ -62,24 +62,6 @@ export const routes: Routes = [
   {
     path: 'check-out',
     component: CheckOutComponent,
-    children: [
-      {
-        path: '',
-        component: AddressComponent,
-      },
-      {
-        path: 'delivery',
-        component: DeliveryComponent,
-      },
-      {
-        path: 'payment',
-        component: PaymentComponent,
-      },
-      {
-        path: 'review',
-        component: ReviewComponent,
-      },
-    ],
   },
 
   // {
