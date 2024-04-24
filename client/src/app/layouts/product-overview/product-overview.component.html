@@ -27,23 +27,31 @@
   <!-- image gallery -->
 
   <div class="container mx-auto px-4">
-    <img class="w-full" src="./assets/images/product-bigsofa.png" alt="Sofa image" />
+    @if (primaryImage) {
+    <img class="w-full" src="{{primaryImage}}" alt="Sofa image" />
+    } @else {
+    <img class="w-full" src="{{product?.images?.[0]}}" alt="Sofa image" />
+    }
 
     <div class="mt-3 grid grid-cols-4 gap-4">
       <div>
-        <img class="cursor-pointer" src="./assets/images/kitchen.png" alt="kitchen image" />
+        <img class="cursor-pointer" (click)="activeImage(product?.images?.[0] || '')" src="{{product?.images?.[0]}}"
+          alt="kitchen image" />
       </div>
 
       <div>
-        <img class="cursor-pointer" src="./assets/images/living-room.png" alt="kitchen image" />
+        <img class="cursor-pointer" (click)="activeImage(product?.images?.[1] || '')" src="{{product?.images?.[1]}}"
+          alt="kitchen image" />
       </div>
 
       <div>
-        <img class="cursor-pointer" src="./assets/images/outdoors.png" alt="kitchen image" />
+        <img class="cursor-pointer" (click)="activeImage(product?.images?.[2] || '')" src="{{product?.images?.[2]}}"
+          alt="kitchen image" />
       </div>
 
       <div>
-        <img class="cursor-pointer" src="./assets/images/product-chair.png" alt="kitchen image" />
+        <img class="cursor-pointer" (click)="activeImage(product?.images?.[3] || '')" src="{{product?.images?.[3]}}"
+          alt="kitchen image" />
       </div>
     </div>
     <!-- /image gallery  -->
@@ -52,7 +60,7 @@
   <!-- description  -->
 
   <div class="mx-auto px-5 lg:px-5">
-    <h2 class="pt-3 text-2xl font-bold lg:pt-0">BIG ITALIAN SOFA</h2>
+    <h2 class="pt-3 text-2xl font-bold lg:pt-0">{{product?.name}}</h2>
     <div class="mt-1">
       <div class="flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4 text-yellow-400">
@@ -90,53 +98,36 @@
     </div>
 
     <p class="mt-5 font-bold">
-      Availability: <span class="text-green-600">In Stock</span>
+      Availability: @if (checkAvailability()) {
+      <span class="text-green-600">In Stock</span>
+      } @else {
+      <span class="text-red-600">Out of Stock</span>
+      }
     </p>
-    <p class="font-bold">Brand: <span class="font-normal">Apex</span></p>
+    <p class="font-bold">Brand: <span class="font-normal">{{product?.brand}}</span></p>
     <p class="font-bold">
-      Cathegory: <span class="font-normal">Sofa</span>
+      Cathegory: <span class="font-normal">{{product?.category}}</span>
     </p>
     <p class="font-bold">
       SKU: <span class="font-normal">BE45VGTRK</span>
     </p>
 
     <p class="mt-4 text-4xl font-bold text-violet-900">
-      $450 <span class="text-xs text-gray-400 line-through">$550</span>
+      ${{product?.price}} <span class="text-xs text-gray-400 line-through">$550</span>
     </p>
 
-    <p class="pt-5 text-sm leading-5 text-gray-500">
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem
-      exercitationem voluptate sint eius ea assumenda provident eos
-      repellendus qui neque! Velit ratione illo maiores voluptates commodi
-      eaque illum, laudantium non!
-    </p>
+    <p class="pt-5 text-sm leading-5 text-gray-500">{{product?.desc}}</p>
 
     <div class="mt-6">
       <p class="pb-2 text-xs text-gray-500">Size</p>
 
       <div class="flex gap-1">
+        @for (size of product?.size; track product?._id) {
         <div
           class="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
-          XS
+          {{size}}
         </div>
-        <div
-          class="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
-          S
-        </div>
-        <div
-          class="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
-          M
-        </div>
-
-        <div
-          class="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
-          L
-        </div>
-
-        <div
-          class="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
-          XL
-        </div>
+        }
       </div>
     </div>
 

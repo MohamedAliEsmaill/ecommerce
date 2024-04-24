@@ -17,6 +17,9 @@ export class ProductOverviewComponent {
 
   id: any;
   product: Product | undefined;
+  primaryImage = '';
+  availability = '';
+  stock = 0;
 
   constructor(myRoute: ActivatedRoute, private productService: ProductService) {
     this.id = myRoute.snapshot.params['id'];
@@ -27,9 +30,21 @@ export class ProductOverviewComponent {
       next: (data) => {
         console.log(data);
         this.product = data;
+        this.stock = data.stock;
       },
       error: (error) => console.error(error)
     })
+  }
+
+  activeImage(image: string) {
+    this.primaryImage = image;
+  }
+
+  checkAvailability(): boolean {
+    if (this.stock > 0) {
+      return true;
+    }
+    return false;
   }
 
 }
