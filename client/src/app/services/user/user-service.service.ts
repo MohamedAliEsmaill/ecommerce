@@ -8,7 +8,7 @@ import { catchError } from 'rxjs/operators';
 export class UserServiceService {
   private apiUrl = 'http://localhost:3000/api/users';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Define the login method
   login(data: any): Observable<any> {
@@ -48,7 +48,9 @@ export class UserServiceService {
   }
 
   addCart(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/cart`, data).pipe(
+    console.log("id " + data);
+    const product = { productId: data };
+    return this.http.post(`${this.apiUrl}/cart`, product).pipe(
       // Handle any errors
       catchError(this.handleError)
     );

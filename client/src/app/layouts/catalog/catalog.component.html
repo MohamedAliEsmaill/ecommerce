@@ -224,7 +224,7 @@
     </div>
 
     <section class="mx-auto grid max-w-[1200px] grid-cols-2 gap-3 px-5 pb-10 lg:grid-cols-3">
-      <div class="flex flex-col">
+      <!-- <div class="flex flex-col">
         <div class="relative flex">
           <img class="" src="./assets/images/product-chair.png" alt="sofa image" />
           <div
@@ -301,11 +301,11 @@
             </button>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- 2 -->
 
-      <div class="flex flex-col">
+      <!-- <div class="flex flex-col">
         <div class="relative flex">
           <img class="" src="./assets/images/product-sofa.png" alt="sofa image" />
 
@@ -383,11 +383,11 @@
             </button>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- 3 -->
 
-      <div class="flex flex-col">
+      <!-- <div class="flex flex-col">
         <div class="relative flex">
           <img class="" src="./assets/images/kitchen.png" alt="kitchen image" />
           <div
@@ -464,11 +464,11 @@
             </button>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- 4 -->
 
-      <div class="flex flex-col">
+      <!-- <div class="flex flex-col">
         <div class="relative flex">
           <img class="" src="./assets/images/living-room.png" alt="living room image" />
           <div
@@ -545,11 +545,11 @@
             </button>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- 5 -->
 
-      <div class="flex flex-col">
+      <!-- <div class="flex flex-col">
         <div class="relative flex">
           <img class="" src="./assets/images/bedroom.png" alt="Bedroom image" />
           <div
@@ -626,13 +626,14 @@
             </button>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- 6 -->
-
+      @for (product of products; track product._id) {
       <div class="flex flex-col">
-        <app-product-card></app-product-card>
+        <app-product-card [product]="product"></app-product-card>
       </div>
+      }
     </section>
   </div>
 </section>
