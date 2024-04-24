@@ -7,31 +7,53 @@
       <table class="hidden lg:table">
         <thead class="h-16 bg-neutral-100">
           <tr>
-            <th class="text-white bg-neutral-600">ADDRESS</th>
-            <th>DELIVERY METHOD</th>
-            <th>PAYMENT METHOD</th>
-            <th>ORDER REVIEW</th>
+            <th [ngClass]="{ 'bg-purple-900 text-white': currentStep === 1 }">
+              ADDRESS
+            </th>
+            <th [ngClass]="{ 'bg-purple-900 text-white': currentStep === 2 }">
+              DELIVERY METHOD
+            </th>
+            <th [ngClass]="{ 'bg-purple-900 text-white': currentStep === 3 }">
+              PAYMENT METHOD
+            </th>
+            <th [ngClass]="{ 'bg-purple-900 text-white': currentStep === 4 }">
+              ORDER REVIEW
+            </th>
           </tr>
         </thead>
       </table>
 
-      <router-outlet></router-outlet>
+      <ng-container *ngIf="currentStep === 1">
+        <app-address></app-address>
+      </ng-container>
+      <ng-container *ngIf="currentStep === 2">
+        <app-delivery></app-delivery>
+      </ng-container>
+      <ng-container *ngIf="currentStep === 3">
+        <app-payment></app-payment>
+      </ng-container>
+      <ng-container *ngIf="currentStep === 4">
+        <app-review></app-review>
+      </ng-container>
 
       <div class="flex items-center justify-between w-full">
-        <a
-          routerLink="/check-out/delivery"
-          class="hidden text-sm lg:block text-violet-900"
+        <a routerLink="/cart" class="hidden text-sm lg:block text-violet-900"
           >← Back to the shop</a
         >
         <div class="flex justify-center gap-2 mx-auto lg:mx-0">
           <a
-            href="/checkout-payment.html"
+            (click)="prevStep()"
             class="px-4 py-2 text-white bg-purple-900"
+            ngClass="{ 'hidden': currentStep === 1 }"
             >Previous step</a
           >
-          <a href="/checkout-confirmation.html" class="px-4 py-2 bg-amber-400"
-            >Place Order</a
+          <a
+            (click)="nextStep()"
+            class="px-4 py-2 text-white bg-amber-400"
+            ngClass="{ 'hidden': currentStep === 4 }"
           >
+            {{ currentStep === 4 ? "Place Order" : "Next Step" }}
+          </a>
         </div>
       </div>
     </section>
