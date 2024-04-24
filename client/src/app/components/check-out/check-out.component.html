@@ -44,14 +44,10 @@
           <a
             (click)="prevStep()"
             class="px-4 py-2 text-white bg-purple-900"
-            ngClass="{ 'hidden': currentStep === 1 }"
+            [ngClass]="{ hidden: currentStep === 1 }"
             >Previous step</a
           >
-          <a
-            (click)="nextStep()"
-            class="px-4 py-2 text-white bg-amber-400"
-            ngClass="{ 'hidden': currentStep === 4 }"
-          >
+          <a (click)="nextStep()" class="px-4 py-2 text-white bg-amber-400">
             {{ currentStep === 4 ? "Place Order" : "Next Step" }}
           </a>
         </div>
