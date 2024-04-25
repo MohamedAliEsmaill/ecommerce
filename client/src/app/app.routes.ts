@@ -7,12 +7,14 @@ import { AuthServiceService } from './services/auth/auth-service.service';
 import { IsLoggedService } from './services/is-logged/is-logged.service';
 import { ForgotPasswordComponent } from './layouts/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './layouts/reset-password/reset-password.component';
-import { CheckOutComponent } from './components/check-out/check-out.component';
+import { CheckOutComponent } from './layouts/check-out/check-out.component';
 import { CatalogComponent } from './layouts/catalog/catalog.component';
 import { ProductOverviewComponent } from './layouts/product-overview/product-overview.component';
 import { ProfileComponent } from './layouts/profile/profile.component';
 import { ProfileInformationComponent } from './components/profile-information/profile-information.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
+import { OrderHistoryComponent } from './components/order-history/order-history.component';
+import { CardIsNotEmptyService } from './services/card-is-not-empty/card-is-not-empty.service';
 export const routes: Routes = [
   { path: 'contact-us', component: ContactUsComponent },
   {
@@ -33,6 +35,7 @@ export const routes: Routes = [
     children: [
       { path: 'information', component: ProfileInformationComponent },
       { path: 'wishlist', component: WishlistComponent },
+      { path: 'history', component: OrderHistoryComponent },
     ],
   },
   {
@@ -58,7 +61,7 @@ export const routes: Routes = [
   {
     path: 'check-out',
     component: CheckOutComponent,
-    canActivate: [AuthServiceService],
+    canActivate: [CardIsNotEmptyService],
   },
 
   // {
