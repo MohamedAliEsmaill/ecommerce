@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
 import { ProductService } from '../../services/product/product.service';
 import { Product } from '../../interfaces/product';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-catalog',
   standalone: true,
-  imports: [ProductCardComponent],
+  imports: [ProductCardComponent, CommonModule],
   templateUrl: './catalog.component.html',
   providers: [ProductService],
   styles: ``
@@ -19,12 +20,17 @@ export class CatalogComponent {
   checksCategory: string[] = [];
   checksBrand: string[] = [];
   filteredProducts: Product[] = [];
+  minPrice = 0;
+  maxPrice = 0;
+  sizes = new Set<string>();
+  colors = new Set<string>();
+  sortToggle = false;
 
   ngOnInit(): void {
     this.productService.getAllProducts().subscribe({
       next: (data: any) => {
-        console.log(data.products);
         this.products = data.products;
+        this.filteredProducts = this.products;
       },
       error: (error) => {
         console.error("404 Not Found");
@@ -40,17 +46,6 @@ export class CatalogComponent {
       this.checksCategory.push(inputVal)
     }
     this.filter();
-    console.log(this.checksCategory);
-  }
-
-  filter() {
-    if (this.checksCategory.length)
-      this.filteredProducts = this.products.filter((prod) => this.checksCategory.includes(prod.category));
-
-    if (this.checksBrand.length)
-      this.filteredProducts = this.filteredProducts.filter((prod) => this.checksBrand.includes(prod.brand));
-
-    console.log(this.filteredProducts);
   }
 
   getBrandsFilters(inputValue: any) {
@@ -61,9 +56,64 @@ export class CatalogComponent {
       this.checksBrand.push(inputVal)
     }
     this.filter();
-    console.log(this.checksBrand);
+  }
+
+  getMinPriceFilter(priceInput: any) {
+    this.minPrice = priceInput.target.value;
+    this.filter();
+  }
+
+  getMaxPriceFilter(priceInput: any) {
+    const maxVal = priceInput.target.value;
+    if (maxVal > this.minPrice)
+      this.maxPrice = maxVal;
+    this.filter();
+  }
+
+  getSizeFilters(sizeVal: string) {
+    if (this.sizes.has(sizeVal)) {
+      this.sizes.delete(sizeVal);
+    } else {
+      this.sizes.add(sizeVal);
+    }
+    this.filter();
+  }
+
+  getColorFilters(colorVal: string) {
+    if (this.colors.has(colorVal)) {
+      this.colors.delete(colorVal);
+    } else {
+      this.colors.add(colorVal);
+    }
+    this.filter();
+  }
+
+  getSort(sortVal: string) {
+    if (sortVal === "Asc") {
+      this.filteredProducts = this.filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+    } else {
+      this.filteredProducts = this.filteredProducts.sort((a, b) => b.name.localeCompare(a.name));
+    }
+    this.sortToggle = false;
   }
 
 
+  filter() {
+    if (!this.checksCategory.length && !this.checksBrand.length && !this.maxPrice && !this.minPrice && !this.sizes && !this.colors) {
+      this.filteredProducts = this.products; // Reset to all products
+    }
+    else {
+      this.filteredProducts = this.products.filter(prod => {
+        return (
+          (!this.checksCategory.length || this.checksCategory.includes(prod.category)) &&
+          (!this.checksBrand.length || this.checksBrand.includes(prod.brand)) &&
+          (!this.minPrice || prod.price >= this.minPrice) &&
+          (!this.maxPrice || prod.price <= this.maxPrice) &&
+          (!this.sizes.size || prod.size.some(size => this.sizes.has(size))) &&
+          (!this.colors.size || prod.colors.some(color => this.colors.has(color)))
+        );
+      });
+    }
+  }
 
 }
