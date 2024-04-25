@@ -5,7 +5,7 @@ export const getOrderById = async (req, res) => {
     const order = await Order.findById(req.params.id).populate("user");
     if (order) {
       if (
-        req.user.isAdmin ||
+        req.user.role === "admin" ||
         order.user.toString() === req.user._id.toString()
       ) {
         res.json(order);
@@ -31,7 +31,7 @@ export const getAllOrders = async (req, res) => {
     const user = req.user;
 
     // Check if the user is an admin
-    if (user.isAdmin) {
+    if (user.role === "admin") {
       const totalOrders = await Order.countDocuments();
       const totalPages = Math.ceil(totalOrders / limit);
 
@@ -112,7 +112,7 @@ export const updateOrderToAccepted = async (req, res) => {
 
     if (order) {
       // Check if the user is an admin
-      if (!req.user.isAdmin) {
+      if (req.user.role !== "admin") {
         res.status(403);
         throw new Error("Unauthorized access");
       }
@@ -137,7 +137,7 @@ export const updateOrderToRejected = async (req, res) => {
 
     if (order) {
       // Check if the user is an admin
-      if (!req.user.isAdmin) {
+      if (req.user.role !== "admin") {
         res.status(403);
         throw new Error("Unauthorized access");
       }
@@ -162,7 +162,7 @@ export const deleteOrder = async (req, res) => {
     if (order) {
       // Check if the user is an admin or the order belongs to the user
       if (
-        req.user.isAdmin ||
+        req.user.role === "admin" ||
         order.user.toString() === req.user._id.toString()
       ) {
         if (order.status === "pending") {
