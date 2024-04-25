@@ -4,15 +4,7 @@ export const getOrderById = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id).populate("user");
     if (order) {
-      if (
-        req.user.role === "admin" ||
-        order.user.toString() === req.user._id.toString()
-      ) {
-        res.json(order);
-      } else {
-        res.status(403);
-        throw new Error("Unauthorized access");
-      }
+      res.json(order);
     } else {
       res.status(404);
       throw new Error("Order not found");
@@ -28,42 +20,22 @@ export const getAllOrders = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const startIndex = (page - 1) * limit;
-    const user = req.user;
 
-    // Check if the user is an admin
-    if (user.role === "admin") {
-      const totalOrders = await Order.countDocuments();
-      const totalPages = Math.ceil(totalOrders / limit);
+    const totalOrders = await Order.countDocuments();
+    const totalPages = Math.ceil(totalOrders / limit);
 
-      const orders = await Order.find()
-        .populate("user")
-        .skip(startIndex)
-        .limit(limit);
+    const orders = await Order.find({})
+      .populate("user")
+      .skip(startIndex)
+      .limit(limit);
 
-      const pagination = {
-        currentPage: page,
-        totalPages: totalPages,
-        totalOrders: totalOrders,
-      };
+    const pagination = {
+      currentPage: page,
+      totalPages: totalPages,
+      totalOrders: totalOrders,
+    };
 
-      res.json({ orders, pagination });
-    } else {
-      const totalOrders = await Order.countDocuments({ user: user._id });
-      const totalPages = Math.ceil(totalOrders / limit);
-
-      const orders = await Order.find({ user: user._id })
-        .populate("user")
-        .skip(startIndex)
-        .limit(limit);
-
-      const pagination = {
-        currentPage: page,
-        totalPages: totalPages,
-        totalOrders: totalOrders,
-      };
-
-      res.json({ orders, pagination });
-    }
+    res.json({ orders, pagination });
   } catch (error) {
     res.status(500);
     throw new Error("Error while fetching orders");
@@ -111,12 +83,6 @@ export const updateOrderToAccepted = async (req, res) => {
     const order = await Order.findById(req.params.id);
 
     if (order) {
-      // Check if the user is an admin
-      if (req.user.role !== "admin") {
-        res.status(403);
-        throw new Error("Unauthorized access");
-      }
-
       order.status = "accepted";
 
       const updatedOrder = await order.save();
@@ -136,12 +102,6 @@ export const updateOrderToRejected = async (req, res) => {
     const order = await Order.findById(req.params.id);
 
     if (order) {
-      // Check if the user is an admin
-      if (req.user.role !== "admin") {
-        res.status(403);
-        throw new Error("Unauthorized access");
-      }
-
       order.status = "rejected";
 
       const updatedOrder = await order.save();
@@ -160,22 +120,8 @@ export const deleteOrder = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
     if (order) {
-      // Check if the user is an admin or the order belongs to the user
-      if (
-        req.user.role === "admin" ||
-        order.user.toString() === req.user._id.toString()
-      ) {
-        if (order.status === "pending") {
-          await order.deleteOne();
-          res.json({ message: "Order deleted" });
-        } else {
-          res.status(400);
-          throw new Error("Order can only be cancelled if it is pending");
-        }
-      } else {
-        res.status(403);
-        throw new Error("Unauthorized access");
-      }
+      await order.deleteOne();
+      res.json({ message: "Order deleted" });
     } else {
       res.status(404);
       throw new Error("Order not found");
