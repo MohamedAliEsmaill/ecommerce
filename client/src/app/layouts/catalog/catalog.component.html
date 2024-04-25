@@ -33,7 +33,7 @@
 
         <div class="flex w-full justify-between">
           <div class="flex justify-center items-center">
-            <input type="checkbox" />
+            <input type="checkbox" (click)="getCategoriesFilters($event)" value="Bedroom" />
             <p class="ml-4">Bedroom</p>
           </div>
           <div>
@@ -43,7 +43,7 @@
 
         <div class="flex w-full justify-between">
           <div class="flex justify-center items-center">
-            <input type="checkbox" />
+            <input type="checkbox" (click)="getCategoriesFilters($event)" value="Sofa" />
             <p class="ml-4">Sofa</p>
           </div>
           <div>
@@ -53,7 +53,7 @@
 
         <div class="flex w-full justify-between">
           <div class="flex justify-center items-center">
-            <input type="checkbox" />
+            <input type="checkbox" (click)="getCategoriesFilters($event)" value="Office" />
             <p class="ml-4">Office</p>
           </div>
           <div>
@@ -63,7 +63,7 @@
 
         <div class="flex w-full justify-between">
           <div class="flex justify-center items-center">
-            <input type="checkbox" />
+            <input type="checkbox" (click)="getCategoriesFilters($event)" value="Outdoor" />
             <p class="ml-4">Outdoor</p>
           </div>
           <div>
@@ -79,7 +79,7 @@
 
         <div class="flex w-full justify-between">
           <div class="flex justify-center items-center">
-            <input type="checkbox" />
+            <input type="checkbox" (click)="getBrandsFilters($event)" value="APEX" />
             <p class="ml-4">APEX</p>
           </div>
           <div>
@@ -89,7 +89,7 @@
 
         <div class="flex w-full justify-between">
           <div class="flex justify-center items-center">
-            <input type="checkbox" />
+            <input type="checkbox" (click)="getBrandsFilters($event)" value="Call of SOFA" />
             <p class="ml-4">Call of SOFA</p>
           </div>
           <div>
@@ -99,7 +99,7 @@
 
         <div class="flex w-full justify-between">
           <div class="flex justify-center items-center">
-            <input type="checkbox" />
+            <input type="checkbox" (click)="getBrandsFilters($event)" value="Puff B&G" />
             <p class="ml-4">Puff B&G</p>
           </div>
           <div>
@@ -109,7 +109,7 @@
 
         <div class="flex w-full justify-between">
           <div class="flex justify-center items-center">
-            <input type="checkbox" />
+            <input type="checkbox" (click)="getBrandsFilters($event)" value="Fornighte" />
             <p class="ml-4">Fornighte</p>
           </div>
           <div>
@@ -125,9 +125,11 @@
 
         <div class="flex w-full">
           <div class="flex justify-between">
-            <input x-mask="99999" min="50" type="number" class="h-8 w-[90px] border pl-2" placeholder="50" />
+            <input min="50" type="number" class="h-8 w-[90px] border pl-2" placeholder="50"
+              (input)="getMinPriceFilter($event)" value="" />
             <span class="px-3">-</span>
-            <input x-mask="999999" type="number" max="999999" class="h-8 w-[90px] border pl-2" placeholder="99999" />
+            <input type="number" max="999999" class="h-8 w-[90px] border pl-2" placeholder="99999"
+              (input)="getMaxPriceFilter($event)" value="" />
           </div>
         </div>
       </div>
@@ -138,28 +140,12 @@
         <p class="mb-3 font-medium">SIZE</p>
 
         <div class="flex gap-2">
-          <div
+          @for (size of ['XS', 'S', 'M', 'L', 'XL', 'XXL']; track $index) {
+          <div (click)="getSizeFilters(size)" [class.bg-neutral-200]="sizes.has(size)"
             class="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
-            XS
+            {{size}}
           </div>
-          <div
-            class="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
-            S
-          </div>
-          <div
-            class="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
-            M
-          </div>
-
-          <div
-            class="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
-            L
-          </div>
-
-          <div
-            class="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
-            XL
-          </div>
+          }
         </div>
       </div>
     </div>
@@ -169,15 +155,11 @@
         <p class="mb-3 font-medium">COLOR</p>
 
         <div class="flex gap-2">
-          <div
-            class="h-8 w-8 cursor-pointer border border-white bg-gray-600 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
+          @for (color of ['#4B5563', '#4C1D95', '#7F1D1D']; track color) {
+          <div (click)="getColorFilters(color)" [style.background-color]='color' [class.opacity-75]="colors.has(color)"
+            class="h-8 w-8 cursor-pointer border border-white focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
           </div>
-          <div
-            class="h-8 w-8 cursor-pointer border border-white bg-violet-900 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
-          </div>
-          <div
-            class="h-8 w-8 cursor-pointer border border-white bg-red-900 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
-          </div>
+          }
         </div>
       </div>
     </div>
@@ -187,13 +169,30 @@
   <div>
     <div class="mb-5 flex items-center justify-between px-5">
       <div class="flex gap-3">
-        <button class="flex items-center justify-center border px-6 py-2">
-          Sort by
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-            stroke="currentColor" class="mx-2 h-4 w-4">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-          </svg>
-        </button>
+        <div class="relative inline-block text-left">
+          <button (click)="sortToggle = !sortToggle" class="flex items-center justify-center border px-6 py-2"
+            type="button" id="dropdownButton" aria-expanded="false" aria-haspopup="true">
+            Sort by
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="mx-2 h-4 w-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            </svg>
+          </button>
+
+          <!-- Dropdown Menu -->
+          <div [style.display]="sortToggle ? '' : 'none'"
+            class="origin-top-right absolute left-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
+            role="menu" aria-orientation="vertical" aria-labelledby="dropdownButton" tabindex="-1">
+            <div class="py-1" role="none">
+              <!-- Dropdown Items -->
+              <a class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1"
+                (click)="getSort('Asc')" id="option-1">Name (A-Z)</a>
+              <a class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1"
+                (click)="getSort('Des')" id="option-1">Name (Z-A)</a>
+              <!-- Add more items as needed -->
+            </div>
+          </div>
+        </div>
 
         <button class="flex items-center justify-center border px-6 py-2 md:hidden">
           Filters
@@ -224,412 +223,7 @@
     </div>
 
     <section class="mx-auto grid max-w-[1200px] grid-cols-2 gap-3 px-5 pb-10 lg:grid-cols-3">
-      <!-- <div class="flex flex-col">
-        <div class="relative flex">
-          <img class="" src="./assets/images/product-chair.png" alt="sofa image" />
-          <div
-            class="absolute flex h-full w-full items-center justify-center gap-3 opacity-0 duration-150 hover:opacity-100">
-            <a href="product-overview.html"
-              class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-amber-400">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="h-4 w-4">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-              </svg>
-            </a>
-            <span class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-amber-400">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4">
-                <path
-                  d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
-              </svg>
-            </span>
-          </div>
-
-          <div class="absolute right-1 mt-3 flex items-center justify-center bg-amber-400">
-            <p class="px-2 py-2 text-sm">&minus; 25&percnt; OFF</p>
-          </div>
-        </div>
-
-        <div>
-          <p class="mt-2">CHAIR</p>
-          <p class="font-medium text-violet-900">
-            $45.00
-            <span class="text-sm text-gray-500 line-through">$500.00</span>
-          </p>
-
-          <div class="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-yellow-400">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-yellow-400">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-yellow-400">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-yellow-400">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-gray-200">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-            <p class="text-sm text-gray-400">(38)</p>
-          </div>
-
-          <div>
-            <button class="my-5 h-10 w-full bg-violet-900 text-white">
-              Add to cart
-            </button>
-          </div>
-        </div>
-      </div> -->
-
-      <!-- 2 -->
-
-      <!-- <div class="flex flex-col">
-        <div class="relative flex">
-          <img class="" src="./assets/images/product-sofa.png" alt="sofa image" />
-
-          <div
-            class="absolute flex h-full w-full items-center justify-center gap-3 opacity-0 duration-150 hover:opacity-100">
-            <a href="product-overview.html"
-              class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-amber-400">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="h-4 w-4">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-              </svg>
-            </a>
-            <span class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-amber-400">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4">
-                <path
-                  d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
-              </svg>
-            </span>
-          </div>
-
-          <div class="absolute right-1 mt-3 flex items-center justify-center bg-amber-400">
-            <p class="px-2 py-2 text-sm">&minus; 25&percnt; OFF</p>
-          </div>
-        </div>
-
-        <div>
-          <p class="mt-2">SOFA</p>
-          <p class="font-medium text-violet-900">
-            $45.00
-            <span class="text-sm text-gray-500 line-through">$500.00</span>
-          </p>
-
-          <div class="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-yellow-400">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-yellow-400">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-yellow-400">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-yellow-400">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-gray-200">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-            <p class="text-sm text-gray-400">(38)</p>
-          </div>
-
-          <div>
-            <button class="my-5 h-10 w-full bg-violet-900 text-white">
-              Add to cart
-            </button>
-          </div>
-        </div>
-      </div> -->
-
-      <!-- 3 -->
-
-      <!-- <div class="flex flex-col">
-        <div class="relative flex">
-          <img class="" src="./assets/images/kitchen.png" alt="kitchen image" />
-          <div
-            class="absolute flex h-full w-full items-center justify-center gap-3 opacity-0 duration-150 hover:opacity-100">
-            <a href="product-overview.html"
-              class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-amber-400">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="h-4 w-4">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-              </svg>
-            </a>
-            <span class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-amber-400">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4">
-                <path
-                  d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
-              </svg>
-            </span>
-          </div>
-
-          <div class="absolute right-1 mt-3 flex items-center justify-center bg-amber-400">
-            <p class="px-2 py-2 text-sm">&minus; 25&percnt; OFF</p>
-          </div>
-        </div>
-
-        <div>
-          <p class="mt-2">GUYER KITCHEN</p>
-          <p class="font-medium text-violet-900">
-            $45.00
-            <span class="text-sm text-gray-500 line-through">$500.00</span>
-          </p>
-
-          <div class="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-yellow-400">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-yellow-400">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-yellow-400">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-yellow-400">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-gray-200">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-            <p class="text-sm text-gray-400">(38)</p>
-          </div>
-
-          <div>
-            <button class="my-5 h-10 w-full bg-violet-900 text-white">
-              Add to cart
-            </button>
-          </div>
-        </div>
-      </div> -->
-
-      <!-- 4 -->
-
-      <!-- <div class="flex flex-col">
-        <div class="relative flex">
-          <img class="" src="./assets/images/living-room.png" alt="living room image" />
-          <div
-            class="absolute flex h-full w-full items-center justify-center gap-3 opacity-0 duration-150 hover:opacity-100">
-            <a href="product-overview.html"
-              class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-amber-400">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="h-4 w-4">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-              </svg>
-            </a>
-            <span class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-amber-400">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4">
-                <path
-                  d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
-              </svg>
-            </span>
-          </div>
-
-          <div class="absolute right-1 mt-3 flex items-center justify-center bg-amber-400">
-            <p class="px-2 py-2 text-sm">&minus; 25&percnt; OFF</p>
-          </div>
-        </div>
-
-        <div>
-          <p class="mt-2">GUYER ROOM</p>
-          <p class="font-medium text-violet-900">
-            $45.00
-            <span class="text-sm text-gray-500 line-through">$500.00</span>
-          </p>
-
-          <div class="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-yellow-400">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-yellow-400">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-yellow-400">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-yellow-400">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-gray-200">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-            <p class="text-sm text-gray-400">(38)</p>
-          </div>
-
-          <div>
-            <button class="my-5 h-10 w-full bg-violet-900 text-white">
-              Add to cart
-            </button>
-          </div>
-        </div>
-      </div> -->
-
-      <!-- 5 -->
-
-      <!-- <div class="flex flex-col">
-        <div class="relative flex">
-          <img class="" src="./assets/images/bedroom.png" alt="Bedroom image" />
-          <div
-            class="absolute flex h-full w-full items-center justify-center gap-3 opacity-0 duration-150 hover:opacity-100">
-            <a href="product-overview.html"
-              class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-amber-400">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="h-4 w-4">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-              </svg>
-            </a>
-            <span class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-amber-400">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4">
-                <path
-                  d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
-              </svg>
-            </span>
-          </div>
-
-          <div class="absolute right-1 mt-3 flex items-center justify-center bg-amber-400">
-            <p class="px-2 py-2 text-sm">&minus; 25&percnt; OFF</p>
-          </div>
-        </div>
-
-        <div>
-          <p class="mt-2">BEDROOM</p>
-          <p class="font-medium text-violet-900">
-            $45.00
-            <span class="text-sm text-gray-500 line-through">$500.00</span>
-          </p>
-
-          <div class="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-yellow-400">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-yellow-400">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-yellow-400">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-yellow-400">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="h-4 w-4 text-gray-200">
-              <path fill-rule="evenodd"
-                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                clip-rule="evenodd" />
-            </svg>
-            <p class="text-sm text-gray-400">(38)</p>
-          </div>
-
-          <div>
-            <button class="my-5 h-10 w-full bg-violet-900 text-white">
-              Add to cart
-            </button>
-          </div>
-        </div>
-      </div> -->
-
-      <!-- 6 -->
-      @for (product of products; track product._id) {
+      @for (product of filteredProducts; track product._id) {
       <div class="flex flex-col">
         <app-product-card [product]="product"></app-product-card>
       </div>
