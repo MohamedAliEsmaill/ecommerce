@@ -125,9 +125,11 @@
 
         <div class="flex w-full">
           <div class="flex justify-between">
-            <input x-mask="99999" min="50" type="number" class="h-8 w-[90px] border pl-2" placeholder="50" />
+            <input min="50" type="number" class="h-8 w-[90px] border pl-2" placeholder="50"
+              (input)="getMinPriceFilter($event)" value="" />
             <span class="px-3">-</span>
-            <input x-mask="999999" type="number" max="999999" class="h-8 w-[90px] border pl-2" placeholder="99999" />
+            <input type="number" max="999999" class="h-8 w-[90px] border pl-2" placeholder="99999"
+              (input)="getMaxPriceFilter($event)" value="" />
           </div>
         </div>
       </div>
@@ -138,28 +140,12 @@
         <p class="mb-3 font-medium">SIZE</p>
 
         <div class="flex gap-2">
-          <div
+          @for (size of ['XS', 'S', 'M', 'L', 'XL', 'XXL']; track $index) {
+          <div (click)="getSizeFilters(size)" [class.bg-neutral-200]="sizes.has(size)"
             class="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
-            XS
+            {{size}}
           </div>
-          <div
-            class="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
-            S
-          </div>
-          <div
-            class="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
-            M
-          </div>
-
-          <div
-            class="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
-            L
-          </div>
-
-          <div
-            class="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
-            XL
-          </div>
+          }
         </div>
       </div>
     </div>
@@ -169,15 +155,11 @@
         <p class="mb-3 font-medium">COLOR</p>
 
         <div class="flex gap-2">
-          <div
-            class="h-8 w-8 cursor-pointer border border-white bg-gray-600 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
+          @for (color of ['#4B5563', '#4C1D95', '#7F1D1D']; track color) {
+          <div (click)="getColorFilters(color)" [style.background-color]='color' [class.opacity-75]="colors.has(color)"
+            class="h-8 w-8 cursor-pointer border border-white focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
           </div>
-          <div
-            class="h-8 w-8 cursor-pointer border border-white bg-violet-900 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
-          </div>
-          <div
-            class="h-8 w-8 cursor-pointer border border-white bg-red-900 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500">
-          </div>
+          }
         </div>
       </div>
     </div>
@@ -187,13 +169,30 @@
   <div>
     <div class="mb-5 flex items-center justify-between px-5">
       <div class="flex gap-3">
-        <button class="flex items-center justify-center border px-6 py-2">
-          Sort by
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-            stroke="currentColor" class="mx-2 h-4 w-4">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-          </svg>
-        </button>
+        <div class="relative inline-block text-left">
+          <button (click)="sortToggle = !sortToggle" class="flex items-center justify-center border px-6 py-2"
+            type="button" id="dropdownButton" aria-expanded="false" aria-haspopup="true">
+            Sort by
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="mx-2 h-4 w-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            </svg>
+          </button>
+
+          <!-- Dropdown Menu -->
+          <div [style.display]="sortToggle ? '' : 'none'"
+            class="origin-top-right absolute left-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
+            role="menu" aria-orientation="vertical" aria-labelledby="dropdownButton" tabindex="-1">
+            <div class="py-1" role="none">
+              <!-- Dropdown Items -->
+              <a class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1"
+                (click)="getSort('Asc')" id="option-1">Name (A-Z)</a>
+              <a class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1"
+                (click)="getSort('Des')" id="option-1">Name (Z-A)</a>
+              <!-- Add more items as needed -->
+            </div>
+          </div>
+        </div>
 
         <button class="flex items-center justify-center border px-6 py-2 md:hidden">
           Filters
@@ -224,7 +223,7 @@
     </div>
 
     <section class="mx-auto grid max-w-[1200px] grid-cols-2 gap-3 px-5 pb-10 lg:grid-cols-3">
-      @for (product of products; track product._id) {
+      @for (product of filteredProducts; track product._id) {
       <div class="flex flex-col">
         <app-product-card [product]="product"></app-product-card>
       </div>
