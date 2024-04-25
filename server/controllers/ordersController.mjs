@@ -126,7 +126,7 @@ export const deleteOrder = async (req, res) => {
         res.json({ message: "Order deleted" });
       } else {
         res.status(400);
-        throw new Error("Order cannot be deleted if not pending");
+        throw new Error("Order only be cancelled if it is pending");
       }
     } else {
       res.status(404);
