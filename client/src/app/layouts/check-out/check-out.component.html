@@ -24,7 +24,11 @@
       </table>
 
       <ng-container *ngIf="currentStep === 1">
-        <app-address></app-address>
+        <app-address
+          (streetChange)="setStreet($event)"
+          (cityChange)="setCity($event)"
+          (zipChange)="setZip($event)"
+        ></app-address>
       </ng-container>
       <ng-container *ngIf="currentStep === 2">
         <app-delivery></app-delivery>

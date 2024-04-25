@@ -40,6 +40,7 @@
           class="w-full px-4 py-2 border outline-yellow-400"
           type="text"
           placeholder="Big Serbian avenue, 18"
+          (change)="setStreet($event)"
         />
       </div>
 
@@ -54,6 +55,7 @@
           type="text"
           placeholder="Belgrade"
           name=""
+          (change)="setCity($event)"
         />
       </div>
     </div>
@@ -69,6 +71,7 @@
           x-mask="999999"
           class="w-full px-4 py-2 border outline-yellow-400"
           placeholder="176356"
+          (change)="setZip($event)"
         />
       </div>
     </div>

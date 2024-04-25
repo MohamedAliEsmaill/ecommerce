@@ -1,5 +1,3 @@
-import { Product } from './product';
-
 export interface Order {
   products: string[];
   address: {
@@ -8,4 +6,8 @@ export interface Order {
     zip: string;
   };
   totalPrice: number;
+  date: Date;
+  _id: string;
+  user: string;
+  status: 'pending' | 'accepted' | 'rejected';
 }
