@@ -97,3 +97,42 @@ export const deleteProduct = async (req, res) => {
     }
 
 }
+
+/**
+ * Decrease Product Stock
+ * @params Array of Object => [{id, quantity}]
+ */
+
+export const decreaseProductStock = async (req, res) => {
+    try {
+        const productsToUpdate = req.body.products;
+        console.log(productsToUpdate);
+
+        for (const product of productsToUpdate) {
+            const existingProduct = await Product.findOne({ _id: product.id });
+
+            if (!existingProduct) {
+                console.log(`Product with ID ${product.id} not found.`);
+                continue;
+            }
+
+            if (existingProduct.stock < product.quantity) {
+                console.log(`Insufficient stock for product with ID ${product.id}.`);
+                continue;
+            }
+
+            // Decrease the stock
+            existingProduct.stock -= product.quantity;
+
+            // Save the updated product
+            await existingProduct.save();
+            console.log(`Stock decreased for product with ID ${product.id}. New stock: ${existingProduct.stock}`);
+        }
+
+        return res.json({ success: true, message: 'Stock updated successfully' });
+    } catch (error) {
+        // Handle any errors
+        console.error('Error decreasing product stock:', error);
+        return res.status(500).json({ success: false, message: 'An error occurred while updating stock' });
+    }
+}
