@@ -26,12 +26,12 @@ export const routes: Routes = [
   {
     path: 'catalog',
     component: CatalogComponent,
-    canActivate: [IsLoggedService,IsUserService],
+    canActivate: [IsLoggedService, IsUserService],
   },
   {
     path: 'product-overview/:id',
     component: ProductOverviewComponent,
-    canActivate: [IsLoggedService,IsUserService],
+    canActivate: [IsLoggedService, IsUserService],
   },
   {
     path: 'profile',
