@@ -39,6 +39,11 @@ export class CheckOutComponent {
   street: string = '';
   city: string = '';
   zip: string = '';
+  cardNumber: string = '';
+  cardHolder: string = '';
+  expirationDate: string = '';
+  cvv: string = '';
+  isCheck: boolean = false;
 
   constructor(
     private userService: UserServiceService,
@@ -83,9 +88,34 @@ export class CheckOutComponent {
 
   nextStep() {
     if (this.currentStep <= 4) {
-      if (this.currentStep === 1 && this.street === '') {
+      if (
+        this.currentStep === 1 &&
+        (this.street === '' || this.city === '' || this.zip === '')
+      ) {
         return;
       }
+
+      if (this.currentStep === 2 && !this.isCheck) {
+        return;
+      }
+
+      if (
+        this.currentStep === 3 &&
+        (this.cardNumber === '' ||
+          this.cardHolder === '' ||
+          this.expirationDate === '' ||
+          this.cvv === '')
+      ) {
+        console.log(
+          this.cardNumber,
+          this.cardHolder,
+          this.expirationDate,
+          this.cvv
+        );
+
+        return;
+      }
+
       this.currentStep++;
     }
 
@@ -126,5 +156,25 @@ export class CheckOutComponent {
 
   setZip(zip: string) {
     this.zip = zip;
+  }
+
+  setCardNumber(cardNumber: string) {
+    this.cardNumber = cardNumber;
+  }
+
+  setCardHolder(cardHolder: string) {
+    this.cardHolder = cardHolder;
+  }
+
+  setExpirationDate(expirationDate: string) {
+    this.expirationDate = expirationDate;
+  }
+
+  setCvv(cvv: string) {
+    this.cvv = cvv;
+  }
+
+  setIsCheck(isCheck: boolean) {
+    this.isCheck = isCheck;
   }
 }
