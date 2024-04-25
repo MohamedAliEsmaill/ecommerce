@@ -12,66 +12,44 @@
       </tr>
     </thead>
     <tbody>
-      <tr class="border-b h-[100px]">
-        <td class="text-center align-middle">№ 1245</td>
-        <td class="mx-auto text-center">22/06/2023</td>
-        <td class="text-center align-middle">$620</td>
-        <td class="mx-auto text-center">
-          <span class="px-3 py-1 text-green-500 border-2 border-green-500"
-            >Delivered</span
-          >
-        </td>
-        <td class="text-center align-middle">
-          <a href="/order-overview.html" class="px-4 py-2 bg-amber-400"
-            ><button class="text-center">View</button></a
-          >
-        </td>
-      </tr>
-      <tr class="border-b h-[100px]">
-        <td class="text-center align-middle">№ 1232</td>
-        <td class="mx-auto text-center">20/05/2023</td>
-        <td class="text-center align-middle">$3200</td>
-        <td class="mx-auto text-center">
-          <span class="px-3 py-1 text-orange-500 border-2 border-orange-500"
-            >In Progress</span
-          >
-        </td>
-        <td class="text-center align-middle">
-          <a href="/order-overview.html" class="px-4 py-2 bg-amber-400"
-            ><button class="text-center">View</button></a
-          >
-        </td>
-      </tr>
-      <tr class="border-b h-[100px]">
-        <td class="text-center align-middle">№ 3246</td>
-        <td class="mx-auto text-center">03/03/2022</td>
-        <td class="text-center align-middle">$2500</td>
-        <td class="mx-auto text-center">
-          <span class="px-3 py-1 text-red-500 border-2 border-red-500"
-            >Declined</span
-          >
-        </td>
-        <td class="text-center align-middle">
-          <a href="/order-overview.html" class="px-4 py-2 bg-amber-400"
-            ><button class="text-center">View</button></a
-          >
-        </td>
-      </tr>
-      <tr class="border-b h-[100px]">
-        <td class="text-center align-middle">№ 9827</td>
-        <td class="mx-auto text-center">31/01/2020</td>
-        <td class="text-center align-middle">$1700</td>
-        <td class="mx-auto text-center">
-          <span class="px-3 py-1 text-blue-500 border-2 border-blue-500"
-            >Need Payment</span
-          >
-        </td>
-        <td class="text-center align-middle">
-          <a href="/order-overview.html" class="px-4 py-2 bg-amber-400"
-            ><button class="text-center">View</button></a
-          >
-        </td>
-      </tr>
+      <ng-container *ngFor="let order of orders; let i = index">
+        <tr class="border-b h-[100px]">
+          <td class="text-center align-middle">
+            № {{ order._id | slice : 0 : 4 }}
+          </td>
+          <td class="mx-auto text-center">
+            {{ order.date | date : "dd/MM/yyyy" }}
+          </td>
+          <td class="text-center align-middle">{{ order.totalPrice }}</td>
+          <td class="mx-auto text-center">
+            <span
+              class="px-3 py-1
+              {{
+                order.status === 'accepted'
+                  ? 'text-green-500 border-2 border-green-500'
+                  : order.status === 'pending'
+                  ? 'text-yellow-500 border-2 border-yellow-500'
+                  : order.status === 'rejected'
+                  ? 'text-red-500 border-2 border-red-500'
+                  : ''
+              }}"
+            >
+              {{ order.status }}
+            </span>
+          </td>
+          <td class="text-center align-middle">
+            <a href="/order-overview.html" class="px-4 py-2 bg-amber-400"
+              ><button class="text-center">View</button></a
+            >
+          </td>
+        </tr>
+      </ng-container>
     </tbody>
   </table>
+  <div class="gap-3">
+    <button class="px-5 mt-5 text-white bg-violet-900" (click)="prevPage()">
+      prev
+    </button>
+    <button class="px-5 mt-5 text-blue-900" (click)="nextPage()">Next</button>
+  </div>
 </section>
