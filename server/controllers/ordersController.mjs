@@ -121,8 +121,13 @@ export const deleteOrder = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
     if (order) {
-      await order.deleteOne();
-      res.json({ message: "Order deleted" });
+      if (order.status === "pending") {
+        await order.deleteOne();
+        res.json({ message: "Order deleted" });
+      } else {
+        res.status(400);
+        throw new Error("Order cannot be deleted if not pending");
+      }
     } else {
       res.status(404);
       throw new Error("Order not found");
