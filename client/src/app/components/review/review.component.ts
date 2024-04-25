@@ -14,8 +14,7 @@ export class ReviewComponent {
   ngOnInit(): void {
     this.cart = this.userService.getCart().subscribe({
       next: (data: any) => {
-        this.cart = data.cart;
-        console.log(this.cart);
+        this.cart = data.data;
       },
       error: (error) => {
         console.error(error);
