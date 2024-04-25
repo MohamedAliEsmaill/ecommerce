@@ -35,6 +35,31 @@ const ProductSchema = new mongoose.Schema({
       message: "Please provide at least one image URL",
     }, // Ensure at least one image URL is provided
   },
+  brand: {
+    type: String,
+    required: [true, "Product brand is required"],
+    trim: true,
+  },
+  category: {
+    type: String,
+    required: [true, "Product category is required"],
+    trim: true,
+  },
+  size: {
+    type: [String],
+    required: [true, "Product size is required"],
+    validate: {
+      validator: (v) => Array.isArray(v) && v.every((size) => ["S", "M", "L", "XL", "XXL"].includes(size)),
+      message: "Invalid size(s) provided. Allowed values: S, M, L, XL, XXL",
+    },
+  },
+  colors: {
+    type: [String],
+    validate: {
+      validator: (v) => Array.isArray(v) && v.length > 0,
+      message: "Please provide at least one color",
+    },
+  },
 });
 
 // Create a model
