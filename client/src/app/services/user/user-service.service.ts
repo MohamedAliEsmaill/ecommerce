@@ -8,11 +8,10 @@ import { catchError } from 'rxjs/operators';
 export class UserServiceService {
   private apiUrl = 'http://localhost:3000/api/users';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   // Define the login method
   login(data: any): Observable<any> {
-    // debugger;
     return this.http.post(`${this.apiUrl}/login`, data).pipe(
       // Handle any errors
       catchError(this.handleError)
@@ -20,7 +19,6 @@ export class UserServiceService {
   }
   // Define the register method
   signup(data: any): Observable<any> {
-    // debugger;
     return this.http.post(`${this.apiUrl}/signup`, data).pipe(
       // Handle any errors
       catchError(this.handleError)
@@ -28,7 +26,6 @@ export class UserServiceService {
   }
 
   forgetPassword(data: any): Observable<any> {
-    // debugger;
     return this.http.post(`${this.apiUrl}/forgotPassword`, data).pipe(
       // Handle any errors
       catchError(this.handleError)
@@ -48,7 +45,7 @@ export class UserServiceService {
   }
 
   addCart(data: any): Observable<any> {
-    console.log("id " + data);
+    console.log('id ' + data);
     const product = { productId: data };
     return this.http.post(`${this.apiUrl}/cart`, product).pipe(
       // Handle any errors
@@ -56,14 +53,15 @@ export class UserServiceService {
     );
   }
   getCart(): Observable<any> {
-    debugger;
     return this.http.get(`${this.apiUrl}/cart`).pipe(
       // Handle any errors
       catchError(this.handleError)
     );
   }
   deleteCart(data: any): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/cart`, data).pipe(
+    console.log('id ' + data);
+    const product = { productId: data.productId, type: data.type };
+    return this.http.post(`${this.apiUrl}/cart/delete`, product).pipe(
       // Handle any errors
       catchError(this.handleError)
     );
