@@ -9,16 +9,17 @@ import { UserServiceService } from '../user/user-service.service';
 @Injectable({
   providedIn: 'root',
 })
-export class IsLoggedService implements CanActivate {
+export class IsAdminService implements CanActivate {
   constructor(
     private userService: UserServiceService,
     private router: Router
   ) { }
+
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    if (this.userService.isLoggedIn()) {
+    if (this.userService.isAdmin()) {
       return true;
     }
     this.router.navigate(['/login']);
