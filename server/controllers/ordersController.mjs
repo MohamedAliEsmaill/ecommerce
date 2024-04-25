@@ -68,6 +68,7 @@ export const addOrder = async (req, res) => {
     });
 
     req.user.carts = [];
+    req.user.orders.push(createdOrder._id);
     await req.user.save();
 
     res.status(201).json(createdOrder);
