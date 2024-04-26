@@ -172,6 +172,14 @@ export const deleteOrder = async (req, res) => {
     const orderId = req.params.id;
     const order = await Order.findById(orderId);
 
+    if (
+      req.user.role !== "admin" &&
+      order.user._id.toString() !== req.user._id.toString()
+    ) {
+      res.status(403).json({ error: "Forbidden" });
+      return;
+    }
+
     if (!order) {
       res.status(404).json({ error: "Order not found" });
       return;

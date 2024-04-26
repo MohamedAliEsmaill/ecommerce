@@ -16,6 +16,6 @@ router.get("/:id", getOrderById);
 router.post("/", addOrder);
 router.put("/:id/accept", restrictTo("admin"), updateOrderToAccepted);
 router.put("/:id/reject", restrictTo("admin"), updateOrderToRejected);
-router.delete("/:id/cancel", restrictTo("admin"), deleteOrder);
+router.delete("/:id/cancel", deleteOrder);
 
 export default router;
