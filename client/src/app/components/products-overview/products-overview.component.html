@@ -1,0 +1,33 @@
+<!-- products-overview.component.html -->
+<div>
+  <h2 class="text-xl font-bold mb-4">Products Overview</h2>
+  <table class="min-w-full bg-amber-400 rounded-lg overflow-hidden">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="px-4 py-2">Product ID</th>
+        <th class="px-4 py-2">Name</th>
+        <th class="px-4 py-2">Price</th>
+        <th class="px-4 py-2">Stock</th>
+        <th class="px-4 py-2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="px-4 py-2 text-center">pId</td>
+        <td class="px-4 py-2 text-center">pName</td>
+        <td class="px-4 py-2 text-center">pPrice</td>
+        <td class="px-4 py-2 text-center">pStock</td>
+        <td class="px-4 py-2 text-center">
+          <!-- (click)="editProduct(product)" -->
+          <button class="px-2 py-1 mx-3 bg-violet-900 text-white rounded">
+            Edit
+          </button>
+          <!-- (click)="deleteProduct(product.id)" -->
+          <button class="px-2 py-1 mx-3 bg-red-500 text-white rounded">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
