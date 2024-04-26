@@ -38,7 +38,9 @@
             </span>
           </td>
           <td class="text-center align-middle">
-            <a href="/order-overview.html" class="px-4 py-2 bg-amber-400"
+            <a
+              class="px-4 py-2 bg-amber-400"
+              [routerLink]="['/profile/orders', order._id]"
               ><button class="text-center">View</button></a
             >
           </td>

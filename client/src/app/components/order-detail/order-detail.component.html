@@ -1,0 +1,88 @@
+<section class="gap-3 max-w-[1200px] pb-10 px-5 w-full">
+  <table class="hidden w-full md:table">
+    <thead class="h-16 bg-neutral-100">
+      <tr>
+        <th>ITEM</th>
+        <th>PRICE</th>
+        <th>QUANTITY</th>
+        <th>TOTAL</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let product of products">
+        <tr class="border-b h-[100px]">
+          <td class="align-middle">
+            <div class="flex">
+              <img
+                class="w-[90px]"
+                src="{{ product.images[0] }}"
+                alt="bedroom image"
+              />
+              <div class="flex flex-col justify-center ml-3">
+                <p class="text-xl font-bold">{{ product.name }}</p>
+                <p class="text-sm text-gray-400">{{ product.desc }}</p>
+              </div>
+            </div>
+          </td>
+          <td class="mx-auto text-center">{{ product.price }}</td>
+          <td class="text-center align-middle">{{ product.count }}</td>
+          <td class="mx-auto text-center">
+            {{ product.price * product.count }}
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+  <section class="flex flex-col w-full gap-4 my-5 lg:flex-row">
+    <div class="lg:w-1/2">
+      <div class="px-4 py-5 border shadow-md">
+        <p class="font-bold">ORDER SUMMARY</p>
+        <div class="flex justify-between py-5 border-b">
+          <p>Subtotal</p>
+          <p>{{ selectedOrder.totalPrice }}</p>
+        </div>
+        <div class="flex justify-between py-5 border-b">
+          <p>Shipping</p>
+          <p>Free</p>
+        </div>
+        <div class="flex justify-between py-5">
+          <p>Total</p>
+          <p>{{ selectedOrder.totalPrice }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="lg:w-1/2">
+      <div class="px-4 py-5 border shadow-md">
+        <p class="font-bold">ORDER INFORMATION</p>
+        <div>
+          <p>Order #{{ selectedOrder._id | slice : -8 }}</p>
+        </div>
+        <div class="flex flex-col py-5 border-b">
+          <p>
+            Status:
+            <span
+              class="font-bold text-{{
+                selectedOrder.status === 'accepted'
+                  ? 'green'
+                  : selectedOrder.status === 'pending'
+                  ? 'yellow'
+                  : selectedOrder.status === 'rejected'
+                  ? 'red'
+                  : 'gray'
+              }}-600"
+              >{{ selectedOrder.status | uppercase }}</span
+            >
+          </p>
+          <p>Date: {{ selectedOrder.date }}</p>
+        </div>
+        <div></div>
+        <div class="flex flex-col py-5">
+          <p class="font-bold">ADDRESS INFORMATION</p>
+          <p>City: {{ selectedOrder.address.city }}</p>
+          <p>Street: {{ selectedOrder.address.street }}</p>
+          <p>Zip-Code: {{ selectedOrder.address.zip }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
