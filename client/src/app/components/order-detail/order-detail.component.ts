@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { OrderService } from '../../services/order/order.service';
 
 @Component({
@@ -15,7 +15,11 @@ export class OrderDetailComponent {
   selectedOrder: any = {};
   products: any = [];
   orderId: any;
-  constructor(private route: ActivatedRoute, private order: OrderService) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private order: OrderService
+  ) {
     this.orderId = this.route.snapshot.params['id'];
     console.log(this.orderId);
   }
@@ -25,6 +29,18 @@ export class OrderDetailComponent {
       next: (order) => {
         this.selectedOrder = order.order;
         this.products = order.products;
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
+  }
+
+  cancelOrder(id: string) {
+    this.order.deleteOrder(this.orderId).subscribe({
+      next: () => {
+        console.log('Order deleted successfully');
+        this.router.navigate(['/profile/history']);
       },
       error: (error) => {
         console.error(error);

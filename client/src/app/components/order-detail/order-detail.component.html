@@ -49,6 +49,14 @@
           <p>Total</p>
           <p>{{ selectedOrder.totalPrice }}</p>
         </div>
+        <button
+          *ngIf="selectedOrder.status === 'pending'"
+          (click)="cancelOrder(selectedOrder._id)"
+          class="w-40 px-4 py-2 mt-4 text-white bg-green-900"
+          class="w-40 px-4 py-2 mt-4 text-white bg-red-900"
+        >
+          Cancel Order
+        </button>
       </div>
     </div>
     <div class="lg:w-1/2">
