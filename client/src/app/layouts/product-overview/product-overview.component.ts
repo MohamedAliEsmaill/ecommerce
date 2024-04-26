@@ -3,13 +3,12 @@ import { ProductService } from '../../services/product/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { Product } from '../../interfaces/product';
 import { UserServiceService } from '../../services/user/user-service.service';
-import { ToastModule } from 'primeng/toast'
 
 @Component({
   selector: 'app-product-overview',
   standalone: true,
   imports: [],
-  providers: [ProductService, UserServiceService, ToastModule],
+  providers: [ProductService, UserServiceService],
   templateUrl: './product-overview.component.html',
   styles: ``
 })
