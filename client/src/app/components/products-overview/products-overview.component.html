@@ -1,33 +1,61 @@
-<!-- products-overview.component.html -->
 <div>
   <h2 class="text-xl font-bold mb-4">Products Overview</h2>
-  <table class="min-w-full bg-amber-400 rounded-lg overflow-hidden">
+  <table class="min-w-full bg-gray-200 rounded-lg overflow-hidden">
     <thead class="bg-gray-100">
       <tr>
-        <th class="px-4 py-2">Product ID</th>
         <th class="px-4 py-2">Name</th>
         <th class="px-4 py-2">Price</th>
+        <th class="px-4 py-2">Description</th>
         <th class="px-4 py-2">Stock</th>
+        <th class="px-4 py-2">Category</th>
         <th class="px-4 py-2">Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td class="px-4 py-2 text-center">pId</td>
-        <td class="px-4 py-2 text-center">pName</td>
-        <td class="px-4 py-2 text-center">pPrice</td>
-        <td class="px-4 py-2 text-center">pStock</td>
+      <tr *ngFor="let product of displayedProducts">
+        <td class="px-4 py-2 text-center">{{ product.name }}</td>
+        <td class="px-4 py-2 text-center">{{ product.price }}</td>
+        <td class="px-4 py-2 w-6/12 truncate text-wrap">
+          {{
+            product.desc.length > 80
+              ? (product.desc | slice : 0 : 80) + "..."
+              : product.desc
+          }}
+        </td>
+
+        <td class="px-4 py-2 text-center">{{ product.stock }}</td>
+        <td class="px-4 py-2 text-center">{{ product.category }}</td>
         <td class="px-4 py-2 text-center">
-          <!-- (click)="editProduct(product)" -->
-          <button class="px-2 py-1 mx-3 bg-violet-900 text-white rounded">
+          <button class="px-2 py-1 mx-2 bg-violet-900 text-white rounded">
             Edit
           </button>
-          <!-- (click)="deleteProduct(product.id)" -->
-          <button class="px-2 py-1 mx-3 bg-red-500 text-white rounded">
+
+          <button class="px-2 py-1 bg-red-500 text-white rounded">
             Delete
           </button>
         </td>
       </tr>
     </tbody>
   </table>
+
+  <!-- Pagination -->
+  <div class="flex justify-end mt-4">
+    <button
+      class="px-2 py-1 bg-violet-900 text-white rounded mr-2"
+      [disabled]="currentPage === 0"
+      (click)="prevPage()"
+    >
+      Previous
+    </button>
+    <button
+      class="px-2 py-1 bg-violet-900 text-white rounded"
+      [disabled]="
+        displayedProducts.length < pageSize ||
+        (currentPage + 1) * pageSize >= allProducts.length
+      "
+      (click)="nextPage()"
+    >
+      Next
+    </button>
+  </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
@@ -10,23 +10,29 @@ import {
 } from '@angular/forms';
 import { ProductService } from '../../services/product/product.service';
 import { Product } from '../../interfaces/product';
+import { UserServiceService } from '../../services/user/user-service.service';
 ProductService;
 @Component({
   selector: 'app-header',
   standalone: true,
-  providers: [ProductService],
+  providers: [ProductService, UserServiceService],
   imports: [RouterModule, CommonModule, ReactiveFormsModule],
   templateUrl: './header.component.html',
   styles: ``,
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
+  // isLogged: Boolean = false;
   toggleBurgerMenu = false;
   searchForm: FormGroup;
   searchValue = '';
   searchResults: string[] = [];
   proudctFilter: Product[] = [];
   products: Product[] = [];
-  constructor(private fb: FormBuilder, private productService: ProductService) {
+  constructor(
+    private fb: FormBuilder,
+    private productService: ProductService
+  ) // private userLogged: UserServiceService
+  {
     this.searchForm = this.fb.group({
       search: ['', Validators.required],
     });
@@ -39,6 +45,11 @@ export class HeaderComponent {
         console.error('404 Not Found');
       },
     });
+  }
+
+  ngOnInit(): void {
+    // this.isLogged = this.userLogged.isAdmin();
+    // throw new Error('Method not implemented.');
   }
   toggleMenu() {
     this.toggleBurgerMenu = !this.toggleBurgerMenu;

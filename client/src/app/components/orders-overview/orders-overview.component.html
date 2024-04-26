@@ -1,28 +1,30 @@
 <!-- orders-overview.component.html -->
 <div>
   <h2 class="text-xl font-bold mb-4">Orders Overview</h2>
-  <table class="min-w-full bg-amber-400 rounded-lg overflow-hidden">
+  <table class="min-w-full bg-gray-200 rounded-lg overflow-hidden">
     <thead class="bg-gray-100">
       <tr>
-        <th class="px-4 py-2">Order ID</th>
-        <th class="px-4 py-2">Product</th>
-        <th class="px-4 py-2">Quantity</th>
+        <th class="px-4 py-2">User</th>
+        <th class="px-4 py-2">City</th>
         <th class="px-4 py-2">Status</th>
+        <th class="px-4 py-2">Date</th>
+        <th class="px-4 py-2">Products</th>
+        <th class="px-4 py-2">Total Price</th>
         <th class="px-4 py-2">Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td class="px-4 py-2 text-center">ordeId</td>
-        <td class="px-4 py-2 text-center">orderProduct</td>
-        <td class="px-4 py-2 text-center">orderQuantity</td>
-        <td class="px-4 py-2 text-center">orderStatus</td>
+      <tr *ngFor="let order of allOrders">
+        <td class="px-4 py-2 text-center">{{ order.user }}</td>
+        <td class="px-4 py-2 text-center">{{ order.address.city }}</td>
+        <td class="px-4 py-2 text-center">{{ order.status }}</td>
+        <td class="px-4 py-2 text-center">{{ order.date }}</td>
+        <td class="px-4 py-2 text-center">{{ order.products }}</td>
+        <td class="px-4 py-2 text-center">{{ order.totalPrice }}</td>
         <td class="px-4 py-2 text-center">
-          <!-- (click)="editOrder(order)" -->
           <button class="px-2 py-1 mx-3 bg-violet-900 text-white rounded">
             Edit
           </button>
-          <!-- (click)="deleteOrder(order.id)" -->
           <button class="px-2 py-1 mx-3 bg-red-500 text-white rounded">
             Delete
           </button>
@@ -30,4 +32,23 @@
       </tr>
     </tbody>
   </table>
+</div>
+<div class="flex justify-end mt-4">
+  <button
+    class="px-2 py-1 bg-violet-900 text-white rounded mr-2"
+    [disabled]="currentPage === 0"
+    (click)="prevPage()"
+  >
+    Previous
+  </button>
+  <button
+    class="px-2 py-1 bg-violet-900 text-white rounded"
+    [disabled]="
+      displayedOrders.length < pageSize ||
+      (currentPage + 1) * pageSize >= allOrders.length
+    "
+    (click)="nextPage()"
+  >
+    Next
+  </button>
 </div>
