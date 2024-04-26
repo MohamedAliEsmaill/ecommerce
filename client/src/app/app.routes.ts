@@ -15,6 +15,7 @@ import { ProfileInformationComponent } from './components/profile-information/pr
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
 import { CardIsNotEmptyService } from './services/card-is-not-empty/card-is-not-empty.service';
+import { OrderDetailComponent } from './components/order-detail/order-detail.component';
 export const routes: Routes = [
   { path: 'contact-us', component: ContactUsComponent },
   {
@@ -36,6 +37,7 @@ export const routes: Routes = [
       { path: 'information', component: ProfileInformationComponent },
       { path: 'wishlist', component: WishlistComponent },
       { path: 'history', component: OrderHistoryComponent },
+      { path: 'orders/:id', component: OrderDetailComponent },
     ],
   },
   {

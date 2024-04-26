@@ -33,6 +33,6 @@ export class OrderService {
   }
 
   getOrderById(id: string) {
-    return this.http.get<Order>(`${this.API_URL}/${id}`);
+    return this.http.get<any>(`${this.API_URL}/${id}`);
   }
 }
