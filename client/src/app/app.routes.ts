@@ -19,7 +19,21 @@ import { OrderHistoryComponent } from './components/order-history/order-history.
 import { CardIsNotEmptyService } from './services/card-is-not-empty/card-is-not-empty.service';
 import { OrderDetailComponent } from './components/order-detail/order-detail.component';
 import { CartComponent } from './components/cart/cart.component';
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
+import { AccountsOverviewComponent } from './components/accounts-overview/accounts-overview.component';
+import { OrdersOverviewComponent } from './components/orders-overview/orders-overview.component';
+import { ProductsOverviewComponent } from './components/products-overview/products-overview.component';
 export const routes: Routes = [
+  {
+    path: 'admin-dashboard',
+    component: AdminDashboardComponent,
+    children: [
+      { path: 'accounts-overview', component: AccountsOverviewComponent },
+      { path: 'orders-overview', component: OrdersOverviewComponent },
+      { path: 'products-overview', component: ProductsOverviewComponent },
+      // { path: '', redirectTo: 'accounts', pathMatch: 'full' },
+    ],
+  },
   { path: '', redirectTo: 'profile', pathMatch: 'full' },
   { path: 'home', redirectTo: 'profile', pathMatch: 'full' },
   { path: 'contact-us', component: ContactUsComponent },
