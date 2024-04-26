@@ -21,6 +21,14 @@ export const getOrderById = async (req, res) => {
       return;
     }
 
+    if (
+      req.user.role !== "admin" &&
+      order.user._id.toString() !== req.user._id.toString()
+    ) {
+      res.status(403).json({ error: "Forbidden" });
+      return;
+    }
+
     const productsCount = order.products.reduce((acc, productId) => {
       acc[productId] = (acc[productId] || 0) + 1;
       return acc;
@@ -39,8 +47,9 @@ export const getOrderById = async (req, res) => {
         name: productDetail ? productDetail.name : "Product not found",
         price: productDetail ? productDetail.price : 0,
         desc: productDetail ? productDetail.desc : "No description available",
+        images: productDetail ? productDetail.images : [],
         stock: productDetail ? productDetail.stock : 0,
-        count,
+        count: count,
       };
     });
 
@@ -57,8 +66,10 @@ export const getAllOrders = async (req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const startIndex = (page - 1) * limit;
 
+    let query = req.user.role === "admin" ? {} : { user: req.user._id };
+
     const [orders, totalOrders] = await Promise.all([
-      Order.find({})
+      Order.find(query)
         .populate("user", {
           username: 1,
           email: 1,
@@ -72,7 +83,7 @@ export const getAllOrders = async (req, res) => {
         })
         .skip(startIndex)
         .limit(limit),
-      Order.countDocuments(),
+      Order.countDocuments(query),
     ]);
 
     const totalPages = Math.ceil(totalOrders / limit);
