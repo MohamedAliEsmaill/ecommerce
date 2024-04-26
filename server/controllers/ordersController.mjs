@@ -1,5 +1,6 @@
 import Order from "../models/Order.mjs";
 import Product from "../models/Product.mjs";
+import { decreaseProductStock } from "./productController.mjs";
 
 export const getOrderById = async (req, res) => {
   try {
@@ -126,12 +127,21 @@ export const addOrder = async (req, res) => {
       date: Date.now(),
     });
 
-    // Clear user's cart and add the new order to their orders array
+    const productsCount = processedProducts.reduce((acc, productId) => {
+      if (!acc.find((item) => item.product === productId)) {
+        acc.push({ product: productId, quantity: 1 });
+      } else {
+        const existingItem = acc.find((item) => item.product === productId);
+        existingItem.quantity += 1;
+      }
+      return acc;
+    }, []);
+
     req.user.carts = [];
     req.user.orders.push(createdOrder._id);
-    await req.user.save();
+    req.body.products = productsCount;
 
-    res.status(201).json(createdOrder);
+    await Promise.all([decreaseProductStock(req, res), req.user.save()]);
   } catch (error) {
     console.error("Error while creating the order:", error);
     res.status(500).json({ error: "Error while creating the order" });
