@@ -5,11 +5,12 @@ import { Product } from '../../interfaces/product';
 import { UserServiceService } from '../../services/user/user-service.service';
 import Swal from 'sweetalert2';
 import { recommendation } from '../../Utils/products'
+import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-product-overview',
   standalone: true,
-  imports: [],
+  imports: [LoadingSpinnerComponent],
   providers: [ProductService, UserServiceService],
   templateUrl: './product-overview.component.html',
   styles: ``
@@ -23,6 +24,7 @@ export class ProductOverviewComponent {
   availability = '';
   stock = 0;
   recommendationProduct = recommendation;
+  isLoading = true;
 
   constructor(myRoute: ActivatedRoute, private productService: ProductService, private userService: UserServiceService) {
     this.id = myRoute.snapshot.params['id'];
@@ -34,6 +36,7 @@ export class ProductOverviewComponent {
         console.log(data);
         this.product = data;
         this.stock = data.stock;
+        this.isLoading = false;
       },
       error: (error) => console.error(error)
     })
