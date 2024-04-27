@@ -3,11 +3,12 @@ import { ProductCardComponent } from '../../components/product-card/product-card
 import { ProductService } from '../../services/product/product.service';
 import { Product } from '../../interfaces/product';
 import { CommonModule } from '@angular/common';
+import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-catalog',
   standalone: true,
-  imports: [ProductCardComponent, CommonModule],
+  imports: [ProductCardComponent, CommonModule, LoadingSpinnerComponent],
   templateUrl: './catalog.component.html',
   providers: [ProductService],
   styles: ``
@@ -25,12 +26,14 @@ export class CatalogComponent {
   sizes = new Set<string>();
   colors = new Set<string>();
   sortToggle = false;
+  isLoading = true;
 
   ngOnInit(): void {
     this.productService.getAllProducts().subscribe({
       next: (data: any) => {
         this.products = data.products;
         this.filteredProducts = this.products;
+        this.isLoading = false;
       },
       error: (error) => {
         console.error("404 Not Found");
