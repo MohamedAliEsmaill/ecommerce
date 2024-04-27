@@ -3,6 +3,8 @@ import { ProductService } from '../../services/product/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { Product } from '../../interfaces/product';
 import { UserServiceService } from '../../services/user/user-service.service';
+import Swal from 'sweetalert2';
+import { recommendation } from '../../Utils/products'
 
 @Component({
   selector: 'app-product-overview',
@@ -20,6 +22,7 @@ export class ProductOverviewComponent {
   primaryImage = '';
   availability = '';
   stock = 0;
+  recommendationProduct = recommendation;
 
   constructor(myRoute: ActivatedRoute, private productService: ProductService, private userService: UserServiceService) {
     this.id = myRoute.snapshot.params['id'];
@@ -48,11 +51,23 @@ export class ProductOverviewComponent {
   }
 
   addToCart() {
-    console.log(this.id);
+    if (!this.stock) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'There is no enough quantity in the stock!',
+      });
+      return;
+    }
     this.userService.addCart(this.id).subscribe({
       next: (data) => { },
       error: (error) => console.error(error)
     });
+    Swal.fire({
+      icon: 'success',
+      title: 'Great!',
+      text: 'Product Added To Your Cart Successfully'
+    })
   }
 
 }
