@@ -63,6 +63,10 @@ export const routes: Routes = [
     canActivate: [IsLoggedService, IsUserService],
   },
   {
+    path: 'wishList',
+    component: WishlistComponent
+  },
+  {
     path: 'login',
     component: LoginComponent,
     canActivate: [IsNotLoggedService],
