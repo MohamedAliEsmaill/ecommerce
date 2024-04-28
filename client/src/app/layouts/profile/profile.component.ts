@@ -1,14 +1,51 @@
+import { routes } from './../../app.routes';
 import { Component } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
-import { WishlistComponent } from '../../components/wishlist/wishlist.component';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterModule,
+  RouterOutlet,
+} from '@angular/router';
+import { ProfileService } from '../../services/profile/profile.service';
+import { AccountComponent } from '../account/account.component';
+import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [RouterModule, RouterOutlet, WishlistComponent],
+  imports: [RouterModule, RouterOutlet, AccountComponent, SidebarComponent],
+  providers: [ProfileService],
   templateUrl: './profile.component.html',
-  styles: ``
 })
 export class ProfileComponent {
+  userInfo: any = {};
+  showAccount: boolean = true;
+  constructor(public profileService: ProfileService, private router: Router) {
+    this.profileService.getProfile().subscribe({
+      next: (data: any) => {
+        data.image = 'data:image/png;base64,' + data.image;
+        console.log(data);
 
+        this.userInfo = data;
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
+    router.events.subscribe((val) => {
+      if (val instanceof NavigationEnd) {
+        if (val.url === '/profile') {
+          this.showAccount = true;
+        } else {
+          this.showAccount = false;
+        }
+      }
+    });
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+  }
 }

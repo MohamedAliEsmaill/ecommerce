@@ -18,16 +18,20 @@ export class ProductService {
     return this.http.get<Product>(`${this.API_URL}/${id}`);
   }
 
-  createProduct() {
-
+  createProduct(product: any) {
+    return this.http.post(this.API_URL, product);
   }
 
-  updateProduct() {
-
+  updateProduct(id: string, product: any) {
+    return this.http.put(`${this.API_URL}/${id}`, product);
   }
 
-  deleteProduct() {
+  deleteProduct(id: string) {
+    return this.http.delete(`${this.API_URL}/${id}`);
+  }
 
+  decreaseStock(products: { id: string, count: number }[]) {
+    return this.http.post(`${this.API_URL}/decrease-stock`, { products });
   }
 
 }
