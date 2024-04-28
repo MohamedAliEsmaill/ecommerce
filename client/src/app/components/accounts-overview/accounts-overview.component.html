@@ -1,29 +1,70 @@
 <!-- accounts-overview.component.html -->
 <div>
   <h2 class="text-xl font-bold mb-4">Accounts Overview</h2>
-  <table class="min-w-full bg-amber-400 rounded-lg overflow-hidden">
+  <table class="min-w-full bg-gray-200 rounded-lg overflow-hidden">
     <thead class="bg-gray-100">
       <tr>
+        <th class="px-4 py-2">Full Name</th>
         <th class="px-4 py-2">Username</th>
         <th class="px-4 py-2">Email</th>
+        <th class="px-4 py-2">Phone Number</th>
+        <th class="px-4 py-2">Role</th>
+        <th class="px-4 py-2">Created At</th>
         <th class="px-4 py-2">Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td class="px-4 py-2 text-center">uName</td>
-        <td class="px-4 py-2 text-center">uEmail</td>
+      <tr *ngFor="let user of displayedUsers">
+        <td class="px-4 py-2 text-center">
+          {{
+            user.fullName.length > 19
+              ? (user.fullName | slice : 0 : 19) + "..."
+              : user.fullName
+          }}
+        </td>
+        <td class="px-4 py-2 text-center">{{ user.username }}</td>
+        <td class="px-4 py-2 text-center">{{ user.email }}</td>
+        <td class="px-4 py-2 text-center">{{ user.phone }}</td>
+        <td class="px-4 py-2 text-center">{{ user.role }}</td>
+        <td class="px-4 py-2 text-center">
+          {{
+            user.createdAt.length > 10
+              ? (user.createdAt | slice : 0 : 10) + "..."
+              : user.createdAt
+          }}
+        </td>
         <td class="px-4 py-2 text-center">
           <!-- (click)="editUser(user)" -->
-          <button class="px-2 py-1 mx-3 bg-violet-900 text-white rounded">
+          <button class="px-2 py-1 mx-2 bg-violet-900 text-white rounded">
             Edit
           </button>
           <!-- (click)="deleteUser(user.id)" -->
-          <button class="px-2 py-1 mx-3 bg-red-500 text-white rounded">
+          <button class="px-2 py-1 mx-2 bg-red-500 text-white rounded">
             Delete
           </button>
         </td>
       </tr>
     </tbody>
   </table>
+
+  <!-- Pagination -->
+  <div class="flex justify-end mt-4">
+    <button
+      class="px-2 py-1 bg-violet-900 text-white rounded mr-2"
+      [disabled]="currentPage === 0"
+      (click)="prevPage()"
+    >
+      Previous
+    </button>
+    <button
+      class="px-2 py-1 bg-violet-900 text-white rounded"
+      [disabled]="
+        displayedUsers.length < pageSize ||
+        (currentPage + 1) * pageSize >= allUsers.length
+      "
+      (click)="nextPage()"
+    >
+      Next
+    </button>
+  </div>
 </div>
