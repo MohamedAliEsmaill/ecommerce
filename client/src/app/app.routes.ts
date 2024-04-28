@@ -73,6 +73,10 @@ export const routes: Routes = [
   { path: 'manage-address', component: ManageAddressComponent },
   { path: 'change-password', component: ChangePasswordComponent },
   {
+    path: 'wishList',
+    component: WishlistComponent
+  },
+  {
     path: 'login',
     component: LoginComponent,
     canActivate: [IsNotLoggedService],
