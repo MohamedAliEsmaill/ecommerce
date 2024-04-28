@@ -1,5 +1,9 @@
 import express from "express";
-import { addCart, getCart, deleteCart } from "../controllers/userController.mjs";
+import {
+  addCart,
+  getCart,
+  deleteCart,
+} from "../controllers/userController.mjs";
 // import { verifyToken } from "../middleware/authJWT.mjs";
 import { protect } from "../controllers/authController.mjs";
 import {
@@ -11,10 +15,10 @@ import {
 
 const router = express.Router();
 
-router.post("/view", protect, getProfile);
+router.get("/view", protect, getProfile);
 router.patch("/edit", protect, updateProfile);
 router.patch("/password", protect, updatePassword);
-router.post("/all", protect, getAllProfiles);
+router.get("/all", protect, getAllProfiles);
 
 router.get("/cart", protect, getCart);
 router.post("/cart", protect, addCart);
