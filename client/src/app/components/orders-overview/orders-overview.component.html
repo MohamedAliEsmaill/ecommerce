@@ -4,7 +4,7 @@
   <table class="min-w-full bg-gray-200 rounded-lg overflow-hidden">
     <thead class="bg-gray-100">
       <tr>
-        <th class="px-4 py-2">User</th>
+        <th class="px-4 py-2">Order ID</th>
         <th class="px-4 py-2">City</th>
         <th class="px-4 py-2">Status</th>
         <th class="px-4 py-2">Date</th>
@@ -14,8 +14,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let order of allOrders">
-        <td class="px-4 py-2 text-center">{{ order.user }}</td>
+      <tr *ngFor="let order of displayedOrders">
+        <td class="px-4 py-2 text-center">
+          {{
+            order._id.length > 10
+              ? (order._id | slice : 0 : 10) + "..."
+              : order._id
+          }}
+        </td>
         <td class="px-4 py-2 text-center">{{ order.address.city }}</td>
         <td class="px-4 py-2 text-center">{{ order.status }}</td>
         <td class="px-4 py-2 text-center">{{ order.date }}</td>
