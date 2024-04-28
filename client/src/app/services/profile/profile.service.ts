@@ -23,4 +23,9 @@ export class ProfileService {
   updatePassword(data: any) {
     return this.http.patch(this.API_URL + '/password', data);
   }
+  updateImage(data: any) {
+    const formData = new FormData();
+    formData.append('image', data);
+    return this.http.patch(this.API_URL + '/updateImage', formData);
+  }
 }
