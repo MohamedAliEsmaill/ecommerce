@@ -15,8 +15,12 @@ import { ProfileComponent } from './layouts/profile/profile.component';
 import { ProfileInformationComponent } from './components/profile-information/profile-information.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { CartComponent } from './components/cart/cart.component';
+import { AccountComponent } from './layouts/account/account.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { ManageAddressComponent } from './components/manage-address/manage-address.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 export const routes: Routes = [
-  { path: '', redirectTo: 'profile', pathMatch: 'full' },
+  // { path: '', redirectTo: 'profile', pathMatch: 'full' },
   { path: 'home', redirectTo: 'profile', pathMatch: 'full' },
   { path: 'contact-us', component: ContactUsComponent },
   {
@@ -38,6 +42,9 @@ export const routes: Routes = [
     component: ProfileComponent,
     children: [
       { path: 'information', component: ProfileInformationComponent },
+      { path: 'edit', component: EditProfileComponent },
+      { path: 'address', component: ManageAddressComponent },
+      { path: 'password', component: ChangePasswordComponent },
       { path: 'wishlist', component: WishlistComponent },
     ],
     canActivate: [IsLoggedService, IsUserService],
