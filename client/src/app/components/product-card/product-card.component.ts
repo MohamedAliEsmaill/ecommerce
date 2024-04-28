@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { UserServiceService } from '../../services/user/user-service.service';
+import { CountService } from '../../services/count/count.service';
 
 @Component({
   selector: 'app-product-card',
@@ -8,19 +9,24 @@ import { UserServiceService } from '../../services/user/user-service.service';
   imports: [RouterModule],
   providers: [UserServiceService],
   templateUrl: './product-card.component.html',
-  styles: ``
+  styles: ``,
 })
-export class ProductCardComponent {
+export class ProductCardComponent implements OnInit {
   @Input() product: any;
+  data: string = '';
 
-  constructor(private userService: UserServiceService) { }
+  constructor(
+    private userService: UserServiceService,
+    private countService: CountService
+  ) {}
+
+  ngOnInit(): void {}
 
   addToCart() {
-    console.log(this.product._id);
+
     this.userService.addCart(this.product._id).subscribe({
-      next: (data) => { },
-      error: (error) => console.error(error)
+      next: (data) => {this.countService.setProduct();},
+      error: (error) => console.error(error),
     });
   }
-
 }

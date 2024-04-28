@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+
 import appError from "./utils/appError.mjs";
 import authRouter from "./routes/authRouter.mjs";
 import userRouter from "./routes/userRouter.mjs";
@@ -15,6 +16,8 @@ process.on("uncaughtException", (err) => {
   console.log(err.name, err.message);
   process.exit(1);
 });
+
+
 
 dotenv.config({ path: "./.env" });
 

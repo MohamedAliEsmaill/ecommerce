@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserServiceService } from '../../services/user/user-service.service';
+import { CountService } from '../../services/count/count.service';
+
 interface Item {
   _id: string;
   name: string;
@@ -16,20 +18,24 @@ interface Item {
   imports: [CommonModule],
   providers: [UserServiceService],
   templateUrl: './cart.component.html',
-  styleUrl: './cart.component.css'
+  styleUrl: './cart.component.css',
 })
 export class CartComponent implements OnInit {
   totalPrice: number = 0;
   fakeItems: Item[] = [];
 
-  constructor(private userService: UserServiceService) {
+  constructor(
+    private userService: UserServiceService,
+    private countService: CountService
+  ) {
     this.userService.getCart().subscribe({
       next: (data) => {
         this.fakeItems = data.data;
+
         this.calculateTotalPrice();
       },
-      error: (error) => console.error(error)
-    })
+      error: (error) => console.error(error),
+    });
   }
   ngOnInit(): void {
     this.calculateTotalPrice();
@@ -39,19 +45,19 @@ export class CartComponent implements OnInit {
       item.count--;
       const remove = {
         productId: item._id,
-        type: 'remove'
-      }
+        type: 'remove',
+      };
       this.userService.deleteCart(remove).subscribe({
-        next: (data) => { },
-        error: (error) => console.error(error)
-      })
+        next: (data) => {},
+        error: (error) => console.error(error),
+      });
     }
     console.log(this.fakeItems);
     this.calculateTotalPrice();
   }
   calculateTotalPrice() {
     this.totalPrice = this.fakeItems.reduce((sum, item) => {
-      return sum + (item.count * item.price);
+      return sum + item.count * item.price;
     }, 0);
   }
 
@@ -59,9 +65,9 @@ export class CartComponent implements OnInit {
     if (item.count >= item.stock) return;
     item.count++;
     this.userService.addCart(item._id).subscribe({
-      next: (data) => { },
-      error: (error) => console.error(error)
-    })
+      next: (data) => {},
+      error: (error) => console.error(error),
+    });
     this.calculateTotalPrice();
   }
 
@@ -71,12 +77,15 @@ export class CartComponent implements OnInit {
       this.fakeItems.splice(index, 1);
       const remove = {
         productId: item._id,
-        type: 'removeAll'
-      }
+        type: 'removeAll',
+      };
       this.userService.deleteCart(remove).subscribe({
-        next: (data) => { },
-        error: (error) => console.error(error)
-      })
+        next: (data) => {
+          this.countService.setProduct();
+        },
+
+        error: (error) => console.error(error),
+      });
     }
     this.calculateTotalPrice();
   }
