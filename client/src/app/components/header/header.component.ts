@@ -11,7 +11,7 @@ import {
 import { ProductService } from '../../services/product/product.service';
 import { CountService } from '../../services/count/count.service';
 import { Product } from '../../interfaces/product';
-
+import { UserServiceService } from '../../services/user/user-service.service';
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -30,7 +30,8 @@ export class HeaderComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
-    private countService: CountService
+    private countService: CountService,
+    private userService: UserServiceService
   ) {
     this.searchForm = this.fb.group({
       search: ['', Validators.required],
@@ -75,5 +76,8 @@ export class HeaderComponent implements OnInit {
     return this.products.filter((result) =>
       result.name.toLowerCase().includes(term.toLowerCase())
     );
+  }
+  isAuthenticated() {
+    return this.userService.isLoggedIn();
   }
 }
