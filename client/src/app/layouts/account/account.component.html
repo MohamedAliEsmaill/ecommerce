@@ -1,0 +1,55 @@
+<section
+  class="grid w-full max-w-[1200px] grid-cols-1 gap-3 px-5 pb-10 lg:grid-cols-3"
+>
+  <div class="">
+    <div class="border py-5 shadow-md">
+      <div class="flex justify-between px-4 pb-5">
+        <p class="font-bold">Personal Profile</p>
+        <a class="text-sm text-violet-900" href="edit-profile.html">Edit</a>
+      </div>
+
+      <div class="px-4">
+        <p>{{ userInfo.fullName }}</p>
+        <p>{{ userInfo.email }}</p>
+        <p>{{ userInfo.address[0].street1 }}</p>
+        <p>{{ userInfo.address[0].city }}, {{ userInfo.address[0].state }}</p>
+        <p>{{ userInfo.address[0].country }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="">
+    <div class="border py-5 shadow-md">
+      <div class="flex justify-between px-4 pb-5">
+        <p class="font-bold">Shipping Address</p>
+        <a class="text-sm text-violet-900" href="manage-address.html">Edit</a>
+      </div>
+
+      <div class="px-4">
+        <p>{{ userInfo.fullName }}</p>
+        <p>{{ userInfo.email }}</p>
+        <p>{{ userInfo.address[0].street1 }}</p>
+        <p>{{ userInfo.address[0].city }}, {{ userInfo.address[0].state }}</p>
+        <p>{{ userInfo.address[0].country }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="">
+    <div class="border py-5 shadow-md">
+      <div class="flex justify-between px-4 pb-5">
+        <p class="font-bold">Billing Address</p>
+        <a class="text-sm text-violet-900" href="#">Edit</a>
+      </div>
+
+      <div class="px-4">
+        <p>{{ userInfo.fullName }}</p>
+        <p>{{ userInfo.email }}</p>
+        <p>{{ userInfo.address[0].street1 }}</p>
+        <p>{{ userInfo.address[0].city }}, {{ userInfo.address[0].state }}</p>
+        <p>{{ userInfo.address[0].country }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /Option cards -->
