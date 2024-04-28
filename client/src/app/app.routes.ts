@@ -9,18 +9,36 @@ import { IsLoggedService } from './services/is-logged/is-logged.service';
 import { IsNotLoggedService } from './services/is-not-logged/is-not-logged.service';
 import { ForgotPasswordComponent } from './layouts/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './layouts/reset-password/reset-password.component';
+import { CheckOutComponent } from './layouts/check-out/check-out.component';
 import { CatalogComponent } from './layouts/catalog/catalog.component';
 import { ProductOverviewComponent } from './layouts/product-overview/product-overview.component';
 import { ProfileComponent } from './layouts/profile/profile.component';
 import { ProfileInformationComponent } from './components/profile-information/profile-information.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
+import { OrderHistoryComponent } from './components/order-history/order-history.component';
+import { CardIsNotEmptyService } from './services/card-is-not-empty/card-is-not-empty.service';
+import { OrderDetailComponent } from './components/order-detail/order-detail.component';
 import { CartComponent } from './components/cart/cart.component';
 import { AccountComponent } from './layouts/account/account.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { ManageAddressComponent } from './components/manage-address/manage-address.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
+import { AccountsOverviewComponent } from './components/accounts-overview/accounts-overview.component';
+import { OrdersOverviewComponent } from './components/orders-overview/orders-overview.component';
+import { ProductsOverviewComponent } from './components/products-overview/products-overview.component';
 export const routes: Routes = [
-  // { path: '', redirectTo: 'profile', pathMatch: 'full' },
+  {
+    path: 'admin-dashboard',
+    component: AdminDashboardComponent,
+    children: [
+      { path: 'accounts-overview', component: AccountsOverviewComponent },
+      { path: 'orders-overview', component: OrdersOverviewComponent },
+      { path: 'products-overview', component: ProductsOverviewComponent },
+      // { path: '', redirectTo: 'accounts', pathMatch: 'full' },
+    ],
+  },
+  { path: '', redirectTo: 'profile', pathMatch: 'full' },
   { path: 'home', redirectTo: 'profile', pathMatch: 'full' },
   { path: 'contact-us', component: ContactUsComponent },
   {
@@ -46,6 +64,8 @@ export const routes: Routes = [
       { path: 'address', component: ManageAddressComponent },
       { path: 'password', component: ChangePasswordComponent },
       { path: 'wishlist', component: WishlistComponent },
+      { path: 'history', component: OrderHistoryComponent },
+      { path: 'orders/:id', component: OrderDetailComponent },
     ],
     canActivate: [IsLoggedService, IsUserService],
   },
@@ -68,6 +88,11 @@ export const routes: Routes = [
     path: 'reset-password',
     component: ResetPasswordComponent,
     canActivate: [IsLoggedService],
+  },
+  {
+    path: 'check-out',
+    component: CheckOutComponent,
+    canActivate: [CardIsNotEmptyService],
   },
 
   // {

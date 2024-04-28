@@ -1,0 +1,80 @@
+<div class="py-5">
+  <form class="flex flex-col w-full gap-3">
+    <div class="flex flex-col w-full">
+      <label class="flex" for="name">Payment Card Number</label>
+      <input
+        x-mask="9999 9999 9999 9999"
+        class="w-full px-4 py-2 border lg:w-1/2"
+        placeholder="1223 4568 7644 4839"
+        (change)="setCardHolder($event)"
+      />
+    </div>
+    <div class="flex flex-col w-full">
+      <label class="flex" for="name">Card Holder</label>
+      <input
+        class="w-full px-4 py-2 border lg:w-1/2"
+        type="text"
+        placeholder="SARAH JOHNSON"
+        (change)="setCardNumber($event)"
+      />
+    </div>
+    <div class="flex items-center gap-5 lg:w-1/2">
+      <div class="flex flex-col">
+        <label class="flex" for="name">Expiry Date</label>
+        <div class="flex gap-1 items-center w-[150px]">
+          <input
+            x-mask="99"
+            class="w-1/2 px-4 py-2 text-center border"
+            placeholder="10"
+            (change)="setExpirationDate($event)"
+          />
+          <span>\</span>
+          <input
+            x-mask="99"
+            class="w-1/2 px-4 py-2 text-center border"
+            placeholder="36"
+            (change)="setExpirationDate($event)"
+          />
+        </div>
+      </div>
+      <div class="flex flex-col lg:w-[110px] w-[60px]">
+        <label class="flex" for="">CVV/CVC</label>
+        <input
+          x-mask="999"
+          class="w-full py-2 text-center border lg:w-1/2"
+          type="password"
+          placeholder="•••"
+          (change)="setCvv($event)"
+        />
+      </div>
+    </div>
+    <h2 class="mt-10 text-xl font-medium text-left">Another methods:</h2>
+    <section class="grid grid-cols-3 gap-4 my-4 lg:grid-cols-5 w-fit">
+      <img
+        class="cursor-pointer w-[100px]"
+        src="./assets/images/payment-method-bitcoin.svg"
+        alt="bitcoin icon"
+      />
+      <img
+        class="cursor-pointer w-[100px]"
+        src="./assets/images/payment-method-paypal.svg"
+        alt="paypal icon"
+      />
+      <img
+        class="cursor-pointer w-[100px]"
+        src="./assets/images/payment-method-stripe.svg"
+        alt="stripe icon"
+      />
+      <img
+        class="cursor-pointer w-[100px]"
+        src="./assets/images/payment-method-visa.svg"
+        alt="visa icon"
+      />
+      <img
+        class="cursor-pointer w-[100px]"
+        src="./assets/images/payment-method-mastercard.svg"
+        alt="mastercard icon"
+      />
+    </section>
+  </form>
+</div>
