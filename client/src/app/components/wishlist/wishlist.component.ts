@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LocalStorageService } from '../../services/local-storage.service';
+import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 import Swal from 'sweetalert2';
 import { UserServiceService } from '../../services/user/user-service.service';
