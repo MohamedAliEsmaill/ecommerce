@@ -3,6 +3,33 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import validator from "validator";
 
+const addressSchema = new mongoose.Schema({
+  street1: {
+    type: String,
+    required: true,
+  },
+  street2: {
+    type: String,
+    default: "",
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  state: {
+    type: String,
+    required: true,
+  },
+  country: {
+    type: String,
+    required: true,
+  },
+  zip: {
+    type: String,
+    required: true,
+  },
+});
+
 const userSchema = new mongoose.Schema({
   fullName: {
     type: String,
@@ -45,7 +72,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  address: String,
+  address: [addressSchema],
   role: {
     type: String,
     enum: ["user", "admin"],
