@@ -21,10 +21,10 @@ export class ProductCardComponent {
 
   ngOnInit(): void {
     let products: any = this.localStorage.getItem('wishList');
-    console.log("sssss" + products);
-
-    if (products.some((prod: any) => prod._id === this.product._id)) {
-      this.wishListBtn = true;
+    if (this.product) {
+      if (products.some((prod: any) => prod._id === this.product._id)) {
+        this.wishListBtn = true;
+      }
     }
 
   }
