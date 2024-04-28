@@ -129,3 +129,30 @@ export const updatePassword = async (req, res) => {
     });
   }
 };
+
+export async function uploadImage(req, res, next) {
+  if (!req.user) {
+    return res.status(401).json({
+      error: "Unauthorized: User not found",
+    });
+  }
+  const image = req.files.image;
+  try {
+    if (!image) {
+      return res.status(400).send("No file uploaded");
+    }
+    const base64String = image[0].buffer.toString("base64");
+    const userId = req.user._id;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        error: "User not found",
+      });
+    }
+    user.image = base64String;
+    await user.save();
+    return res.status(200).json({ message: "image uploaded successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
