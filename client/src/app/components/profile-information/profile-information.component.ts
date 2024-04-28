@@ -19,7 +19,8 @@ export class ProfileInformationComponent {
       console.log(url);
     });
     this.profileService.getProfile().subscribe({
-      next: (data) => {
+      next: (data: any) => {
+        data.image = 'data:image/png;base64,' + data.image;
         console.log(data);
         this.userInfo = data;
       },

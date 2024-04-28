@@ -22,8 +22,10 @@ export class ProfileComponent {
   showAccount: boolean = true;
   constructor(public profileService: ProfileService, private router: Router) {
     this.profileService.getProfile().subscribe({
-      next: (data) => {
+      next: (data:any) => {
+        data.image = 'data:image/png;base64,' + data.image;
         console.log(data);
+
         this.userInfo = data;
       },
       error: (error) => {
