@@ -38,4 +38,5 @@ router.patch(
 router.get("/cart", protect, getCart);
 router.post("/cart", protect, addCart);
 router.post("/cart/delete", protect, deleteCart);
+router.get("/cart/size", protect, getCartSize);
 export default router;

@@ -103,8 +103,10 @@ export async function deleteCart(req, res, next) {
     }
 
     if (req.body.type == "removeAll") {
-      while (currentUser.carts.includes(productId)) {
+      let productIndex = currentUser.carts.indexOf(productId);
+      while (productIndex !== -1) {
         currentUser.carts.splice(productIndex, 1);
+        productIndex = currentUser.carts.indexOf(productId);
       }
     } else {
       currentUser.carts.splice(productIndex, 1);
@@ -119,9 +121,61 @@ export async function deleteCart(req, res, next) {
     });
   }
 }
+/**
+ * this function is get size of cart for the current user
+ *
+ */
+export async function getCartSize(req, res, next) {
+  try {
+    if (!req.user) {
+      return res.status(401).json({
+        error: "Unauthorized: User not found",
+      });
+    }
+    let userId = req.user._id;
+    let currentUser = await User.findById(userId);
+    let products = countProductOccurrences(currentUser.carts);
+    res.status(200).json({
+      message: "Retrieved cart size for the current user",
+      data: products.size,
+    });
+  } catch (e) {
+    res.status(400).json({
+      message: e.message,
+    });
+  }
+}
+
+export async function uploadImage(req, res, next) {
+  if (!req.user) {
+    return res.status(401).json({
+      error: "Unauthorized: User not found",
+    });
+  }
+  const image = req.files.image;
+  try {
+    if (!image) {
+      return res.status(400).send("No file uploaded");
+    }
+    const base64String = image[0].buffer.toString("base64");
+    console.log(base64String);
+    const userId = req.user._id;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        error: "User not found",
+      });
+    }
+    user.image = base64String;
+    await user.save();
+    return res.status(200).json({ message: "image uploaded successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
 
 /**
- * this function is calculate Occurrences of Products in cert
+ * this function is calculate Occurrences of Products in cart
  * @result:{ 'productId': 'Occurrence'}
  */
 export function countProductOccurrences(cart) {

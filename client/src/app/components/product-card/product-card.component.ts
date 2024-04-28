@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { UserServiceService } from '../../services/user/user-service.service';
 import Swal from 'sweetalert2';
@@ -11,9 +11,9 @@ import { LocalStorageService } from '../../services/local-storage/local-storage.
   imports: [RouterModule],
   providers: [UserServiceService, LocalStorageService],
   templateUrl: './product-card.component.html',
-  styles: ``
+  styles: ``,
 })
-export class ProductCardComponent {
+export class ProductCardComponent implements OnInit {
   @Input() product: any;
   wishListBtn = false;
 
@@ -40,8 +40,8 @@ export class ProductCardComponent {
       return;
     }
     this.userService.addCart(this.product._id).subscribe({
-      next: (data) => { },
-      error: (error) => console.error(error)
+      next: (data) => {this.countService.setProduct();},
+      error: (error) => console.error(error),
     });
     Swal.fire({
       icon: 'success',
@@ -49,6 +49,8 @@ export class ProductCardComponent {
       text: 'Product Added To Your Cart Successfully'
     })
   }
+<<<<<<< HEAD
+=======
 
   addProductToWishList() {
     let products: any;
@@ -66,4 +68,5 @@ export class ProductCardComponent {
       this.localStorage.setItem('wishList', products);
     }
   }
+>>>>>>> f3bebeb03d1ca7ff85838652bb5f7e5502f1630c
 }

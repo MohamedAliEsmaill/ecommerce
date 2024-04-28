@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
@@ -9,8 +9,9 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { ProductService } from '../../services/product/product.service';
+import { CountService } from '../../services/count/count.service';
 import { Product } from '../../interfaces/product';
-ProductService;
+import { UserServiceService } from '../../services/user/user-service.service';
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -19,25 +20,37 @@ ProductService;
   templateUrl: './header.component.html',
   styles: ``,
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   toggleBurgerMenu = false;
   searchForm: FormGroup;
   searchValue = '';
   searchResults: string[] = [];
   proudctFilter: Product[] = [];
   products: Product[] = [];
-  constructor(private fb: FormBuilder, private productService: ProductService) {
+  constructor(
+    private fb: FormBuilder,
+    private productService: ProductService,
+    private countService: CountService,
+    private userService: UserServiceService
+  ) {
     this.searchForm = this.fb.group({
       search: ['', Validators.required],
     });
     this.productService.getAllProducts().subscribe({
       next: (data: any) => {
-        console.log(data.products);
         this.products = data.products;
       },
       error: (error) => {
         console.error('404 Not Found');
       },
+    });
+  }
+  data: number = 0;
+
+  ngOnInit(): void {
+    this.countService.selectedProduct.subscribe((value) => {
+      this.data = value;
+      console.log(this.data);
     });
   }
   toggleMenu() {
@@ -63,5 +76,8 @@ export class HeaderComponent {
     return this.products.filter((result) =>
       result.name.toLowerCase().includes(term.toLowerCase())
     );
+  }
+  isAuthenticated() {
+    return this.userService.isLoggedIn();
   }
 }

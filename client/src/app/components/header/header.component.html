@@ -85,7 +85,6 @@
       </li>
     </ul>
   </div>
-
   <div class="hidden gap-3 md:!flex">
     <a
       routerLink="profile/wishlist"
@@ -110,8 +109,8 @@
     </a>
 
     <a
-      href="cart.html"
-      class="flex cursor-pointer flex-col items-center justify-center"
+    routerLink="/cart"
+      class="relative flex cursor-pointer flex-col items-center justify-center"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -127,6 +126,13 @@
       </svg>
 
       <p class="text-xs">Cart</p>
+      @if(isAuthenticated()){
+      <div
+        class="absolute inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500  rounded-full -top-2 -end-2"
+      >
+        {{ data }}
+      </div>
+      }
     </a>
 
     <a
@@ -156,7 +162,6 @@
           d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
         />
       </svg>
-
       <p class="text-xs">Account</p>
     </a>
   </div>
@@ -191,7 +196,7 @@
       </a>
 
       <a
-        href="cart.html"
+        routerLink="/cart"
         class="flex cursor-pointer flex-col items-center justify-center"
       >
         <svg
