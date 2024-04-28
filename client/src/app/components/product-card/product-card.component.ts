@@ -19,6 +19,16 @@ export class ProductCardComponent {
 
   constructor(private userService: UserServiceService, private localStorage: LocalStorageService) { }
 
+  ngOnInit(): void {
+    let products: any = this.localStorage.getItem('wishList');
+    console.log("sssss" + products);
+
+    if (products.some((prod: any) => prod._id === this.product._id)) {
+      this.wishListBtn = true;
+    }
+
+  }
+
   addToCart() {
     console.log(this.product._id);
     if (!this.product.stock) {
