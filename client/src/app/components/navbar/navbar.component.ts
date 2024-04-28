@@ -6,12 +6,19 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [RouterModule],
   templateUrl: './navbar.component.html',
-  styles: ``
+  styles: ``,
 })
 export class NavbarComponent {
   toggleBurgerMenu = false;
 
   toggleMenu() {
     this.toggleBurgerMenu = !this.toggleBurgerMenu;
+  }
+  islogin() {
+    return localStorage.getItem('token');
+  }
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
   }
 }
