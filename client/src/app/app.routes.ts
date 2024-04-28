@@ -19,6 +19,10 @@ import { OrderHistoryComponent } from './components/order-history/order-history.
 import { CardIsNotEmptyService } from './services/card-is-not-empty/card-is-not-empty.service';
 import { OrderDetailComponent } from './components/order-detail/order-detail.component';
 import { CartComponent } from './components/cart/cart.component';
+import { AccountComponent } from './layouts/account/account.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { ManageAddressComponent } from './components/manage-address/manage-address.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { AccountsOverviewComponent } from './components/accounts-overview/accounts-overview.component';
 import { OrdersOverviewComponent } from './components/orders-overview/orders-overview.component';
@@ -56,12 +60,18 @@ export const routes: Routes = [
     component: ProfileComponent,
     children: [
       { path: 'information', component: ProfileInformationComponent },
+      { path: 'edit', component: EditProfileComponent },
+      { path: 'address', component: ManageAddressComponent },
+      { path: 'password', component: ChangePasswordComponent },
       { path: 'wishlist', component: WishlistComponent },
       { path: 'history', component: OrderHistoryComponent },
       { path: 'orders/:id', component: OrderDetailComponent },
     ],
     canActivate: [IsLoggedService, IsUserService],
   },
+  { path: 'profile-information', component: ProfileInformationComponent },
+  { path: 'manage-address', component: ManageAddressComponent },
+  { path: 'change-password', component: ChangePasswordComponent },
   {
     path: 'login',
     component: LoginComponent,

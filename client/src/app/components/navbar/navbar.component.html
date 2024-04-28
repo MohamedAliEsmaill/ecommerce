@@ -3,12 +3,24 @@
 <nav class="relative bg-violet-900">
   <div class="mx-auto hidden h-12 w-full max-w-[1200px] items-center md:flex">
     <!-- @click="desktopMenuOpen = ! desktopMenuOpen" -->
-    <button (click)="toggleMenu()" class=" ml-5 flex h-full w-40 cursor-pointer items-center justify-center
-      bg-amber-400">
+    <button
+      (click)="toggleMenu()"
+      class="ml-5 flex h-full w-40 cursor-pointer items-center justify-center bg-amber-400"
+    >
       <div class="flex justify-around" href="#">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-          class="mx-1 h-6 w-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="mx-1 h-6 w-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+          />
         </svg>
 
         All categories
@@ -16,24 +28,55 @@
     </button>
 
     <div class="mx-7 flex gap-8">
-      <a class="font-light text-white duration-100 hover:text-yellow-400 hover:underline" routerLink="/">Home</a>
-      <a class="font-light text-white duration-100 hover:text-yellow-400 hover:underline"
-        routerLink="catalog">Catalog</a>
-      <a class="font-light text-white duration-100 hover:text-yellow-400 hover:underline" routerLink="about-us">About
-        Us</a>
-      <a class="font-light text-white duration-100 hover:text-yellow-400 hover:underline"
-        routerLink="contact-us">Contact
-        Us</a>
+      <a
+        class="font-light text-white duration-100 hover:text-yellow-400 hover:underline"
+        routerLink="/"
+        >Home</a
+      >
+      <a
+        class="font-light text-white duration-100 hover:text-yellow-400 hover:underline"
+        routerLink="catalog"
+        >Catalog</a
+      >
+      <a
+        class="font-light text-white duration-100 hover:text-yellow-400 hover:underline"
+        routerLink="about-us"
+        >About Us</a
+      >
+      <a
+        class="font-light text-white duration-100 hover:text-yellow-400 hover:underline"
+        routerLink="contact-us"
+        >Contact Us</a
+      >
     </div>
+    @if (!islogin()) {
 
     <div class="ml-auto flex gap-4 px-5">
-      <a class="font-light text-white duration-100 hover:text-yellow-400 hover:underline" routerLink="login">Login</a>
+      <a
+        class="font-light text-white duration-100 hover:text-yellow-400 hover:underline"
+        routerLink="login"
+        >Login</a
+      >
 
       <span class="text-white">&#124;</span>
 
-      <a class="font-light text-white duration-100 hover:text-yellow-400 hover:underline" routerLink="signup">Sign
-        Up</a>
+      <a
+        class="font-light text-white duration-100 hover:text-yellow-400 hover:underline"
+        routerLink="signup"
+        >Sign Up</a
+      >
     </div>
+    } @else {
+    <div class="ml-auto flex gap-4 px-5">
+      <a
+        class="font-light text-white duration-100 hover:text-yellow-400 hover:underline"
+        routerLink="#"
+        (click)="logout()"
+        >Logout</a
+      >
+    </div>
+
+    }
   </div>
 </nav>
 <!-- /Nav bar -->
@@ -42,66 +85,176 @@
 
 <!-- Menu  -->
 <!-- x-show="desktopMenuOpen" @click.outside="desktopMenuOpen = false" -->
-<section class="absolute left-0 right-0 z-10 w-full border-b border-r border-l bg-white">
+<section
+  class="absolute left-0 right-0 z-10 w-full border-b border-r border-l bg-white"
+>
   <div class="mx-auto flex max-w-[1200px] py-10">
     <div class="w-[300px] border-r">
       <ul class="px-5">
-        <li class="active:blue-900 flex items-center gap-2 bg-amber-400 py-2 px-3 active:bg-amber-400">
-          <img width="15px" height="15px" src="./assets/images/bed.svg" alt="Bedroom icon" />
+        <li
+          class="active:blue-900 flex items-center gap-2 bg-amber-400 py-2 px-3 active:bg-amber-400"
+        >
+          <img
+            width="15px"
+            height="15px"
+            src="./assets/images/bed.svg"
+            alt="Bedroom icon"
+          />
           Bedroom
-          <span class="ml-auto"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-              stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          <span class="ml-auto"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="h-4 w-4"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8.25 4.5l7.5 7.5-7.5 7.5"
+              />
             </svg>
           </span>
         </li>
 
-        <li class="active:blue-900 flex items-center gap-2 py-2 px-3 hover:bg-neutral-100 active:bg-amber-400">
-          <img width="15px" height="15px" src="./assets/images/sleep.svg" alt="bedroom icon" />
+        <li
+          class="active:blue-900 flex items-center gap-2 py-2 px-3 hover:bg-neutral-100 active:bg-amber-400"
+        >
+          <img
+            width="15px"
+            height="15px"
+            src="./assets/images/sleep.svg"
+            alt="bedroom icon"
+          />
           Matrass
-          <span class="ml-auto"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-              stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          <span class="ml-auto"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="h-4 w-4"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8.25 4.5l7.5 7.5-7.5 7.5"
+              />
             </svg>
           </span>
         </li>
 
-        <li class="active:blue-900 flex items-center gap-2 py-2 px-3 hover:bg-neutral-100 active:bg-amber-400">
-          <img width="15px" height="15px" src="./assets/images/outdoor.svg" alt="bedroom icon" />
+        <li
+          class="active:blue-900 flex items-center gap-2 py-2 px-3 hover:bg-neutral-100 active:bg-amber-400"
+        >
+          <img
+            width="15px"
+            height="15px"
+            src="./assets/images/outdoor.svg"
+            alt="bedroom icon"
+          />
           Outdoor
-          <span class="ml-auto"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-              stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          <span class="ml-auto"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="h-4 w-4"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8.25 4.5l7.5 7.5-7.5 7.5"
+              />
             </svg>
           </span>
         </li>
 
-        <li class="active:blue-900 flex items-center gap-2 py-2 px-3 hover:bg-neutral-100 active:bg-amber-400">
-          <img width="15px" height="15px" src="./assets/images/sofa.svg" alt="bedroom icon" />
+        <li
+          class="active:blue-900 flex items-center gap-2 py-2 px-3 hover:bg-neutral-100 active:bg-amber-400"
+        >
+          <img
+            width="15px"
+            height="15px"
+            src="./assets/images/sofa.svg"
+            alt="bedroom icon"
+          />
           Sofa
-          <span class="ml-auto"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-              stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          <span class="ml-auto"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="h-4 w-4"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8.25 4.5l7.5 7.5-7.5 7.5"
+              />
             </svg>
           </span>
         </li>
 
-        <li class="active:blue-900 flex items-center gap-2 py-2 px-3 hover:bg-neutral-100 active:bg-amber-400">
-          <img width="15px" height="15px" src="./assets/images/kitchen.svg" alt="bedroom icon" />
+        <li
+          class="active:blue-900 flex items-center gap-2 py-2 px-3 hover:bg-neutral-100 active:bg-amber-400"
+        >
+          <img
+            width="15px"
+            height="15px"
+            src="./assets/images/kitchen.svg"
+            alt="bedroom icon"
+          />
           Kitchen
-          <span class="ml-auto"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-              stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          <span class="ml-auto"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="h-4 w-4"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8.25 4.5l7.5 7.5-7.5 7.5"
+              />
             </svg>
           </span>
         </li>
 
-        <li class="active:blue-900 flex items-center gap-2 py-2 px-3 hover:bg-neutral-100 active:bg-amber-400">
-          <img width="15px" height="15px" src="./assets/images/food.svg" alt="Food icon" />
+        <li
+          class="active:blue-900 flex items-center gap-2 py-2 px-3 hover:bg-neutral-100 active:bg-amber-400"
+        >
+          <img
+            width="15px"
+            height="15px"
+            src="./assets/images/food.svg"
+            alt="Food icon"
+          />
           Living room
-          <span class="ml-auto"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-              stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          <span class="ml-auto"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="h-4 w-4"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8.25 4.5l7.5 7.5-7.5 7.5"
+              />
             </svg>
           </span>
         </li>
