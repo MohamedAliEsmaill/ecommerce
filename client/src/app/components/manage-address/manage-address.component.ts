@@ -9,17 +9,19 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 @Component({
   selector: 'app-manage-address',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, SidebarComponent],
   providers: [ProfileService],
   templateUrl: './manage-address.component.html',
 })
 export class ManageAddressComponent implements OnInit {
   addressForm: FormGroup;
   address: any = {};
+  userInfo: any = {};
   constructor(
     private formBuilder: FormBuilder,
     private profileService: ProfileService,
@@ -40,7 +42,7 @@ export class ManageAddressComponent implements OnInit {
 
     // Fetch the current user's profile
     this.profileService.getProfile().subscribe({
-      next: (data) => {
+      next: (data: any) => {
         console.log(data);
         this.address = data;
         // Populate the form with the user's address data
@@ -55,6 +57,13 @@ export class ManageAddressComponent implements OnInit {
             state: address.state,
           });
         }
+        if (data.image) {
+          data.image = 'data:image/png;base64,' + data.image;
+        } else {
+          data.image = 'https://cdn-icons-png.freepik.com/256/12225/12225773.png?semt=ais_hybrid';
+        }
+        this.userInfo = data;
+
       },
     });
   }

@@ -9,16 +9,18 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 @Component({
   selector: 'app-change-password',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, SidebarComponent],
   providers: [ProfileService],
   templateUrl: './change-password.component.html',
 })
 export class ChangePasswordComponent {
   passwordForm: FormGroup;
   errorMessage: string = '';
+  userInfo: any = {};
 
   constructor(
     public profileService: ProfileService,
@@ -33,6 +35,23 @@ export class ChangePasswordComponent {
       },
       { validators: this.passwordMatchValidator }
     );
+  }
+
+  ngOnInit(): void {
+    this.profileService.getProfile().subscribe({
+      next: (data: any) => {
+        if (data.image) {
+          data.image = 'data:image/png;base64,' + data.image;
+        } else {
+          data.image = 'https://cdn-icons-png.freepik.com/256/12225/12225773.png?semt=ais_hybrid';
+        }
+        console.log(data);
+        this.userInfo = data;
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
   }
 
   passwordMatchValidator(form: FormGroup) {

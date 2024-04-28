@@ -69,6 +69,9 @@ export const routes: Routes = [
     ],
     canActivate: [IsLoggedService, IsUserService],
   },
+  { path: 'profile-information', component: ProfileInformationComponent },
+  { path: 'manage-address', component: ManageAddressComponent },
+  { path: 'change-password', component: ChangePasswordComponent },
   {
     path: 'login',
     component: LoginComponent,

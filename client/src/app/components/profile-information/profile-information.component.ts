@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { ProfileService } from '../../services/profile/profile.service';
 import { ActivatedRoute } from '@angular/router';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 @Component({
   selector: 'app-profile-information',
   standalone: true,
-  imports: [],
+  imports: [SidebarComponent],
   providers: [ProfileService],
   templateUrl: './profile-information.component.html',
 })
@@ -20,7 +21,11 @@ export class ProfileInformationComponent {
     });
     this.profileService.getProfile().subscribe({
       next: (data: any) => {
-        data.image = 'data:image/png;base64,' + data.image;
+        if (data.image) {
+          data.image = 'data:image/png;base64,' + data.image;
+        } else {
+          data.image = 'https://cdn-icons-png.freepik.com/256/12225/12225773.png?semt=ais_hybrid';
+        }
         console.log(data);
         this.userInfo = data;
       },

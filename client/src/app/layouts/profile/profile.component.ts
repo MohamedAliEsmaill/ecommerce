@@ -9,11 +9,12 @@ import {
 } from '@angular/router';
 import { ProfileService } from '../../services/profile/profile.service';
 import { AccountComponent } from '../account/account.component';
+import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [RouterModule, RouterOutlet, AccountComponent],
+  imports: [RouterModule, RouterOutlet, AccountComponent, SidebarComponent],
   providers: [ProfileService],
   templateUrl: './profile.component.html',
 })
@@ -22,7 +23,7 @@ export class ProfileComponent {
   showAccount: boolean = true;
   constructor(public profileService: ProfileService, private router: Router) {
     this.profileService.getProfile().subscribe({
-      next: (data:any) => {
+      next: (data: any) => {
         data.image = 'data:image/png;base64,' + data.image;
         console.log(data);
 
