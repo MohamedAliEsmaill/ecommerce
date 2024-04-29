@@ -221,11 +221,6 @@ export const orderStatusReport = async (req, res) => {
       },
     ]);
 
-    if (orders.length === 0) {
-      res.status(404).json({ error: "No orders found" });
-      return;
-    }
-
     const orderStatuses = ["accepted", "rejected", "pending"];
     const missingStatuses = orderStatuses.filter(
       (status) => !orders.some((order) => order.status === status)
