@@ -136,3 +136,29 @@ export const decreaseProductStock = async (req, res) => {
         return res.status(500).json({ success: false, message: 'An error occurred while updating stock' });
     }
 }
+
+/**
+ * Get Products count by brand 
+ * @result [{brand: brand-name, count: num of prods}]
+ */
+
+
+export const getProductCountByBrand = async (req, res) => {
+    try {
+        const result = await Product.aggregate([
+            {
+                $group: {
+                    _id: "$brand",
+                    count: { $sum: 1 },
+                },
+            },
+        ]);
+
+        console.log('result' + result);
+
+        res.status(200).json(result); // Send the aggregated data as a JSON response
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Internal server error' }); // Handle errors
+    }
+};
