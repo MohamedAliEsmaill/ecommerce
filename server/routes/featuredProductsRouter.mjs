@@ -1,9 +1,8 @@
 import express from "express";
+import { getFeaturedProducts } from "../controllers/featuredProductsController.mjs";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.send("Hello Featured Products!");
-});
+router.get("/", getFeaturedProducts);
 
 export default router;
