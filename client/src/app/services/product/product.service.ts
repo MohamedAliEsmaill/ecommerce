@@ -10,8 +10,8 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  getAllProducts() {
-    return this.http.get<Product[]>(this.API_URL);
+  getAllProducts(page: number = 1, limit: number = 10) {
+    return this.http.get<Product[]>(`${this.API_URL}?page=${page}&limit=${limit}`);
   }
 
   getProductById(id: string) {

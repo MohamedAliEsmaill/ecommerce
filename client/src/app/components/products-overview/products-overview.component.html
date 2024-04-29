@@ -1,3 +1,7 @@
+@if (isLoading) {<app-loading-spinner></app-loading-spinner>}
+
+<button mat-raised-button (click)="openDialog()">Open Form Dialog</button>
+
 <div>
   <h2 class="text-xl font-bold mb-4">Products Overview</h2>
   <table class="min-w-full bg-gray-200 rounded-lg overflow-hidden">
@@ -17,9 +21,9 @@
         <td class="px-4 py-2 text-center">{{ product.price }}</td>
         <td class="px-4 py-2 w-6/12 truncate text-wrap">
           {{
-            product.desc.length > 80
-              ? (product.desc | slice : 0 : 80) + "..."
-              : product.desc
+          product.desc.length > 80
+          ? (product.desc | slice : 0 : 80) + "..."
+          : product.desc
           }}
         </td>
 
@@ -30,7 +34,7 @@
             Edit
           </button>
 
-          <button class="px-2 py-1 bg-red-500 text-white rounded">
+          <button (click)="deleteProduct(product._id)" class="px-2 py-1 bg-red-500 text-white rounded">
             Delete
           </button>
         </td>
@@ -38,24 +42,7 @@
     </tbody>
   </table>
 
-  <!-- Pagination -->
-  <div class="flex justify-end mt-4">
-    <button
-      class="px-2 py-1 bg-violet-900 text-white rounded mr-2"
-      [disabled]="currentPage === 0"
-      (click)="prevPage()"
-    >
-      Previous
-    </button>
-    <button
-      class="px-2 py-1 bg-violet-900 text-white rounded"
-      [disabled]="
-        displayedProducts.length < pageSize ||
-        (currentPage + 1) * pageSize >= allProducts.length
-      "
-      (click)="nextPage()"
-    >
-      Next
-    </button>
-  </div>
+  <mat-paginator [length]="allProducts" [pageSize]="pageSize" [pageSizeOptions]="[5, 10]" (page)="onPageChanged($event)"
+    aria-label="Select page">
+  </mat-paginator>
 </div>
