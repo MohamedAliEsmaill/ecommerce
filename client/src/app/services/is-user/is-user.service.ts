@@ -22,7 +22,7 @@ export class IsUserService implements CanActivate {
     if (!this.userService.isAdmin()) {
       return true;
     }
-    this.router.navigate(['/contact-us']);
+    this.router.navigate(['/admin-dashboard']);
     return false;
   }
 }

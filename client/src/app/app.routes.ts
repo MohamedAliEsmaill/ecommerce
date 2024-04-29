@@ -37,6 +37,7 @@ export const routes: Routes = [
       { path: 'products-overview', component: ProductsOverviewComponent },
       // { path: '', redirectTo: 'accounts', pathMatch: 'full' },
     ],
+    canActivate: [IsLoggedService, IsAdminService]
   },
   { path: '', redirectTo: 'profile', pathMatch: 'full' },
   { path: 'home', redirectTo: 'profile', pathMatch: 'full' },
