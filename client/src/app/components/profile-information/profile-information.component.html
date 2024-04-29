@@ -1,3 +1,7 @@
+@if (isLoading) {
+<app-loading-spinner></app-loading-spinner>
+}
+
 <section class="container flex-grow mx-auto max-w-[1200px] border-b py-5 lg:flex lg:flex-row lg:py-10">
   <app-sidebar [userInfo]="userInfo"></app-sidebar>
 

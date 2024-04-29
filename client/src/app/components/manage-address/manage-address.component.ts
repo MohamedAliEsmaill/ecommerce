@@ -10,11 +10,12 @@ import {
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-manage-address',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, SidebarComponent],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, SidebarComponent, LoadingSpinnerComponent],
   providers: [ProfileService],
   templateUrl: './manage-address.component.html',
 })
@@ -22,6 +23,8 @@ export class ManageAddressComponent implements OnInit {
   addressForm: FormGroup;
   address: any = {};
   userInfo: any = {};
+  isLoading = true;
+
   constructor(
     private formBuilder: FormBuilder,
     private profileService: ProfileService,
@@ -63,7 +66,7 @@ export class ManageAddressComponent implements OnInit {
           data.image = 'https://cdn-icons-png.freepik.com/256/12225/12225773.png?semt=ais_hybrid';
         }
         this.userInfo = data;
-
+        this.isLoading = false;
       },
     });
   }

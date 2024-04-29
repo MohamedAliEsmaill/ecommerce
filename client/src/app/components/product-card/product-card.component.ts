@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { UserServiceService } from '../../services/user/user-service.service';
-import Swal from 'sweetalert2';
 import { LocalStorageService } from '../../services/local-storage/local-storage.service';
+import { CountService } from '../../services/count/count.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class ProductCardComponent implements OnInit {
   @Input() product: any;
   wishListBtn = false;
 
-  constructor(private userService: UserServiceService, private localStorage: LocalStorageService) { }
+  constructor(private userService: UserServiceService, private localStorage: LocalStorageService, private countService: CountService) { }
 
   ngOnInit(): void {
     let products: any = this.localStorage.getItem('wishList');
@@ -40,7 +41,7 @@ export class ProductCardComponent implements OnInit {
       return;
     }
     this.userService.addCart(this.product._id).subscribe({
-      next: (data) => {this.countService.setProduct();},
+      next: (data) => { this.countService.setProduct(); },
       error: (error) => console.error(error),
     });
     Swal.fire({
@@ -49,8 +50,6 @@ export class ProductCardComponent implements OnInit {
       text: 'Product Added To Your Cart Successfully'
     })
   }
-<<<<<<< HEAD
-=======
 
   addProductToWishList() {
     let products: any;
@@ -68,5 +67,4 @@ export class ProductCardComponent implements OnInit {
       this.localStorage.setItem('wishList', products);
     }
   }
->>>>>>> f3bebeb03d1ca7ff85838652bb5f7e5502f1630c
 }
