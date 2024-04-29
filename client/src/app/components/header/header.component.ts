@@ -9,9 +9,9 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { ProductService } from '../../services/product/product.service';
+import { CountService } from '../../services/count/count.service';
 import { Product } from '../../interfaces/product';
 import { UserServiceService } from '../../services/user/user-service.service';
-ProductService;
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -21,7 +21,6 @@ ProductService;
   styles: ``,
 })
 export class HeaderComponent implements OnInit {
-  // isLogged: Boolean = false;
   toggleBurgerMenu = false;
   searchForm: FormGroup;
   searchValue = '';
@@ -30,15 +29,15 @@ export class HeaderComponent implements OnInit {
   products: Product[] = [];
   constructor(
     private fb: FormBuilder,
-    private productService: ProductService
-  ) // private userLogged: UserServiceService
-  {
+    private productService: ProductService,
+    private countService: CountService,
+    private userService: UserServiceService
+  ) {
     this.searchForm = this.fb.group({
       search: ['', Validators.required],
     });
     this.productService.getAllProducts().subscribe({
       next: (data: any) => {
-        console.log(data.products);
         this.products = data.products;
       },
       error: (error) => {
@@ -46,10 +45,13 @@ export class HeaderComponent implements OnInit {
       },
     });
   }
+  data: number = 0;
 
   ngOnInit(): void {
-    // this.isLogged = this.userLogged.isAdmin();
-    // throw new Error('Method not implemented.');
+    this.countService.selectedProduct.subscribe((value) => {
+      this.data = value;
+      console.log(this.data);
+    });
   }
   toggleMenu() {
     this.toggleBurgerMenu = !this.toggleBurgerMenu;
@@ -74,5 +76,8 @@ export class HeaderComponent implements OnInit {
     return this.products.filter((result) =>
       result.name.toLowerCase().includes(term.toLowerCase())
     );
+  }
+  isAuthenticated() {
+    return this.userService.isLoggedIn();
   }
 }

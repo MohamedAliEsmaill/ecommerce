@@ -48,7 +48,11 @@ export class UserServiceService {
       .patch(`${this.apiUrl}/resetPassword/${resetToken}`, data)
       .pipe(catchError(this.handleError));
   }
-
+  getCartSize(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/cart/size`).pipe(
+      catchError(this.handleError)
+    );
+  }
   addCart(data: any): Observable<any> {
     console.log('id ' + data);
     const product = { productId: data };
