@@ -6,6 +6,7 @@ import {
   updateOrderToAccepted,
   updateOrderToRejected,
   deleteOrder,
+  orderStatusReport,
 } from "../controllers/ordersController.mjs";
 import { restrictTo } from "../controllers/authController.mjs";
 
@@ -17,5 +18,6 @@ router.post("/", addOrder);
 router.put("/:id/accept", restrictTo("admin"), updateOrderToAccepted);
 router.put("/:id/reject", restrictTo("admin"), updateOrderToRejected);
 router.delete("/:id/cancel", deleteOrder);
+router.get("/reports/status", restrictTo("admin"), orderStatusReport);
 
 export default router;
