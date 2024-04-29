@@ -10,10 +10,11 @@ import {
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 @Component({
   selector: 'app-change-password',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, SidebarComponent],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, SidebarComponent, LoadingSpinnerComponent],
   providers: [ProfileService],
   templateUrl: './change-password.component.html',
 })
@@ -21,6 +22,7 @@ export class ChangePasswordComponent {
   passwordForm: FormGroup;
   errorMessage: string = '';
   userInfo: any = {};
+  isLoading = true;
 
   constructor(
     public profileService: ProfileService,
@@ -47,6 +49,7 @@ export class ChangePasswordComponent {
         }
         console.log(data);
         this.userInfo = data;
+        this.isLoading = false;
       },
       error: (error) => {
         console.error(error);

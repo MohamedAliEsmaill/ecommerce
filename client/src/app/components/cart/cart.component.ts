@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { UserServiceService } from '../../services/user/user-service.service';
 import { CountService } from '../../services/count/count.service';
 import { RouterLink } from '@angular/router';
+import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 interface Item {
   _id: string;
   name: string;
@@ -15,7 +16,7 @@ interface Item {
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule,RouterLink],
+  imports: [CommonModule, RouterLink, LoadingSpinnerComponent],
   providers: [UserServiceService],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
@@ -23,6 +24,7 @@ interface Item {
 export class CartComponent implements OnInit {
   totalPrice: number = 0;
   fakeItems: Item[] = [];
+  isLoading = true;
 
   constructor(
     private userService: UserServiceService,
@@ -33,6 +35,7 @@ export class CartComponent implements OnInit {
         this.fakeItems = data.data;
 
         this.calculateTotalPrice();
+        this.isLoading = false;
       },
       error: (error) => console.error(error),
     });
@@ -48,7 +51,7 @@ export class CartComponent implements OnInit {
         type: 'remove',
       };
       this.userService.deleteCart(remove).subscribe({
-        next: (data) => {},
+        next: (data) => { },
         error: (error) => console.error(error),
       });
     }
@@ -65,7 +68,7 @@ export class CartComponent implements OnInit {
     if (item.count >= item.stock) return;
     item.count++;
     this.userService.addCart(item._id).subscribe({
-      next: (data) => {},
+      next: (data) => { },
       error: (error) => console.error(error),
     });
     this.calculateTotalPrice();
