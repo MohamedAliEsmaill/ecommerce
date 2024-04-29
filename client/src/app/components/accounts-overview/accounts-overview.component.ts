@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { UserServiceService } from '../../services/user/user-service.service';
+import { UserFormComponent } from '../user-form/user-form.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-accounts-overview',
@@ -8,19 +10,27 @@ import { UserServiceService } from '../../services/user/user-service.service';
   imports: [CommonModule],
   providers: [UserServiceService],
   templateUrl: './accounts-overview.component.html',
-  // styleUrl: './accounts-overview.component.css'
 })
 export class AccountsOverviewComponent implements OnInit {
   allUsers: any[] = [];
   displayedUsers: any[] = [];
   currentPage = 0;
   pageSize = 5;
-
-  constructor(private accountService: UserServiceService) {}
+  selectedUser: any = null;
+  constructor(
+    private accountService: UserServiceService,
+    public dialog: MatDialog
+  ) {}
   ngOnInit(): void {
     this.loadUsers();
   }
-
+  openDialog(user: any) {
+    this.selectedUser = user; // Store selected user
+    this.dialog.open(UserFormComponent, {
+      panelClass: 'mat-dialog-container-large',
+      data: { user: this.selectedUser }, // Pass user data to dialog
+    });
+  }
   loadUsers(): void {
     this.accountService.getAllUsers().subscribe({
       next: (response: any) => {
