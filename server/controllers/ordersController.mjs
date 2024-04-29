@@ -1,6 +1,5 @@
 import Order from "../models/Order.mjs";
 import Product from "../models/Product.mjs";
-import { decreaseProductStock } from "./productController.mjs";
 
 export const getOrderById = async (req, res) => {
   try {
@@ -118,6 +117,15 @@ export const addOrder = async (req, res) => {
     }
   );
 
+  const bulkOps = processedProducts.map((productId) => ({
+    updateOne: {
+      filter: { _id: productId, stock: { $gt: 0 } },
+      update: { $inc: { stock: -1 } },
+    },
+  }));
+
+  await Product.bulkWrite(bulkOps);
+
   try {
     const createdOrder = await Order.create({
       products: processedProducts,
@@ -127,21 +135,11 @@ export const addOrder = async (req, res) => {
       date: Date.now(),
     });
 
-    const productsCount = processedProducts.reduce((acc, productId) => {
-      if (!acc.find((item) => item.product === productId)) {
-        acc.push({ product: productId, quantity: 1 });
-      } else {
-        const existingItem = acc.find((item) => item.product === productId);
-        existingItem.quantity += 1;
-      }
-      return acc;
-    }, []);
-
     req.user.carts = [];
     req.user.orders.push(createdOrder._id);
-    req.body.products = productsCount;
+    await req.user.save();
 
-    await Promise.all([decreaseProductStock(req, res), req.user.save()]);
+    res.json({ message: "Order created successfully" });
   } catch (error) {
     console.error("Error while creating the order:", error);
     res.status(500).json({ error: "Error while creating the order" });
