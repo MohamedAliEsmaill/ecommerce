@@ -1,60 +1,92 @@
 <div class="container mx-auto p-6 min-h-[70vh] min-w-[50vw] max-w-[90vw] max-h-[90vh]">
-  <h1 class="text-2xl font-bold mb-4">Add New Product</h1>
-  <form class="bg-white p-6 rounded-lg shadow-md">
+  <h1 class="text-2xl font-bold mb-4">Product</h1>
+  <form [formGroup]="productForm" class="bg-white p-6 rounded-lg shadow-md">
     <!-- Name -->
     <div class="mb-4">
       <label class="block text-gray-700 font-bold mb-2" for="name">Name</label>
-      <input
+      <input formControlName="name"
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         id="name" type="text" placeholder="Enter product name" required>
     </div>
     <!-- Price -->
     <div class="mb-4">
       <label class="block text-gray-700 font-bold mb-2" for="price">Price</label>
-      <input
+      <input formControlName="price"
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         id="price" type="number" min="0" placeholder="Enter product price" required>
     </div>
     <!-- Description -->
     <div class="mb-4">
       <label class="block text-gray-700 font-bold mb-2" for="desc">Description</label>
-      <textarea
+      <textarea formControlName="desc"
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        id="desc" rows="3" placeholder="Enter product description"></textarea>
+        id="desc" rows="3" placeholder="Enter product description">desc</textarea>
     </div>
     <!-- Stock -->
     <div class="mb-4">
       <label class="block text-gray-700 font-bold mb-2" for="stock">Stock</label>
-      <input
+      <input formControlName="stock"
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         id="stock" type="number" min="0" placeholder="Enter product stock" required>
     </div>
     <!-- Images -->
     <div class="mb-4">
-      <label class="block text-gray-700 font-bold mb-2" for="images">Images</label>
-      <input
+      <label class="block text-gray-700 font-bold mb-2" for="image1">Image 1</label>
+      <input formControlName="image1"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="image1" type="file" multiple required>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="image2">Image 2</label>
+      <input formControlName="image2"
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         id="images" type="file" multiple required>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="image3">Image 3</label>
+      <input formControlName="image3"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="image3" type="file" multiple required>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="image4">Image 4</label>
+      <input formControlName="image4"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="image4" type="file" multiple required>
     </div>
     <!-- Brand -->
     <div class="mb-4">
       <label class="block text-gray-700 font-bold mb-2" for="brand">Brand</label>
-      <input
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        id="brand" type="text" placeholder="Enter product brand" required>
+      <select formControlName="brand"
+        class="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="brand" required>
+        <option value="APEX">APEX</option>
+        <option value="Call of SOFA">Call of SOFA</option>
+        <option value="Puff B&G">Puff B&G</option>
+        <option value="Fornighte">Fornighte</option>
+      </select>
     </div>
+
     <!-- Category -->
     <div class="mb-4">
       <label class="block text-gray-700 font-bold mb-2" for="category">Category</label>
-      <input
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        id="category" type="text" placeholder="Enter product category" required>
+      <select formControlName="category" value="category"
+        class="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="category" required>
+        <option value="Bedroom">Bedroom</option>
+        <option value="Sofa">Sofa</option>
+        <option value="Office">Office</option>
+        <option value="Outdoor">Outdoor</option>
+      </select>
     </div>
-    <!-- Size -->
 
+    <!-- Size -->
     <div class="mb-4">
       <label class="block text-gray-700 font-bold mb-2" for="size">Sizes</label>
-      <select
+      <select formControlName="size"
         class="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         id="size" required>
         <option value="S">S</option>
@@ -67,13 +99,13 @@
     <!-- Colors -->
     <div class="mb-6">
       <label class="block text-gray-700 font-bold mb-2" for="colors">Colors</label>
-      <input
+      <input formControlName="colors"
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         id="colors" type="text" placeholder="Enter product colors (comma-separated)" required>
     </div>
     <!-- Submit Button -->
     <div class="flex items-center justify-end">
-      <button
+      <button (click)="onSubmit()"
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         type="submit">
         Save Product
