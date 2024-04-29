@@ -152,13 +152,20 @@ export const getProductCountByBrand = async (req, res) => {
                     count: { $sum: 1 },
                 },
             },
+            {
+                $project: {
+                    _id: 0,
+                    brand: "$_id",
+                    count: 1,
+                },
+            },
         ]);
 
         console.log('result' + result);
 
-        res.status(200).json(result); // Send the aggregated data as a JSON response
+        res.status(200).json(result);
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: 'Internal server error' }); // Handle errors
+        res.status(500).json({ message: 'Internal server error' });
     }
 };
