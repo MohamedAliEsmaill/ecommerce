@@ -202,3 +202,40 @@ export const deleteOrder = async (req, res) => {
     res.status(500).json({ error: "Error while deleting order" });
   }
 };
+
+export const orderStatusReport = async (req, res) => {
+  try {
+    const orders = await Order.aggregate([
+      {
+        $group: {
+          _id: "$status",
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          status: "$_id",
+          count: 1,
+          _id: 0,
+        },
+      },
+    ]);
+
+    const orderStatuses = ["accepted", "rejected", "pending"];
+    const missingStatuses = orderStatuses.filter(
+      (status) => !orders.some((order) => order.status === status)
+    );
+
+    const nonExistingStatuses = missingStatuses.map((status) => ({
+      status: status,
+      count: 0,
+    }));
+
+    const report = [...orders, ...nonExistingStatuses];
+
+    res.json(report);
+  } catch (error) {
+    console.error("Error while fetching order status report:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
