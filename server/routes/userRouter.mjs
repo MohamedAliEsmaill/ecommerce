@@ -13,6 +13,7 @@ import {
   updatePassword,
   updateProfile,
   uploadImage,
+  getUsersCharts,
 } from "../controllers/profileController.mjs";
 import multer from "multer";
 
@@ -35,6 +36,7 @@ router.patch(
   uploadStructure.fields([{ name: "image", maxCount: 1 }]),
   uploadImage
 );
+router.get('/charts', protect, getUsersCharts);
 
 router.get("/cart", protect, getCart);
 router.post("/cart", protect, addCart);
