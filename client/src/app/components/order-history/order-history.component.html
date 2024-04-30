@@ -1,29 +1,33 @@
-<section
-  class="gap-3 grid-cols-1 h-[600px] hidden lg:grid max-w-[1200px] pb-10 px-5 w-full"
->
-  <table class="table-fixed">
-    <thead class="h-16 bg-neutral-100">
-      <tr>
-        <th>ORDER</th>
-        <th>DATE</th>
-        <th>TOTAL</th>
-        <th>STATUS</th>
-        <th>ACTION</th>
-      </tr>
-    </thead>
-    <tbody>
-      <ng-container *ngFor="let order of orders; let i = index">
-        <tr class="border-b h-[100px]">
-          <td class="text-center align-middle">
-            № {{ order._id | slice : 0 : 4 }}
-          </td>
-          <td class="mx-auto text-center">
-            {{ order.date | date : "dd/MM/yyyy" }}
-          </td>
-          <td class="text-center align-middle">{{ order.totalPrice }}</td>
-          <td class="mx-auto text-center">
-            <span
-              class="px-3 py-1
+@if (isLoading) {
+<app-loading-spinner></app-loading-spinner>
+}
+
+<section class="container flex-grow mx-auto max-w-[1200px] border-b py-5 lg:flex lg:flex-row lg:py-10">
+  <app-sidebar [userInfo]="userInfo"></app-sidebar>
+
+  <section class="gap-3 grid-cols-1 h-[600px] hidden lg:grid max-w-[1200px] pb-10 px-5 w-full">
+    <table class="table-fixed">
+      <thead class="h-16 bg-neutral-100">
+        <tr>
+          <th>ORDER</th>
+          <th>DATE</th>
+          <th>TOTAL</th>
+          <th>STATUS</th>
+          <th>ACTION</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let order of orders; let i = index">
+          <tr class="border-b h-[100px]">
+            <td class="text-center align-middle">
+              № {{ order._id | slice : 0 : 4 }}
+            </td>
+            <td class="mx-auto text-center">
+              {{ order.date | date : "dd/MM/yyyy" }}
+            </td>
+            <td class="text-center align-middle">${{ order.totalPrice }}</td>
+            <td class="mx-auto text-center">
+              <span class="px-3 py-1
               {{
                 order.status === 'accepted'
                   ? 'text-green-500 border-2 border-green-500'
@@ -32,26 +36,24 @@
                   : order.status === 'rejected'
                   ? 'text-red-500 border-2 border-red-500'
                   : ''
-              }}"
-            >
-              {{ order.status }}
-            </span>
-          </td>
-          <td class="text-center align-middle">
-            <a
-              class="px-4 py-2 bg-amber-400"
-              [routerLink]="['/profile/orders', order._id]"
-              ><button class="text-center">View</button></a
-            >
-          </td>
-        </tr>
-      </ng-container>
-    </tbody>
-  </table>
-  <div class="gap-3">
-    <button class="px-5 mt-5 text-white bg-violet-900" (click)="prevPage()">
-      prev
-    </button>
-    <button class="px-5 mt-5 text-blue-900" (click)="nextPage()">Next</button>
-  </div>
+              }}">
+                {{ order.status }}
+              </span>
+            </td>
+            <td class="text-center align-middle">
+              <a class="px-4 py-2 bg-amber-400" [routerLink]="['/orders', order._id]"><button
+                  class="text-center">View</button></a>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+    <div class="gap-3">
+      <button class="px-5 mt-5 text-white bg-violet-900" (click)="prevPage()">
+        prev
+      </button>
+      <button class="px-5 mt-5 text-blue-900" (click)="nextPage()">Next</button>
+    </div>
+  </section>
+
 </section>

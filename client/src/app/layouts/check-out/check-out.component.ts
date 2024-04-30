@@ -136,7 +136,8 @@ export class CheckOutComponent {
             icon: 'success',
             title: 'Great!',
             text: 'Product Added To Your Cart Successfully'
-          }).then(() => this.router.navigate(['/profile/history']))
+          });
+          this.router.navigate(['/order-history']);
           this.countService.setProduct();
 
         },
