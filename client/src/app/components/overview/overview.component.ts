@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../../services/profile/profile.service';
+import { OrderService } from '../../services/order/order.service';
+import { ProductService } from '../../services/product/product.service';
 import { ChartData, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { OrderService } from '../../services/order/order.service';
 @Component({
   selector: 'app-overview',
   standalone: true,
@@ -16,14 +17,17 @@ export class OverviewComponent implements OnInit {
   labels: string[] = [];
   data: number[] = [];
   orders: any[] = [];
+  products: any[] = [];
   constructor(
     private profileService: ProfileService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private productService: ProductService
   ) {}
 
   ngOnInit(): void {
     this.getUsersCharts();
     this.getChartsMyOrders();
+    this.getChartsProducts();
   }
 
   // user overview
@@ -149,13 +153,6 @@ export class OverviewComponent implements OnInit {
   }
 
   // -------------------------------------------------------------------------------------
-  products = [
-    { count: 2, brand: 'Fornighte' },
-    { count: 4, brand: 'Call of SOFA' },
-    { count: 5, brand: 'APEX' },
-    { count: 10, brand: 'OLAX' },
-  ];
-
   productChartOptions: ChartOptions<'bar'> = {
     responsive: true,
     indexAxis: 'y',
@@ -174,4 +171,27 @@ export class OverviewComponent implements OnInit {
       },
     ],
   };
+
+  getChartsProducts() {
+    this.productService.getChartsProducts().subscribe((data: any) => {
+      this.products = data;
+      this.countsProducts = this.products.map((product) => product.count);
+      this.brandProducts = this.products.map((product) => product.brand);
+      this.ProductsChartData = {
+        labels: this.brandProducts,
+        datasets: [
+          {
+            data: this.countsProducts,
+            label: 'Products',
+            backgroundColor: [
+              'rgba(112, 71, 238, 0.5)',
+              'rgba(13, 110, 253, 0.5)',
+              'rgba(0, 186, 255, 0.5)',
+              'rgba(40, 173, 155, 0.5)',
+            ],
+          },
+        ],
+      };
+    });
+  }
 }

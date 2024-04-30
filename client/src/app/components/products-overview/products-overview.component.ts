@@ -11,13 +11,27 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ProductFormComponent } from '../product-form/product-form.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ProductEditFormComponent } from '../product-edit-form/product-edit-form.component';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-products-overview',
   standalone: true,
-  imports: [CommonModule, MatPaginatorModule, LoadingSpinnerComponent, MatDialogModule, MatInputModule,
+  imports: [
+    CommonModule,
+    MatPaginatorModule,
+    LoadingSpinnerComponent,
+    MatDialogModule,
+    MatInputModule,
     MatButtonModule,
-    MatFormFieldModule, MatIconModule],
+    MatFormFieldModule,
+    MatIconModule,
+    ReactiveFormsModule,
+  ],
   providers: [ProductService],
   templateUrl: './products-overview.component.html',
   styleUrl: './products-overview.component.css',
@@ -29,23 +43,34 @@ export class ProductsOverviewComponent {
   pageSize = 10;
   isLoading = true;
   create = true;
+  searchForm: FormGroup;
+  searchValue = '';
+  searchResults: string[] = [];
+  proudctFilter: Product[] = [];
+  products: Product[] = [];
 
-  constructor(private pService: ProductService, public dialog: MatDialog) {
-
+  constructor(
+    private pService: ProductService,
+    public dialog: MatDialog,
+    private fb: FormBuilder
+  ) {
+    this.searchForm = this.fb.group({
+      search: ['', Validators.required],
+    });
   }
 
   openDialog() {
     this.dialog.open(ProductFormComponent, {
       panelClass: 'mat-dialog-container-large',
-      data: this.create
+      data: this.create,
     });
   }
 
   openEditDialog(product: any) {
     this.dialog.open(ProductEditFormComponent, {
       panelClass: 'mat-dialog-container-large',
-      data: { product }
-    })
+      data: { product },
+    });
   }
 
   ngOnInit(): void {
@@ -53,32 +78,62 @@ export class ProductsOverviewComponent {
   }
 
   loadProducts(): void {
-    this.pService.getAllProducts(this.currentPage + 1, this.pageSize).subscribe({
-      next: (response: any) => {
-        this.allProducts = response.totalProducts;
-        this.displayedProducts = response.products;
-      },
-      error: (error) => {
-        console.log('Error:', error);
-        // Handle error
-      },
-
-    });
+    this.pService
+      .getAllProducts(this.currentPage + 1, this.pageSize)
+      .subscribe({
+        next: (response: any) => {
+          this.allProducts = response.totalProducts;
+          this.displayedProducts = response.products;
+        },
+        error: (error) => {
+          console.log('Error:', error);
+          // Handle error
+        },
+      });
     this.isLoading = false;
   }
 
   deleteProduct(id: any) {
     this.pService.deleteProduct(id).subscribe({
       next: (data: any) => {
-        this.displayedProducts = this.displayedProducts.filter(prod => prod._id != id);
+        this.displayedProducts = this.displayedProducts.filter(
+          (prod) => prod._id != id
+        );
       },
-      error: (error) => console.log(error)
-    })
+      error: (error) => console.log(error),
+    });
   }
 
   onPageChanged(event: PageEvent) {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
     this.loadProducts();
+  }
+
+  // part of search
+  search() {
+    if (this.searchForm.valid) {
+      this.searchValue = this.searchForm.value.search;
+      this.pService.getAllProducts().subscribe({
+        next: (data: any) => {
+          this.products = data.products;
+          this.proudctFilter = this.filterProducts(this.searchValue);
+          this.displayedProducts = this.proudctFilter;
+        },
+        error: (error) => {
+          console.error('404 Not Found');
+        },
+      });
+    } else this.loadProducts();
+  }
+  emptySearch() {
+    this.searchForm.reset();
+    this.proudctFilter = [];
+  }
+  // Function to perform the search (replace with actual search logic)
+  filterProducts(term: string): Product[] {
+    return this.products.filter((result) =>
+      result.name.toLowerCase().includes(term.toLowerCase())
+    );
   }
 }
