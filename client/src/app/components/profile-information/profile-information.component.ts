@@ -1,13 +1,19 @@
 import { Component } from '@angular/core';
 import { ProfileService } from '../../services/profile/profile.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-profile-information',
   standalone: true,
-  imports: [SidebarComponent, LoadingSpinnerComponent],
+  imports: [
+    SidebarComponent,
+    LoadingSpinnerComponent,
+    RouterModule,
+    CommonModule,
+  ],
   providers: [ProfileService],
   templateUrl: './profile-information.component.html',
 })
@@ -26,7 +32,8 @@ export class ProfileInformationComponent {
         if (data.image) {
           data.image = 'data:image/png;base64,' + data.image;
         } else {
-          data.image = 'https://cdn-icons-png.freepik.com/256/12225/12225773.png?semt=ais_hybrid';
+          data.image =
+            'https://cdn-icons-png.freepik.com/256/12225/12225773.png?semt=ais_hybrid';
         }
         console.log(data);
         this.userInfo = data;

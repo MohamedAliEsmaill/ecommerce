@@ -37,7 +37,7 @@ export const routes: Routes = [
       { path: 'products-overview', component: ProductsOverviewComponent },
       // { path: '', redirectTo: 'accounts', pathMatch: 'full' },
     ],
-    canActivate: [IsLoggedService, IsAdminService]
+    canActivate: [IsLoggedService, IsAdminService],
   },
   { path: '', redirectTo: 'profile', pathMatch: 'full' },
   { path: 'home', redirectTo: 'profile', pathMatch: 'full' },
@@ -71,11 +71,12 @@ export const routes: Routes = [
     canActivate: [IsLoggedService, IsUserService],
   },
   { path: 'profile-information', component: ProfileInformationComponent },
+  { path: 'edit-profile', component: EditProfileComponent },
   { path: 'manage-address', component: ManageAddressComponent },
   { path: 'change-password', component: ChangePasswordComponent },
   {
     path: 'wishList',
-    component: WishlistComponent
+    component: WishlistComponent,
   },
   {
     path: 'login',
