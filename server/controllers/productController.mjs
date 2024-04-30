@@ -169,3 +169,32 @@ export const getProductCountByBrand = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+
+export async function uploadProductImage(req, res, next) {
+
+    const images = req.files.images;
+    const productId = req.body.productId;
+
+    console.log(req.files);
+
+    try {
+
+        if (!productId) {
+            return res.status(404).json({
+                error: "Product not found",
+            });
+        }
+
+        const product = await Product.findOne({ _id: productId });
+
+        for (let i = 0; i < images.length; i++) {
+            const base64String = images[i].buffer.toString("base64");
+            product.images[i] = base64String;
+        }
+        await product.save();
+        return res.status(200).json({ message: "image uploaded successfully" });
+    } catch (error) {
+        return res.status(500).json({ error: "failed to upload" });
+    }
+}

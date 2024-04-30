@@ -6,6 +6,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ContactUsComponent } from './layouts/contact-us/contact-us.component';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ import { CommonModule } from '@angular/common';
     NavbarComponent,
     FooterComponent,
     ContactUsComponent,
+    FormsModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -24,7 +26,7 @@ import { CommonModule } from '@angular/common';
 export class AppComponent implements OnInit {
   isLogged: Boolean = true;
 
-  constructor(private useLog: UserServiceService) {}
+  constructor(private useLog: UserServiceService) { }
   ngOnInit(): void {
     this.isLogged = !this.useLog.isAdmin();
     // console.log(this.useLog.isAdmin());

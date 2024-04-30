@@ -1,6 +1,14 @@
 @if (isLoading) {<app-loading-spinner></app-loading-spinner>}
 
-<button mat-raised-button (click)="openDialog()">Open Form Dialog</button>
+<div
+  class="fixed bottom-0 right-0 m-4 rounded-full h-12 w-12 hover:bg-blue-700 text-white font-bold flex items-center justify-center"
+  style="background-color: #4C1D95;">
+  <button (click)="openDialog()">
+    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#FFF">
+      <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+    </svg>
+  </button>
+</div>
 
 <div>
   <h2 class="text-xl font-bold mb-4">Products Overview</h2>
@@ -16,7 +24,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let product of displayedProducts">
+      @for (product of displayedProducts; track product._id) {
+      <tr>
         <td class="px-4 py-2 text-center">{{ product.name }}</td>
         <td class="px-4 py-2 text-center">{{ product.price }}</td>
         <td class="px-4 py-2 w-6/12 truncate text-wrap">
@@ -30,7 +39,7 @@
         <td class="px-4 py-2 text-center">{{ product.stock }}</td>
         <td class="px-4 py-2 text-center">{{ product.category }}</td>
         <td class="px-4 py-2 text-center">
-          <button class="px-2 py-1 mx-2 bg-violet-900 text-white rounded">
+          <button (click)="openEditDialog(product)" class="px-2 py-1 mx-2 bg-violet-900 text-white rounded">
             Edit
           </button>
 
@@ -39,6 +48,7 @@
           </button>
         </td>
       </tr>
+      }
     </tbody>
   </table>
 

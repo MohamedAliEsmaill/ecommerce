@@ -9,13 +9,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ProductFormComponent } from '../product-form/product-form.component';
+import { MatIconModule } from '@angular/material/icon';
+import { ProductEditFormComponent } from '../product-edit-form/product-edit-form.component';
 
 @Component({
   selector: 'app-products-overview',
   standalone: true,
   imports: [CommonModule, MatPaginatorModule, LoadingSpinnerComponent, MatDialogModule, MatInputModule,
     MatButtonModule,
-    MatFormFieldModule],
+    MatFormFieldModule, MatIconModule],
   providers: [ProductService],
   templateUrl: './products-overview.component.html',
   styleUrl: './products-overview.component.css',
@@ -26,6 +28,7 @@ export class ProductsOverviewComponent {
   currentPage = 0;
   pageSize = 10;
   isLoading = true;
+  create = true;
 
   constructor(private pService: ProductService, public dialog: MatDialog) {
 
@@ -33,8 +36,16 @@ export class ProductsOverviewComponent {
 
   openDialog() {
     this.dialog.open(ProductFormComponent, {
-      panelClass: 'mat-dialog-container-large'
+      panelClass: 'mat-dialog-container-large',
+      data: this.create
     });
+  }
+
+  openEditDialog(product: any) {
+    this.dialog.open(ProductEditFormComponent, {
+      panelClass: 'mat-dialog-container-large',
+      data: { product }
+    })
   }
 
   ngOnInit(): void {
@@ -56,7 +67,7 @@ export class ProductsOverviewComponent {
     this.isLoading = false;
   }
 
-  deleteProduct(id: string) {
+  deleteProduct(id: any) {
     this.pService.deleteProduct(id).subscribe({
       next: (data: any) => {
         this.displayedProducts = this.displayedProducts.filter(prod => prod._id != id);

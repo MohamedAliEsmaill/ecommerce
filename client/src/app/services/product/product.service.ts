@@ -34,4 +34,9 @@ export class ProductService {
     return this.http.post(`${this.API_URL}/decrease-stock`, { products });
   }
 
+  uploadProductImage(data: FormData) {
+    console.log(data);
+    return this.http.patch(`${this.API_URL}/updateImage`, data)
+  }
+
 }
