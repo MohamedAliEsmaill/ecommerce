@@ -17,8 +17,6 @@ process.on("uncaughtException", (err) => {
   process.exit(1);
 });
 
-
-
 dotenv.config({ path: "./.env" });
 
 const app = express();
@@ -28,10 +26,7 @@ const PORT = process.env.PORT || 3000;
 const DATABASE_URL = process.env.DATABASE_URL;
 
 mongoose
-  .connect(DATABASE_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(DATABASE_URL)
   .then(() => {
     console.log("Connected to MongoDB");
   })
