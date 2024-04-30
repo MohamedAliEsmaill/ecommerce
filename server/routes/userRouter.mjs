@@ -9,6 +9,7 @@ import {
 import { protect } from "../controllers/authController.mjs";
 import {
   adminUpdateUser,
+  adminUploadImage,
   getAllProfiles,
   getProfile,
   updatePassword,
@@ -37,6 +38,12 @@ router.patch(
   uploadImage
 );
 router.patch("/admin/edit", protect, adminUpdateUser);
+router.patch(
+  "/admin/updateImage",
+  protect,
+  uploadStructure.fields([{ name: "image", maxCount: 1 }]),
+  adminUploadImage
+);
 
 router.get("/cart", protect, getCart);
 router.post("/cart", protect, addCart);
