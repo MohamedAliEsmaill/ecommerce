@@ -43,4 +43,8 @@ export class OrderService {
   updateOrderStatus(id: string, status: 'accept' | 'reject') {
     return this.http.put<any>(`${this.API_URL}/${id}/${status}`, {});
   }
+
+  getChartsMyOrders() {
+    return this.http.get<any>(`${this.API_URL}/reports/status`);
+  }
 }

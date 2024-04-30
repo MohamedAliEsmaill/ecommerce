@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../../services/profile/profile.service';
 import { ChartData, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-
+import { OrderService } from '../../services/order/order.service';
 @Component({
   selector: 'app-overview',
   standalone: true,
   imports: [BaseChartDirective],
-  providers: [ProfileService],
+  providers: [ProfileService, OrderService],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.css',
 })
@@ -15,6 +15,16 @@ export class OverviewComponent implements OnInit {
   users: any[] = [];
   labels: string[] = [];
   data: number[] = [];
+  orders: any[] = [];
+  constructor(
+    private profileService: ProfileService,
+    private orderService: OrderService
+  ) {}
+
+  ngOnInit(): void {
+    this.getUsersCharts();
+    this.getChartsMyOrders();
+  }
 
   // user overview
   UserChartOptions: ChartOptions<'line'> = {
@@ -84,11 +94,6 @@ export class OverviewComponent implements OnInit {
 
   // -------------------------------------------------------------------------
   // orders overview
-  orders = [
-    { count: 2, status: 'Reject' },
-    { count: 4, status: 'Accept' },
-    { count: 5, status: 'Pending' },
-  ];
 
   OrderChartOptions: ChartOptions<'doughnut'> = {
     responsive: true,
@@ -123,6 +128,26 @@ export class OverviewComponent implements OnInit {
     ],
   };
 
+  getChartsMyOrders() {
+    this.orderService.getChartsMyOrders().subscribe((data: any) => {
+      this.orders = data;
+      this.countsOrders = this.orders.map((order) => order.count);
+      this.statusOrders = this.orders.map((order) => order.status);
+      console.log(this.statusOrders);
+      console.log(this.countsOrders);
+      this.OrdersChartData = {
+        labels: this.statusOrders,
+        datasets: [
+          {
+            data: this.countsOrders,
+            label: 'Orders',
+            backgroundColor: ['#FFCE56', '#28A745', '#FF0000'], // Optional: colors for each segment
+          },
+        ],
+      };
+    });
+  }
+
   // -------------------------------------------------------------------------------------
   products = [
     { count: 2, brand: 'Fornighte' },
@@ -145,14 +170,8 @@ export class OverviewComponent implements OnInit {
       {
         data: this.countsProducts, // Array of counts
         label: 'Products',
-        backgroundColor: ['#7047EE',  '#0D6EFD' ,'#00BAFF' ,'#28AD9B'], // Colors for each segment
+        backgroundColor: ['#7047EE', '#0D6EFD', '#00BAFF', '#28AD9B'], // Colors for each segment
       },
     ],
   };
-
-  constructor(private profileService: ProfileService) {}
-
-  ngOnInit(): void {
-    this.getUsersCharts();
-  }
 }
