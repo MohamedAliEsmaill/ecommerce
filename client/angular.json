@@ -26,9 +26,12 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/purple-green.css",
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/@splidejs/splide/dist/css/splide.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/@splidejs/splide/dist/js/splide.min.js"
+            ]
           },
           "configurations": {
             "production": {

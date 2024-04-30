@@ -33,6 +33,8 @@ export class CatalogComponent {
       next: (data: any) => {
         this.products = data.products;
         this.filteredProducts = this.products;
+        console.log(this.filteredProducts);
+
         this.isLoading = false;
       },
       error: (error) => {
