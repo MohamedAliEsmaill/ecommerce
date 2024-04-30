@@ -162,15 +162,12 @@ export const adminUpdateUser = async (req, res) => {
       error: "Unauthorized: User not authorized",
     });
   }
-  console.log(req.body);
   try {
     const updatedUser = await User.findOneAndUpdate(
       { username: req.body.username },
       { $set: req.body },
       { new: true, runValidators: true }
     ).select("-_id -password -passwordConfirm -email -username");
-    console.log("Admin");
-    console.log(updatedUser);
 
     res.status(200).json({
       message: "Profile updated successfully",
@@ -210,3 +207,25 @@ export async function adminUploadImage(req, res, next) {
     return res.status(500).json({ error: error.message });
   }
 }
+
+export const adminDeleteUser = async (req, res) => {
+  if (!req.user || req.user.role !== "admin") {
+    return res.status(403).json({
+      error: "Unauthorized: User not authorized",
+    });
+  }
+  try {
+    const deletedUser = await User.findOneAndDelete({
+      username: req.body.username,
+    });
+    res.status(200).json({
+      message: "User deleted successfully",
+      data: deletedUser,
+    });
+  } catch (error) {
+    console.error(`Error deleting user: ${error}`);
+    res.status(500).json({
+      error: "Error deleting user",
+    });
+  }
+};

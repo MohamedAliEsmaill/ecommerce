@@ -8,6 +8,7 @@ import {
 // import { verifyToken } from "../middleware/authJWT.mjs";
 import { protect } from "../controllers/authController.mjs";
 import {
+  adminDeleteUser,
   adminUpdateUser,
   adminUploadImage,
   getAllProfiles,
@@ -44,6 +45,7 @@ router.patch(
   uploadStructure.fields([{ name: "image", maxCount: 1 }]),
   adminUploadImage
 );
+router.delete("/admin/delete", protect, adminDeleteUser);
 
 router.get("/cart", protect, getCart);
 router.post("/cart", protect, addCart);
