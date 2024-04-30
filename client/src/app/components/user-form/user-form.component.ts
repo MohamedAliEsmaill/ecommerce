@@ -72,7 +72,15 @@ export class UserFormComponent {
       state: this.user.address[0].state,
       image: '',
     });
-    this.image = 'data:image/png;base64,' + this.user.image;
+    if (
+      this.user.image.includes(
+        'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png'
+      )
+    ) {
+      this.image = this.user.image;
+    } else {
+      this.image = 'data:image/png;base64,' + this.user.image;
+    }
   }
 
   onSubmit() {
