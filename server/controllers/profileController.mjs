@@ -69,7 +69,6 @@ export const updateProfile = async (req, res) => {
       error: "Unauthorized: User not found",
     });
   }
-
   try {
     const updatedUser = await User.findByIdAndUpdate(
       req.user._id,
@@ -156,3 +155,31 @@ export async function uploadImage(req, res, next) {
     return res.status(500).json({ error: error.message });
   }
 }
+
+export const adminUpdateUser = async (req, res) => {
+  if (!req.user || req.user.role !== "admin") {
+    return res.status(403).json({
+      error: "Unauthorized: User not authorized",
+    });
+  }
+  console.log(req.body);
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { username: req.body.username },
+      { $set: req.body },
+      { new: true, runValidators: true }
+    ).select("-_id -password -passwordConfirm -email -username");
+    console.log("Admin");
+    console.log(updatedUser);
+
+    res.status(200).json({
+      message: "Profile updated successfully",
+      data: updatedUser,
+    });
+  } catch (error) {
+    console.error(`Error updating profile: ${error}`);
+    res.status(500).json({
+      error: "Error updating profile",
+    });
+  }
+};

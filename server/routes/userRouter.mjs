@@ -3,11 +3,12 @@ import {
   addCart,
   getCart,
   deleteCart,
-  getCartSize
+  getCartSize,
 } from "../controllers/userController.mjs";
 // import { verifyToken } from "../middleware/authJWT.mjs";
 import { protect } from "../controllers/authController.mjs";
 import {
+  adminUpdateUser,
   getAllProfiles,
   getProfile,
   updatePassword,
@@ -35,6 +36,7 @@ router.patch(
   uploadStructure.fields([{ name: "image", maxCount: 1 }]),
   uploadImage
 );
+router.patch("/admin/edit", protect, adminUpdateUser);
 
 router.get("/cart", protect, getCart);
 router.post("/cart", protect, addCart);
