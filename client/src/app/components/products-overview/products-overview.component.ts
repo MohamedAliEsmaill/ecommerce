@@ -64,10 +64,12 @@ export class ProductsOverviewComponent {
   }
 
   loadProducts(): void {
+    this.isLoading = true;
     this.pService.getAllProducts(this.currentPage + 1, this.pageSize).subscribe({
       next: (response: any) => {
         this.allProducts = response.totalProducts;
         this.displayedProducts = response.products;
+        this.isLoading = false;
       },
       error: (error) => {
         console.log('Error:', error);
@@ -75,7 +77,6 @@ export class ProductsOverviewComponent {
       },
 
     });
-    this.isLoading = false;
   }
 
   deleteProduct(id: any) {
