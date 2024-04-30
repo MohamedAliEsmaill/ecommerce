@@ -15,7 +15,7 @@ import { UserServiceService } from '../../services/user/user-service.service';
 @Component({
   selector: 'app-header',
   standalone: true,
-  providers: [ProductService],
+  providers: [ProductService, UserServiceService],
   imports: [RouterModule, CommonModule, ReactiveFormsModule],
   templateUrl: './header.component.html',
   styles: ``,

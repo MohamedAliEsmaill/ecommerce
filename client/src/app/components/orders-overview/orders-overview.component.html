@@ -1,33 +1,75 @@
 <!-- orders-overview.component.html -->
 <div>
-  <h2 class="text-xl font-bold mb-4">Orders Overview</h2>
-  <table class="min-w-full bg-amber-400 rounded-lg overflow-hidden">
+  <h2 class="mb-4 text-xl font-bold">Orders Overview</h2>
+  <table class="min-w-full overflow-hidden bg-gray-200 rounded-lg">
     <thead class="bg-gray-100">
       <tr>
         <th class="px-4 py-2">Order ID</th>
-        <th class="px-4 py-2">Product</th>
-        <th class="px-4 py-2">Quantity</th>
+        <th class="px-4 py-2">City</th>
         <th class="px-4 py-2">Status</th>
+        <th class="px-4 py-2">Date</th>
+        <th class="px-4 py-2">Products</th>
+        <th class="px-4 py-2">Total Price</th>
         <th class="px-4 py-2">Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td class="px-4 py-2 text-center">ordeId</td>
-        <td class="px-4 py-2 text-center">orderProduct</td>
-        <td class="px-4 py-2 text-center">orderQuantity</td>
-        <td class="px-4 py-2 text-center">orderStatus</td>
+      <tr *ngFor="let order of pageOrders">
         <td class="px-4 py-2 text-center">
-          <!-- (click)="editOrder(order)" -->
-          <button class="px-2 py-1 mx-3 bg-violet-900 text-white rounded">
-            Edit
+          {{
+            order._id.length > 10
+              ? (order._id | slice : 0 : 10) + "..."
+              : order._id
+          }}
+        </td>
+        <td class="px-4 py-2 text-center">{{ order.address.city }}</td>
+        <td class="px-4 py-2 text-center">{{ order.status }}</td>
+        <td class="px-4 py-2 text-center">{{ order.date }}</td>
+        <td class="px-4 py-2 text-center">
+          <ul *ngFor="let product of order.uniqueProducts">
+            <li>
+              {{ getProductName(product) }}
+            </li>
+          </ul>
+        </td>
+        <td class="px-4 py-2 text-center">{{ order.totalPrice }}</td>
+        <td class="px-4 py-2 text-center">
+          <button
+            class="px-2 py-1 mx-3 text-white bg-green-900 rounded"
+            (click)="acceptOrder(order)"
+            [disabled]="
+              order.status === 'rejected' || order.status === 'accepted'
+            "
+            [ngClass]="
+              order.status === 'rejected' || order.status === 'accepted'
+                ? 'opacity-50'
+                : ''
+            "
+          >
+            Accept
           </button>
-          <!-- (click)="deleteOrder(order.id)" -->
-          <button class="px-2 py-1 mx-3 bg-red-500 text-white rounded">
-            Delete
+          <button
+            class="px-2 py-1 mx-3 text-white bg-red-500 rounded"
+            (click)="rejectOrder(order)"
+            [disabled]="
+              order.status === 'rejected' || order.status === 'accepted'
+            "
+            [ngClass]="
+              order.status === 'rejected' || order.status === 'accepted'
+                ? 'opacity-50'
+                : ''
+            "
+          >
+            Reject
           </button>
         </td>
       </tr>
     </tbody>
   </table>
+  <mat-paginator
+    [length]="numberOfOrders"
+    pageSize="10"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
 </div>

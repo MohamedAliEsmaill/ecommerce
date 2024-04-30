@@ -32,10 +32,10 @@ export const getAllProducts = async (req, res) => {
  * Create a new product.
  */
 export const createProduct = async (req, res) => {
-    const { name, desc, price, stock, images, category, brand, colors, size } = req.body;
+    const { name, desc, price, stock, category, brand, colors, size } = req.body;
 
     try {
-        const newProduct = new Product({ name, desc, price, stock, images, category, brand, colors, size });
+        const newProduct = new Product({ name, desc, price, stock, category, brand, colors, size });
         const result = await newProduct.save();
         res.status(201).json({ message: 'Product Added Successfully', product: result });
     } catch (error) {
@@ -134,5 +134,67 @@ export const decreaseProductStock = async (req, res) => {
         // Handle any errors
         console.error('Error decreasing product stock:', error);
         return res.status(500).json({ success: false, message: 'An error occurred while updating stock' });
+    }
+}
+
+/**
+ * Get Products count by brand 
+ * @result [{brand: brand-name, count: num of prods}]
+ */
+
+
+export const getProductCountByBrand = async (req, res) => {
+    try {
+        const result = await Product.aggregate([
+            {
+                $group: {
+                    _id: "$brand",
+                    count: { $sum: 1 },
+                },
+            },
+            {
+                $project: {
+                    _id: 0,
+                    brand: "$_id",
+                    count: 1,
+                },
+            },
+        ]);
+
+        console.log('result' + result);
+
+        res.status(200).json(result);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+
+export async function uploadProductImage(req, res, next) {
+
+    const images = req.files.images;
+    let productId = req.body.productId;
+
+    console.log(req.files);
+
+    try {
+
+        if (!productId) {
+            return res.status(404).json({
+                error: "Product not found",
+            });
+        }
+
+        const product = await Product.findOne({ _id: productId });
+
+        for (let i = 0; i < images.length; i++) {
+            const base64String = images[i].buffer.toString("base64");
+            product.images[i] = base64String;
+        }
+        await product.save();
+        return res.status(200).json({ message: "image uploaded successfully" });
+    } catch (error) {
+        return res.status(500).json({ error: "failed to upload" });
     }
 }

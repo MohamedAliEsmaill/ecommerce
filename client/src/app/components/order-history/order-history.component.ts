@@ -26,6 +26,8 @@ export class OrderHistoryComponent {
         city: '',
         zip: '',
       },
+      uniqueProductIds: [],
+      uniqueProducts: [],
     },
   ];
   pagination: {

@@ -28,16 +28,19 @@ import { AccountsOverviewComponent } from './components/accounts-overview/accoun
 import { OrdersOverviewComponent } from './components/orders-overview/orders-overview.component';
 import { ProductsOverviewComponent } from './components/products-overview/products-overview.component';
 import { HomeComponent } from './layouts/home/home.component';
+import { OverviewComponent } from './components/overview/overview.component';
 export const routes: Routes = [
   {
     path: 'admin-dashboard',
     component: AdminDashboardComponent,
     children: [
+      { path: 'overview', component: OverviewComponent },
       { path: 'accounts-overview', component: AccountsOverviewComponent },
       { path: 'orders-overview', component: OrdersOverviewComponent },
       { path: 'products-overview', component: ProductsOverviewComponent },
       // { path: '', redirectTo: 'accounts', pathMatch: 'full' },
     ],
+    canActivate: [IsLoggedService, IsAdminService],
   },
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'home', redirectTo: 'profile', pathMatch: 'full' },
@@ -71,11 +74,12 @@ export const routes: Routes = [
     canActivate: [IsLoggedService, IsUserService],
   },
   { path: 'profile-information', component: ProfileInformationComponent },
+  { path: 'edit-profile', component: EditProfileComponent },
   { path: 'manage-address', component: ManageAddressComponent },
   { path: 'change-password', component: ChangePasswordComponent },
   {
     path: 'wishList',
-    component: WishlistComponent
+    component: WishlistComponent,
   },
   {
     path: 'login',
