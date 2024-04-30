@@ -2,7 +2,11 @@
   class="container mx-auto p-6 min-h-[70vh] min-w-[50vw] max-w-[90vw] max-h-[90vh]"
 >
   <h1 class="text-2xl font-bold mb-4 text-center">Edit User info</h1>
-  <form class="bg-white p-6 rounded-lg shadow-md">
+  <form
+    [formGroup]="userForm"
+    (ngSubmit)="onSubmit()"
+    class="bg-white p-6 rounded-lg shadow-md"
+  >
     <!-- Images -->
     <div class="mb-4">
       <label class="block text-gray-700 font-bold mb-2" for="images"
@@ -12,8 +16,7 @@
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         id="images"
         type="file"
-        multiple
-        required
+        (change)="onFileChange($event)"
       />
     </div>
 
@@ -23,10 +26,10 @@
         >Full Name</label
       >
       <input
+        formControlName="fullName"
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         id="name"
         type="text"
-        value="{{ user.fullName }}"
         required
       />
     </div>
@@ -36,11 +39,12 @@
         >Username</label
       >
       <input
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        formControlName="username"
+        class="shadow appearance-none border rounded w-full py-2 px-3 bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         id="username"
         type="text"
-        value="{{ user.username }}"
         required
+        readonly
       />
     </div>
     <!-- Email -->
@@ -49,11 +53,12 @@
         >Email</label
       >
       <input
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        formControlName="email"
+        class="shadow appearance-none border rounded w-full py-2 px-3 bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         id="email"
         type="text"
-        value="{{ user.email }}"
         required
+        readonly
       />
     </div>
     <!--  -->
@@ -62,10 +67,10 @@
         >Phone</label
       >
       <input
+        formControlName="phone"
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         id="phone"
         type="tel"
-        value="{{ user.phone }}"
         required
       />
     </div>
@@ -75,10 +80,10 @@
         >Address1</label
       >
       <input
+        formControlName="street1"
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         id="address1"
         type="text"
-        value="{{ user.address[0].street1 }}"
         required
       />
     </div>
@@ -88,20 +93,20 @@
         >Address2</label
       >
       <input
+        formControlName="street2"
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         id="address1"
         type="text"
-        value="{{ user.address[0].street2 }}"
       />
     </div>
     <!-- City -->
     <div class="mb-4">
       <label class="block text-gray-700 font-bold mb-2" for="city">City</label>
       <input
+        formControlName="city"
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         id="city"
         type="text"
-        value="{{ user.address[0].city }}"
       />
     </div>
     <!-- Country -->
@@ -110,10 +115,10 @@
         >Country</label
       >
       <input
+        formControlName="country"
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         id="country"
         type="text"
-        value="{{ user.address[0].country }}"
       />
     </div>
     <!-- State -->
@@ -122,10 +127,10 @@
         >State</label
       >
       <input
+        formControlName="state"
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         id="state"
         type="text"
-        value="{{ user.address[0].state }}"
       />
     </div>
     <!-- Zip -->
@@ -134,10 +139,10 @@
         >Zip Code</label
       >
       <input
+        formControlName="zip"
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         id="zip"
         type="text"
-        value="{{ user.address[0].zip }}"
       />
     </div>
     <!-- Submit Button -->

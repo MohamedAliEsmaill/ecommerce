@@ -20,6 +20,10 @@ export class ProfileService {
     return this.http.patch(this.API_URL + '/edit', data);
   }
 
+  adminUpdateProfile(data: any) {
+    return this.http.patch(this.API_URL + '/admin/edit', data);
+  }
+
   updatePassword(data: any) {
     return this.http.patch(this.API_URL + '/password', data);
   }

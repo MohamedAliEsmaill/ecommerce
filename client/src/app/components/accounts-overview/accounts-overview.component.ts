@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { UserServiceService } from '../../services/user/user-service.service';
@@ -26,9 +27,19 @@ export class AccountsOverviewComponent implements OnInit {
   }
   openDialog(user: any) {
     this.selectedUser = user; // Store selected user
-    this.dialog.open(UserFormComponent, {
+    const dialogRef = this.dialog.open(UserFormComponent, {
       panelClass: 'mat-dialog-container-large',
       data: { user: this.selectedUser }, // Pass user data to dialog
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'success') {
+        Swal.fire({
+          icon: 'success',
+          title: 'Updated!',
+          text: 'User Profile Updated Successfully',
+        });
+        this.loadUsers(); // Reload users to reflect changes
+      }
     });
   }
   loadUsers(): void {
