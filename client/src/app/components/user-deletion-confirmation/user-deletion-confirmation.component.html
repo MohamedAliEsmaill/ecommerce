@@ -1,0 +1,47 @@
+<div class="bg-white rounded-lg shadow-lg p-6 text-center">
+  <mat-dialog-content>
+    <div class="p-4 md:p-5 text-center">
+      <svg
+        class="mx-auto mb-4 text-black w-12 h-12 dark:text-black"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 20 20"
+      >
+        <path
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+        />
+      </svg>
+      <h3 class="mb-5 text-lg font-normal text-black dark:text-black">
+        Are you sure you want to delete this user?
+      </h3>
+      <p class="text-sm text-black dark:text-black">Username:</p>
+      <p class="text-sm text-black dark:text-black">
+        {{ data.username }}
+      </p>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions class="flex justify-center flex-col">
+    <div class="flex justify-center items-center gap-4">
+      <button
+        class="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        mat-button
+        mat-dialog-close
+      >
+        Cancel
+      </button>
+      <button
+        mat-button
+        (click)="onConfirm()"
+        cdkFocusInitial
+        class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      >
+        Yes
+      </button>
+    </div>
+  </mat-dialog-actions>
+</div>

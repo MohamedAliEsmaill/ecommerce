@@ -86,6 +86,48 @@ export const getAllOrders = async (req, res) => {
       Order.countDocuments(query),
     ]);
 
+    const ordersWithUniqueProductIds = orders.map((order) => {
+      const uniqueProductIds = [...new Set(order.products)]; // Get unique product IDs
+
+      return {
+        ...order.toObject(),
+        uniqueProductIds,
+      };
+    });
+
+    // Get unique product IDs from all orders
+    const allUniqueProductIds = [
+      ...new Set(
+        ordersWithUniqueProductIds.flatMap((order) => order.uniqueProductIds)
+      ),
+    ];
+
+    // Fetch and populate unique products
+    const uniqueProducts = await Product.find(
+      {
+        _id: { $in: allUniqueProductIds },
+      },
+      {
+        name: 1,
+        price: 1,
+        desc: 1,
+        stock: 1,
+      }
+    );
+
+    // Map unique products to each order
+    const ordersWithPopulatedProducts = ordersWithUniqueProductIds.map(
+      (order) => {
+        const populatedProducts = order.uniqueProductIds.map((productId) =>
+          uniqueProducts.find((product) => product._id.equals(productId))
+        );
+
+        return {
+          ...order,
+          uniqueProducts: populatedProducts,
+        };
+      }
+    );
     const totalPages = Math.ceil(totalOrders / limit);
 
     const pagination = {
@@ -94,7 +136,7 @@ export const getAllOrders = async (req, res) => {
       totalOrders: totalOrders,
     };
 
-    res.json({ orders, pagination });
+    res.json({ orders: ordersWithPopulatedProducts, pagination });
   } catch (error) {
     console.error("Error while fetching orders:", error);
     res.status(500).json({ error: "Internal server error" });

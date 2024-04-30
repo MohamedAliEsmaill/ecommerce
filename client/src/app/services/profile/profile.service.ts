@@ -20,6 +20,10 @@ export class ProfileService {
     return this.http.patch(this.API_URL + '/edit', data);
   }
 
+  adminUpdateProfile(data: any) {
+    return this.http.patch(this.API_URL + '/admin/edit', data);
+  }
+
   updatePassword(data: any) {
     return this.http.patch(this.API_URL + '/password', data);
   }
@@ -30,5 +34,18 @@ export class ProfileService {
   }
   getUsersCharts() {
     return this.http.get(this.API_URL + '/charts');
+  }
+  adminUpdateImage(data: any, username?: string) {
+    const formData = new FormData();
+    formData.append('image', data);
+    if (username) {
+      formData.append('username', username);
+    }
+    return this.http.patch(this.API_URL + '/admin/updateImage', formData);
+  }
+  adminDeleteUser(username: string) {
+    return this.http.delete(this.API_URL + '/admin/delete', {
+      body: { username: username },
+    });
   }
 }
