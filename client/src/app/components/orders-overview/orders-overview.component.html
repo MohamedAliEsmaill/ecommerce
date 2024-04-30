@@ -1,7 +1,7 @@
 <!-- orders-overview.component.html -->
 <div>
-  <h2 class="text-xl font-bold mb-4">Orders Overview</h2>
-  <table class="min-w-full bg-gray-200 rounded-lg overflow-hidden">
+  <h2 class="mb-4 text-xl font-bold">Orders Overview</h2>
+  <table class="min-w-full overflow-hidden bg-gray-200 rounded-lg">
     <thead class="bg-gray-100">
       <tr>
         <th class="px-4 py-2">Order ID</th>
@@ -14,7 +14,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let order of displayedOrders">
+      <tr *ngFor="let order of pageOrders">
         <td class="px-4 py-2 text-center">
           {{
             order._id.length > 10
@@ -25,36 +25,35 @@
         <td class="px-4 py-2 text-center">{{ order.address.city }}</td>
         <td class="px-4 py-2 text-center">{{ order.status }}</td>
         <td class="px-4 py-2 text-center">{{ order.date }}</td>
-        <td class="px-4 py-2 text-center">{{ order.products }}</td>
+        <td class="px-4 py-2 text-center">
+          <ul *ngFor="let product of order.uniqueProducts">
+            <li>
+              {{ getProductName(product) }}
+            </li>
+          </ul>
+        </td>
         <td class="px-4 py-2 text-center">{{ order.totalPrice }}</td>
         <td class="px-4 py-2 text-center">
-          <button class="px-2 py-1 mx-3 bg-violet-900 text-white rounded">
-            Edit
+          <button
+            class="px-2 py-1 mx-3 text-white bg-green-900 rounded"
+            (click)="acceptOrder(order)"
+          >
+            Accept
           </button>
-          <button class="px-2 py-1 mx-3 bg-red-500 text-white rounded">
-            Delete
+          <button
+            class="px-2 py-1 mx-3 text-white bg-red-500 rounded"
+            (click)="rejectOrder(order)"
+          >
+            Reject
           </button>
         </td>
       </tr>
     </tbody>
   </table>
-</div>
-<div class="flex justify-end mt-4">
-  <button
-    class="px-2 py-1 bg-violet-900 text-white rounded mr-2"
-    [disabled]="currentPage === 0"
-    (click)="prevPage()"
+  <mat-paginator
+    [length]="numberOfOrders"
+    pageSize="10"
+    (page)="onPageChange($event)"
   >
-    Previous
-  </button>
-  <button
-    class="px-2 py-1 bg-violet-900 text-white rounded"
-    [disabled]="
-      displayedOrders.length < pageSize ||
-      (currentPage + 1) * pageSize >= allOrders.length
-    "
-    (click)="nextPage()"
-  >
-    Next
-  </button>
+  </mat-paginator>
 </div>
