@@ -4,12 +4,14 @@ import { Component, OnInit } from '@angular/core';
 import { UserServiceService } from '../../services/user/user-service.service';
 import { UserFormComponent } from '../user-form/user-form.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../user-deletion-confirmation/user-deletion-confirmation.component';
+import { ProfileService } from '../../services/profile/profile.service';
 
 @Component({
   selector: 'app-accounts-overview',
   standalone: true,
   imports: [CommonModule],
-  providers: [UserServiceService],
+  providers: [UserServiceService, ProfileService],
   templateUrl: './accounts-overview.component.html',
 })
 export class AccountsOverviewComponent implements OnInit {
@@ -20,6 +22,7 @@ export class AccountsOverviewComponent implements OnInit {
   selectedUser: any = null;
   constructor(
     private accountService: UserServiceService,
+    private profileService: ProfileService,
     public dialog: MatDialog
   ) {}
   ngOnInit(): void {
@@ -44,6 +47,31 @@ export class AccountsOverviewComponent implements OnInit {
       }
     });
   }
+
+  deleteUser(user: any) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: { username: user.username },
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (confirmed) {
+        this.profileService.adminDeleteUser(user.username).subscribe({
+          next: (response) => {
+            this.loadUsers();
+            Swal.fire({
+              icon: 'success',
+              title: 'Deleted!',
+              text: 'User Profile Deleted Successfully',
+            });
+          },
+          error: (error) => {
+            console.error('Error deleting user:', error);
+          },
+        });
+      }
+    });
+  }
+
   loadUsers(): void {
     this.accountService.getAllUsers().subscribe({
       next: (response: any) => {

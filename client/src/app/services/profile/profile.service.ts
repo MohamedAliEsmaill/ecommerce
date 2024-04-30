@@ -40,4 +40,9 @@ export class ProfileService {
     }
     return this.http.patch(this.API_URL + '/admin/updateImage', formData);
   }
+  adminDeleteUser(username: string) {
+    return this.http.delete(this.API_URL + '/admin/delete', {
+      body: { username: username },
+    });
+  }
 }
