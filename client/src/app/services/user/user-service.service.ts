@@ -24,6 +24,11 @@ export class UserServiceService {
       catchError(this.handleError)
     );
   }
+  getAllUsers() {
+    return this.http
+      .get(`${this.apiUrl}/all`)
+      .pipe(catchError(this.handleError));
+  }
 
   forgetPassword(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/forgotPassword`, data).pipe(

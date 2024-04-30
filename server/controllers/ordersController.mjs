@@ -1,6 +1,5 @@
 import Order from "../models/Order.mjs";
 import Product from "../models/Product.mjs";
-import { decreaseProductStock } from "./productController.mjs";
 
 export const getOrderById = async (req, res) => {
   try {
@@ -87,6 +86,48 @@ export const getAllOrders = async (req, res) => {
       Order.countDocuments(query),
     ]);
 
+    const ordersWithUniqueProductIds = orders.map((order) => {
+      const uniqueProductIds = [...new Set(order.products)]; // Get unique product IDs
+
+      return {
+        ...order.toObject(),
+        uniqueProductIds,
+      };
+    });
+
+    // Get unique product IDs from all orders
+    const allUniqueProductIds = [
+      ...new Set(
+        ordersWithUniqueProductIds.flatMap((order) => order.uniqueProductIds)
+      ),
+    ];
+
+    // Fetch and populate unique products
+    const uniqueProducts = await Product.find(
+      {
+        _id: { $in: allUniqueProductIds },
+      },
+      {
+        name: 1,
+        price: 1,
+        desc: 1,
+        stock: 1,
+      }
+    );
+
+    // Map unique products to each order
+    const ordersWithPopulatedProducts = ordersWithUniqueProductIds.map(
+      (order) => {
+        const populatedProducts = order.uniqueProductIds.map((productId) =>
+          uniqueProducts.find((product) => product._id.equals(productId))
+        );
+
+        return {
+          ...order,
+          uniqueProducts: populatedProducts,
+        };
+      }
+    );
     const totalPages = Math.ceil(totalOrders / limit);
 
     const pagination = {
@@ -95,7 +136,7 @@ export const getAllOrders = async (req, res) => {
       totalOrders: totalOrders,
     };
 
-    res.json({ orders, pagination });
+    res.json({ orders: ordersWithPopulatedProducts, pagination });
   } catch (error) {
     console.error("Error while fetching orders:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -118,6 +159,15 @@ export const addOrder = async (req, res) => {
     }
   );
 
+  const bulkOps = processedProducts.map((productId) => ({
+    updateOne: {
+      filter: { _id: productId, stock: { $gt: 0 } },
+      update: { $inc: { stock: -1 } },
+    },
+  }));
+
+  await Product.bulkWrite(bulkOps);
+
   try {
     const createdOrder = await Order.create({
       products: processedProducts,
@@ -127,21 +177,11 @@ export const addOrder = async (req, res) => {
       date: Date.now(),
     });
 
-    const productsCount = processedProducts.reduce((acc, productId) => {
-      if (!acc.find((item) => item.product === productId)) {
-        acc.push({ product: productId, quantity: 1 });
-      } else {
-        const existingItem = acc.find((item) => item.product === productId);
-        existingItem.quantity += 1;
-      }
-      return acc;
-    }, []);
-
     req.user.carts = [];
     req.user.orders.push(createdOrder._id);
-    req.body.products = productsCount;
+    await req.user.save();
 
-    await Promise.all([decreaseProductStock(req, res), req.user.save()]);
+    res.json({ message: "Order created successfully" });
   } catch (error) {
     console.error("Error while creating the order:", error);
     res.status(500).json({ error: "Error while creating the order" });
@@ -200,5 +240,42 @@ export const deleteOrder = async (req, res) => {
   } catch (error) {
     console.error("Error while deleting order:", error);
     res.status(500).json({ error: "Error while deleting order" });
+  }
+};
+
+export const orderStatusReport = async (req, res) => {
+  try {
+    const orders = await Order.aggregate([
+      {
+        $group: {
+          _id: "$status",
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          status: "$_id",
+          count: 1,
+          _id: 0,
+        },
+      },
+    ]);
+
+    const orderStatuses = ["accepted", "rejected", "pending"];
+    const missingStatuses = orderStatuses.filter(
+      (status) => !orders.some((order) => order.status === status)
+    );
+
+    const nonExistingStatuses = missingStatuses.map((status) => ({
+      status: status,
+      count: 0,
+    }));
+
+    const report = [...orders, ...nonExistingStatuses];
+
+    res.json(report);
+  } catch (error) {
+    console.error("Error while fetching order status report:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };

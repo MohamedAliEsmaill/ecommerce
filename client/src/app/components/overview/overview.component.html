@@ -1,0 +1,78 @@
+<div class="container mx-auto grid grid-rows-1">
+  <div class="bg-white rounded-lg shadow-lg p-4 lg:w-full md:w-4/4 sm:w-full m-auto">
+    <div class="flex items-center justify-between mb-4">
+      <h5 class="text-xl font-bold leading-none text-gray-500">
+        Status Users Registered
+      </h5>
+    </div>
+    <hr class="h-px my-4 bg-gray-200" />
+    <div class="flow-root">
+      <ul role="list" class="p-1">
+        <li class="w-full h-64">
+          <canvas
+            baseChart
+            [data]="UserChartData"
+            [options]="UserChartOptions"
+            [type]="'line'"
+            class="w-full"
+          ></canvas>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<div class="container grid items-center grid-rows-1 mt-2">
+  <div class="grid w-full grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2">
+    <!-- Status Orders -->
+    <div class="bg-white rounded-lg shadow">
+      <div class="flex items-center justify-start p-2">
+        <h5 class="text-xl p-3 font-bold leading-none text-gray-500">
+          Status Orders
+        </h5>
+      </div>
+      <hr class="h-px bg-gray-200" />
+      <div class="flow-root">
+        <ul role="list" class="p-3">
+          <li class="py-3 sm:py-4">
+            <div class="w-full h-40">
+              <!-- Adjust height -->
+              <canvas
+                baseChart
+                [data]="OrdersChartData"
+                [options]="OrderChartOptions"
+                [type]="'doughnut'"
+              ></canvas>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Status Products -->
+    <div class="bg-white rounded-lg shadow">
+      <div class="flex items-center justify-start p-2">
+        <h5 class="text-xl p-3 font-bold leading-none text-gray-500">
+          Status Products
+        </h5>
+      </div>
+      <hr class="h-px bg-gray-200" />
+      <div class="flow-root">
+        <ul role="list" class="p-3">
+          <li class="py-3 sm:py-4">
+            <div class="w-full h-40">
+              <!-- Adjust height -->
+              <canvas
+                baseChart
+                [data]="ProductsChartData"
+                [options]="productChartOptions"
+                [type]="'bar'"
+              ></canvas>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

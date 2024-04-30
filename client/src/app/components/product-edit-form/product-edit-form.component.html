@@ -1,0 +1,117 @@
+@if (isLoading) {
+<div class="container mx-auto p-6 min-h-[70vh] min-w-[50vw] max-w-[90vw] max-h-[90vh]">
+
+  <app-loading-spinner></app-loading-spinner>
+</div>
+} @else {
+
+<div class="container mx-auto p-6 min-h-[70vh] min-w-[50vw] max-w-[90vw] max-h-[90vh]">
+  <h1 class="text-2xl font-bold mb-4">Product</h1>
+  <form [formGroup]="productForm" class="bg-white p-6 rounded-lg shadow-md">
+    <!-- Name -->
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="name">Name</label>
+      <input formControlName="name" value="{{product.name}}"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="name" type="text" placeholder="Enter product name" required>
+    </div>
+    <!-- Price -->
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="price">Price</label>
+      <input formControlName="price"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="price" type="number" min="0" placeholder="Enter product price" required>
+    </div>
+    <!-- Description -->
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="desc">Description</label>
+      <textarea formControlName="desc"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="desc" rows="3" placeholder="Enter product description">desc</textarea>
+    </div>
+    <!-- Stock -->
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="stock">Stock</label>
+      <input formControlName="stock"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="stock" type="number" min="0" placeholder="Enter product stock" required>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="images">Images</label>
+      <div class="flex flex-wrap">
+        <div class="mr-2 mb-2" *ngFor="let image of imagesUrl; let i = index">
+          <img src="data:image/png;base64,{{image}}" alt="Image" class="w-24 h-24" />
+          <button type="button" (click)="removeImage(image)">Remove</button>
+        </div>
+      </div>
+      <input
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="images" type="file" multiple (change)="onFileChange($event)">
+    </div>
+
+    <!-- Brand -->
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="brand">Brand</label>
+      <select formControlName="brand"
+        class="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="brand" required>
+        <option value="APEX">APEX</option>
+        <option value="Call of SOFA">Call of SOFA</option>
+        <option value="Puff B&G">Puff B&G</option>
+        <option value="Fornighte">Fornighte</option>
+      </select>
+    </div>
+
+    <!-- Category -->
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="category">Category</label>
+      <select formControlName="category" value="category"
+        class="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="category" required>
+        <option value="Bedroom">Bedroom</option>
+        <option value="Sofa">Sofa</option>
+        <option value="Office">Office</option>
+        <option value="Outdoor">Outdoor</option>
+      </select>
+    </div>
+
+    <!-- Size -->
+    <!-- <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="size">Sizes</label>
+      <select formControlName="size"
+        class="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="size" required>
+        <option value="S">S</option>
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+        <option value="XXL">XXL</option>
+      </select>
+    </div> -->
+
+    <div class="mb-6">
+      <label class="block text-gray-700 font-bold mb-2" for="size">Size</label>
+      <input formControlName="size"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="size" type="text" placeholder="Enter product colors (comma-separated)" required>
+    </div>
+
+    <!-- Colors -->
+    <div class="mb-6">
+      <label class="block text-gray-700 font-bold mb-2" for="colors">Colors</label>
+      <input formControlName="colors"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="colors" type="text" placeholder="Enter product colors (comma-separated)" required>
+    </div>
+    <!-- Submit Button -->
+    <div class="flex items-center justify-end">
+      <button (click)="uploadFiles()"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        type="submit">
+        Save Product
+      </button>
+    </div>
+  </form>
+</div>
+}

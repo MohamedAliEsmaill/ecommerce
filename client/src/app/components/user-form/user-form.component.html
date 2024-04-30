@@ -1,0 +1,163 @@
+<div
+  class="container mx-auto p-6 min-h-[70vh] min-w-[50vw] max-w-[90vw] max-h-[90vh]"
+>
+  <h1 class="text-2xl font-bold mb-4 text-center">Edit User info</h1>
+  <form
+    [formGroup]="userForm"
+    (ngSubmit)="onSubmit()"
+    class="bg-white p-6 rounded-lg shadow-md"
+  >
+    <!-- Images -->
+    <div class="mx-auto">
+      <img
+        [src]="image"
+        alt="{{ user.username }}"
+        class="w-32 h-32 rounded-full mx-auto border border-gray-300"
+      />
+      <label class="block text-gray-700 font-bold mb-2 mt-4" for="images"
+        >Images</label
+      >
+      <input
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="images"
+        type="file"
+        (change)="onFileChange($event)"
+      />
+    </div>
+
+    <!-- Full Name -->
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="name"
+        >Full Name</label
+      >
+      <input
+        formControlName="fullName"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="name"
+        type="text"
+        required
+      />
+    </div>
+    <!-- Username -->
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="username"
+        >Username</label
+      >
+      <input
+        formControlName="username"
+        class="shadow appearance-none border rounded w-full py-2 px-3 bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="username"
+        type="text"
+        required
+        readonly
+      />
+    </div>
+    <!-- Email -->
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="email"
+        >Email</label
+      >
+      <input
+        formControlName="email"
+        class="shadow appearance-none border rounded w-full py-2 px-3 bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="email"
+        type="text"
+        required
+        readonly
+      />
+    </div>
+    <!--  -->
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="phone"
+        >Phone</label
+      >
+      <input
+        formControlName="phone"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="phone"
+        type="tel"
+        required
+      />
+    </div>
+    <!-- Address1 -->
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="address1"
+        >Address1</label
+      >
+      <input
+        formControlName="street1"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="address1"
+        type="text"
+        required
+      />
+    </div>
+    <!-- Address2 -->
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="address1"
+        >Address2</label
+      >
+      <input
+        formControlName="street2"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="address1"
+        type="text"
+      />
+    </div>
+    <!-- City -->
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="city">City</label>
+      <input
+        formControlName="city"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="city"
+        type="text"
+      />
+    </div>
+    <!-- Country -->
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="country"
+        >Country</label
+      >
+      <input
+        formControlName="country"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="country"
+        type="text"
+      />
+    </div>
+    <!-- State -->
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="state"
+        >State</label
+      >
+      <input
+        formControlName="state"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="state"
+        type="text"
+      />
+    </div>
+    <!-- Zip -->
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="zip"
+        >Zip Code</label
+      >
+      <input
+        formControlName="zip"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="zip"
+        type="text"
+      />
+    </div>
+    <!-- Submit Button -->
+    <div class="flex items-center justify-end">
+      <button
+        type="submit"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      >
+        Save Changes
+      </button>
+    </div>
+  </form>
+</div>
