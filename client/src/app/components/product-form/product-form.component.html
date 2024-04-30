@@ -1,3 +1,8 @@
+@if (isLoading) {
+<div class="container mx-auto p-6 min-h-[70vh] min-w-[50vw] max-w-[90vw] max-h-[90vh]">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+} @else {
 <div class="container mx-auto p-6 min-h-[70vh] min-w-[50vw] max-w-[90vw] max-h-[90vh]">
   <h1 class="text-2xl font-bold mb-4">Product</h1>
   <form [formGroup]="productForm" class="bg-white p-6 rounded-lg shadow-md">
@@ -31,31 +36,10 @@
     </div>
     <!-- Images -->
     <div class="mb-4">
-      <label class="block text-gray-700 font-bold mb-2" for="image1">Image 1</label>
-      <input formControlName="image1"
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        id="image1" type="file" multiple required>
-    </div>
-
-    <div class="mb-4">
-      <label class="block text-gray-700 font-bold mb-2" for="image2">Image 2</label>
-      <input formControlName="image2"
+      <label class="block text-gray-700 font-bold mb-2" for="images">Images</label>
+      <input (change)="onFileChange($event)" formControlName="images"
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         id="images" type="file" multiple required>
-    </div>
-
-    <div class="mb-4">
-      <label class="block text-gray-700 font-bold mb-2" for="image3">Image 3</label>
-      <input formControlName="image3"
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        id="image3" type="file" multiple required>
-    </div>
-
-    <div class="mb-4">
-      <label class="block text-gray-700 font-bold mb-2" for="image4">Image 4</label>
-      <input formControlName="image4"
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        id="image4" type="file" multiple required>
     </div>
     <!-- Brand -->
     <div class="mb-4">
@@ -113,3 +97,4 @@
     </div>
   </form>
 </div>
+}

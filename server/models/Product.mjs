@@ -29,11 +29,7 @@ const ProductSchema = new mongoose.Schema({
     }, // Ensure stock is an integer
   },
   images: {
-    type: [String],
-    validate: {
-      validator: (v) => Array.isArray(v) && v.length > 0,
-      message: "Please provide at least one image URL",
-    }, // Ensure at least one image URL is provided
+    type: [String], // Ensure at least one image URL is provided
   },
   brand: {
     type: String,

@@ -60,16 +60,27 @@ export class ProductsOverviewComponent {
   }
 
   openDialog() {
-    this.dialog.open(ProductFormComponent, {
+    const dialogRef = this.dialog.open(ProductFormComponent, {
       panelClass: 'mat-dialog-container-large',
       data: this.create,
     });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('create dialog closed');
+
+      this.loadProducts();
+    })
   }
 
   openEditDialog(product: any) {
-    this.dialog.open(ProductEditFormComponent, {
+    this.loadProducts();
+
+    const editDialog = this.dialog.open(ProductEditFormComponent, {
       panelClass: 'mat-dialog-container-large',
-      data: { product },
+      data: { product }
+    })
+
+    editDialog.afterClosed().subscribe(result => {
+      this.loadProducts();
     });
   }
 
@@ -78,19 +89,19 @@ export class ProductsOverviewComponent {
   }
 
   loadProducts(): void {
-    this.pService
-      .getAllProducts(this.currentPage + 1, this.pageSize)
-      .subscribe({
-        next: (response: any) => {
-          this.allProducts = response.totalProducts;
-          this.displayedProducts = response.products;
-        },
-        error: (error) => {
-          console.log('Error:', error);
-          // Handle error
-        },
-      });
-    this.isLoading = false;
+    this.isLoading = true;
+    this.pService.getAllProducts(this.currentPage + 1, this.pageSize).subscribe({
+      next: (response: any) => {
+        this.allProducts = response.totalProducts;
+        this.displayedProducts = response.products;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.log('Error:', error);
+        // Handle error
+      },
+
+    });
   }
 
   deleteProduct(id: any) {
@@ -100,8 +111,9 @@ export class ProductsOverviewComponent {
           (prod) => prod._id != id
         );
       },
-      error: (error) => console.log(error),
-    });
+      error: (error) => console.log(error)
+    })
+    this.loadProducts();
   }
 
   onPageChanged(event: PageEvent) {

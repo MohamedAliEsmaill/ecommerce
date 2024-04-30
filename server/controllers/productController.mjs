@@ -32,10 +32,10 @@ export const getAllProducts = async (req, res) => {
  * Create a new product.
  */
 export const createProduct = async (req, res) => {
-    const { name, desc, price, stock, images, category, brand, colors, size } = req.body;
+    const { name, desc, price, stock, category, brand, colors, size } = req.body;
 
     try {
-        const newProduct = new Product({ name, desc, price, stock, images, category, brand, colors, size });
+        const newProduct = new Product({ name, desc, price, stock, category, brand, colors, size });
         const result = await newProduct.save();
         res.status(201).json({ message: 'Product Added Successfully', product: result });
     } catch (error) {
@@ -174,7 +174,7 @@ export const getProductCountByBrand = async (req, res) => {
 export async function uploadProductImage(req, res, next) {
 
     const images = req.files.images;
-    const productId = req.body.productId;
+    let productId = req.body.productId;
 
     console.log(req.files);
 
