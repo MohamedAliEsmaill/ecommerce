@@ -8,8 +8,13 @@
     class="bg-white p-6 rounded-lg shadow-md"
   >
     <!-- Images -->
-    <div class="mb-4">
-      <label class="block text-gray-700 font-bold mb-2" for="images"
+    <div class="mx-auto">
+      <img
+        [src]="image"
+        alt="{{ user.username }}"
+        class="w-32 h-32 rounded-full mx-auto border border-gray-300"
+      />
+      <label class="block text-gray-700 font-bold mb-2 mt-4" for="images"
         >Images</label
       >
       <input
@@ -148,8 +153,8 @@
     <!-- Submit Button -->
     <div class="flex items-center justify-end">
       <button
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         type="submit"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
       >
         Save Changes
       </button>

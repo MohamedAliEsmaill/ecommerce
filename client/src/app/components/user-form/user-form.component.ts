@@ -15,10 +15,7 @@ import {
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
-import { UserServiceService } from '../../services/user/user-service.service';
 import { ProfileService } from '../../services/profile/profile.service';
-import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-user-form',
@@ -41,13 +38,12 @@ export class UserFormComponent {
   protected user: any = {};
   userForm: FormGroup;
   fileToUpload: File | null = null;
-
+  image: string = '';
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { user: any },
     private dialogRef: MatDialogRef<UserFormComponent>,
     private profileService: ProfileService,
-    private formBuilder: FormBuilder,
-    private router: Router
+    private formBuilder: FormBuilder
   ) {
     this.userForm = this.formBuilder.group({
       fullName: ['', Validators.required],
@@ -63,7 +59,6 @@ export class UserFormComponent {
       image: [''],
     });
     this.user = data.user;
-    console.log('User:', this.user.address[0]);
     this.userForm.setValue({
       fullName: this.user.fullName,
       email: this.user.email,
@@ -77,6 +72,7 @@ export class UserFormComponent {
       state: this.user.address[0].state,
       image: '',
     });
+    this.image = 'data:image/png;base64,' + this.user.image;
   }
 
   onSubmit() {
@@ -97,17 +93,13 @@ export class UserFormComponent {
           },
         ],
       };
-      console.log('Updated user data:', updatedUserData);
       const formData = new FormData();
       // Append the file to the form data if a file was selected
       if (this.fileToUpload) {
         formData.append('image', this.fileToUpload);
       }
-
-      console.log('updatedUserData', updatedUserData);
       this.profileService.adminUpdateProfile(updatedUserData).subscribe({
         next: (response) => {
-          console.log('Admin Profile updated successfully:', response);
           this.dialogRef.close('success');
         },
         error: (error) => {
@@ -120,14 +112,17 @@ export class UserFormComponent {
   onFileChange(event: any) {
     if (event.target.files && event.target.files.length) {
       this.fileToUpload = event.target.files[0];
-      this.profileService.updateImage(this.fileToUpload).subscribe({
-        next: (response) => {
-          console.log('Image updated successfully:', response);
-        },
-        error: (error) => {
-          console.error('Error updating image:', error);
-        },
-      });
+      this.image = URL.createObjectURL(this.fileToUpload as File);
+      this.profileService
+        .adminUpdateImage(this.fileToUpload, this.user.username)
+        .subscribe({
+          next: (response) => {
+            console.log('Image updated successfully:', response);
+          },
+          error: (error) => {
+            console.error('Error updating image:', error);
+          },
+        });
     } else {
       this.fileToUpload = null;
     }

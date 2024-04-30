@@ -32,4 +32,12 @@ export class ProfileService {
     formData.append('image', data);
     return this.http.patch(this.API_URL + '/updateImage', formData);
   }
+  adminUpdateImage(data: any, username?: string) {
+    const formData = new FormData();
+    formData.append('image', data);
+    if (username) {
+      formData.append('username', username);
+    }
+    return this.http.patch(this.API_URL + '/admin/updateImage', formData);
+  }
 }

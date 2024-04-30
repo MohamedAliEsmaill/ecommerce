@@ -39,6 +39,8 @@ export class AccountsOverviewComponent implements OnInit {
           text: 'User Profile Updated Successfully',
         });
         this.loadUsers(); // Reload users to reflect changes
+      } else {
+        this.loadUsers(); // Reload users to reflect changes
       }
     });
   }
