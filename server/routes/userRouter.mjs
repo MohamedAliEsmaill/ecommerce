@@ -16,6 +16,7 @@ import {
   updatePassword,
   updateProfile,
   uploadImage,
+  getUsersCharts,
 } from "../controllers/profileController.mjs";
 import multer from "multer";
 
@@ -46,6 +47,7 @@ router.patch(
   adminUploadImage
 );
 router.delete("/admin/delete", protect, adminDeleteUser);
+router.get('/charts', protect, getUsersCharts);
 
 router.get("/cart", protect, getCart);
 router.post("/cart", protect, addCart);

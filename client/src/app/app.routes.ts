@@ -27,11 +27,13 @@ import { AdminDashboardComponent } from './components/admin-dashboard/admin-dash
 import { AccountsOverviewComponent } from './components/accounts-overview/accounts-overview.component';
 import { OrdersOverviewComponent } from './components/orders-overview/orders-overview.component';
 import { ProductsOverviewComponent } from './components/products-overview/products-overview.component';
+import { OverviewComponent } from './components/overview/overview.component';
 export const routes: Routes = [
   {
     path: 'admin-dashboard',
     component: AdminDashboardComponent,
     children: [
+      { path: 'overview', component: OverviewComponent },
       { path: 'accounts-overview', component: AccountsOverviewComponent },
       { path: 'orders-overview', component: OrdersOverviewComponent },
       { path: 'products-overview', component: ProductsOverviewComponent },

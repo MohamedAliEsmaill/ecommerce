@@ -32,6 +32,9 @@ export class ProfileService {
     formData.append('image', data);
     return this.http.patch(this.API_URL + '/updateImage', formData);
   }
+  getUsersCharts() {
+    return this.http.get(this.API_URL + '/charts');
+  }
   adminUpdateImage(data: any, username?: string) {
     const formData = new FormData();
     formData.append('image', data);

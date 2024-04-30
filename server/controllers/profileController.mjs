@@ -156,6 +156,48 @@ export async function uploadImage(req, res, next) {
   }
 }
 
+export async function getUsersCharts(req, res, next) {
+  if (!req.user) {
+    return res.status(401).json({
+      error: "Unauthorized: User not found",
+    });
+  }
+  try {
+    const users = await User.find(
+      {},
+      {
+        password: 0,
+        image: 0,
+        passwordConfirm: 0,
+      }
+    );
+    const userCountByDate = {};
+    users.forEach((user) => {
+      const date = user.createdAt.toISOString().split("T")[0];
+      if (userCountByDate[date]) {
+        userCountByDate[date]++;
+      } else {
+        userCountByDate[date] = 1;
+      }
+    });
+    console.log(userCountByDate);
+    const userCountData = Object.keys(userCountByDate).map((date) => ({
+      date: date,
+      count: userCountByDate[date],
+    }));
+    userCountData.sort((a, b) => new Date(a.date) - new Date(b.date));
+    res.status(200).json({
+      message: "Charts",
+      data: userCountData,
+    });
+  } catch (error) {
+    console.error(`Error getting profiles: ${error}`);
+    res.status(500).json({
+      error: "Error getting all profiles",
+    });
+  }
+}
+
 export const adminUpdateUser = async (req, res) => {
   if (!req.user || req.user.role !== "admin") {
     return res.status(403).json({

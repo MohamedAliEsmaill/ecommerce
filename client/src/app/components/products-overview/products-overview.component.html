@@ -2,12 +2,57 @@
 
 <div
   class="fixed bottom-0 right-0 m-4 rounded-full h-12 w-12 hover:bg-blue-700 text-white font-bold flex items-center justify-center"
-  style="background-color: #4C1D95;">
+  style="background-color: #4c1d95"
+>
   <button (click)="openDialog()">
-    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#FFF">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      height="24"
+      viewBox="0 -960 960 960"
+      width="24"
+      fill="#FFF"
+    >
       <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
     </svg>
   </button>
+</div>
+<div class="relative lg:block hidden w-2/5 mx-auto mt-4">
+  <!-- Search form -->
+  <form
+    [formGroup]="searchForm"
+    class="flex items-center border rounded-lg overflow-hidden"
+    (ngSubmit)="search()"
+  >
+    <!-- Search icon -->
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      class="mx-3 h-5 w-5 text-gray-500"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+      />
+    </svg>
+
+    <!-- Search input -->
+    <input
+      (input)="search()"
+      formControlName="search"
+      class="flex-1 py-2 pr-4 outline-none"
+      type="search"
+      placeholder="Search..."
+    />
+
+    <!-- Search button -->
+    <button class="h-9 bg-amber-400 px-4 hover:bg-yellow-300 rounded-r-lg">
+      Search
+    </button>
+  </form>
 </div>
 
 <div>
@@ -24,26 +69,32 @@
       </tr>
     </thead>
     <tbody>
-      @for (product of displayedProducts; track product._id) {
+      @for (product of displayedProducts;track product._id) {
       <tr>
         <td class="px-4 py-2 text-center">{{ product.name }}</td>
         <td class="px-4 py-2 text-center">{{ product.price }}</td>
         <td class="px-4 py-2 w-6/12 truncate text-wrap">
           {{
-          product.desc.length > 80
-          ? (product.desc | slice : 0 : 80) + "..."
-          : product.desc
+            product.desc.length > 80
+              ? (product.desc | slice : 0 : 80) + "..."
+              : product.desc
           }}
         </td>
 
         <td class="px-4 py-2 text-center">{{ product.stock }}</td>
         <td class="px-4 py-2 text-center">{{ product.category }}</td>
         <td class="px-4 py-2 text-center">
-          <button (click)="openEditDialog(product)" class="px-2 py-1 mx-2 bg-violet-900 text-white rounded">
+          <button
+            (click)="openEditDialog(product)"
+            class="px-2 py-1 mx-2 bg-violet-900 text-white rounded"
+          >
             Edit
           </button>
 
-          <button (click)="deleteProduct(product._id)" class="px-2 py-1 bg-red-500 text-white rounded">
+          <button
+            (click)="deleteProduct(product._id)"
+            class="px-2 py-1 bg-red-500 text-white rounded"
+          >
             Delete
           </button>
         </td>
@@ -52,7 +103,12 @@
     </tbody>
   </table>
 
-  <mat-paginator [length]="allProducts" [pageSize]="pageSize" [pageSizeOptions]="[5, 10]" (page)="onPageChanged($event)"
-    aria-label="Select page">
+  <mat-paginator
+    [length]="allProducts"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10]"
+    (page)="onPageChanged($event)"
+    aria-label="Select page"
+  >
   </mat-paginator>
 </div>
