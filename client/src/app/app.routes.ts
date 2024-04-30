@@ -27,6 +27,7 @@ import { AdminDashboardComponent } from './components/admin-dashboard/admin-dash
 import { AccountsOverviewComponent } from './components/accounts-overview/accounts-overview.component';
 import { OrdersOverviewComponent } from './components/orders-overview/orders-overview.component';
 import { ProductsOverviewComponent } from './components/products-overview/products-overview.component';
+import { HomeComponent } from './layouts/home/home.component';
 import { OverviewComponent } from './components/overview/overview.component';
 export const routes: Routes = [
   {
@@ -41,7 +42,7 @@ export const routes: Routes = [
     ],
     canActivate: [IsLoggedService, IsAdminService],
   },
-  { path: '', redirectTo: 'profile', pathMatch: 'full' },
+  { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'home', redirectTo: 'profile', pathMatch: 'full' },
   { path: 'contact-us', component: ContactUsComponent },
   {

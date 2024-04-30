@@ -9,6 +9,8 @@ import { Product } from '../../interfaces/product';
 import { UserServiceService } from '../../services/user/user-service.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
+import { CountService } from '../../services/count/count.service';
 
 @Component({
   selector: 'app-check-out',
@@ -48,7 +50,8 @@ export class CheckOutComponent {
   constructor(
     private userService: UserServiceService,
     private router: Router,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private countService: CountService
   ) {
     this.order = {
       products: {},
@@ -129,12 +132,19 @@ export class CheckOutComponent {
       this.orderService.createOrder(this.order).subscribe({
         next: () => {
           console.log('Order created successfully');
+          Swal.fire({
+            icon: 'success',
+            title: 'Great!',
+            text: 'Product Added To Your Cart Successfully'
+          }).then(() => this.router.navigate(['/profile/history']))
+          this.countService.setProduct();
+
         },
         error: (error) => {
           console.error(error);
         },
         complete: () => {
-          this.router.navigate(['/profile/history']);
+
         },
       });
     }

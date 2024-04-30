@@ -5,7 +5,7 @@ import { UserServiceService } from '../user/user-service.service';
   providedIn: 'root',
 })
 export class CountService {
-  private product = new BehaviorSubject<number>(1);
+  private product = new BehaviorSubject<number>(0);
   selectedProduct = this.product.asObservable();
   constructor(private userService: UserServiceService) {
     this.setProduct();

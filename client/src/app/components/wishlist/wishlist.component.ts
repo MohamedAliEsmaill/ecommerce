@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { UserServiceService } from '../../services/user/user-service.service';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { ProfileService } from '../../services/profile/profile.service';
+import { CountService } from '../../services/count/count.service';
 
 @Component({
   selector: 'app-wishlist',
@@ -20,7 +21,7 @@ export class WishlistComponent {
   isLoading = true;
   userInfo: any = {};
 
-  constructor(private localStorage: LocalStorageService, private userService: UserServiceService, private profileService: ProfileService) { }
+  constructor(private localStorage: LocalStorageService, private userService: UserServiceService, private profileService: ProfileService, private countService: CountService) { }
 
   ngOnInit(): void {
     this.products = this.localStorage.getItem('wishList');
@@ -58,7 +59,7 @@ export class WishlistComponent {
       return;
     }
     this.userService.addCart(product._id).subscribe({
-      next: (data) => { },
+      next: (data) => { this.countService.setProduct() },
       error: (error) => console.error(error)
     });
     Swal.fire({
@@ -67,6 +68,7 @@ export class WishlistComponent {
       text: 'Product Added To Your Cart Successfully'
     })
     this.removeProduct(product._id)
+
   }
 
 }
