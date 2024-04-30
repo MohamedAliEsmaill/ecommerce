@@ -1,3 +1,4 @@
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../../services/order/order.service';
 import { CommonModule } from '@angular/common';
@@ -6,22 +7,24 @@ import { Order } from '../../interfaces/order';
 @Component({
   selector: 'app-orders-overview',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatPaginatorModule],
   providers: [OrderService],
   templateUrl: './orders-overview.component.html',
   styleUrl: './orders-overview.component.css',
 })
 export class OrdersOverviewComponent implements OnInit {
-  allOrders: Order[] = []; // Ensure allOrders is initialized as an array
-  displayedOrders: Order[] = [];
+  pageOrders: Order[] = []; // Ensure allOrders is initialized as an array
   currentPage = 0;
-  pageSize = 5;
+  pageSize = 10;
+  numberOfOrders = 0;
+  numberOfPages = 0;
   visible = false;
   constructor(private orderService: OrderService) {}
 
   ngOnInit(): void {
     this.loadOrders();
   }
+
   loadOrders(): void {
     this.orderService.getOrders().subscribe({
       next: (response: {
@@ -32,35 +35,77 @@ export class OrdersOverviewComponent implements OnInit {
           totalOrders: number;
         };
       }) => {
-        // Ensure the response type is Order[]
-        this.allOrders = response.orders;
-        this.updateDisplayedProducts();
-        console.log(response.orders);
+        this.pageOrders = response.orders;
+        this.numberOfPages = response.pagination.totalPages;
+        this.numberOfOrders = response.pagination.totalOrders;
+        const pruductIds = Array.from(
+          new Set(
+            response.orders.flatMap((order) =>
+              order.products.flatMap((product) => product)
+            )
+          )
+        );
       },
       error: (error) => {
         console.log('Error:', error);
-        // Handle error
       },
     });
   }
-  updateDisplayedProducts(): void {
-    const startIndex = this.currentPage * this.pageSize;
-    this.displayedOrders = this.allOrders.slice(
-      startIndex,
-      startIndex + this.pageSize
-    );
-  }
-  nextPage(): void {
-    if ((this.currentPage + 1) * this.pageSize < this.allOrders.length) {
-      this.currentPage++;
-      this.updateDisplayedProducts();
-    }
+
+  onPageChange(event: any): void {
+    this.currentPage = event.pageIndex + 1;
+    this.orderService.getOrders(this.currentPage, 10).subscribe({
+      next: (response: {
+        orders: Order[];
+        pagination: {
+          currentPage: number;
+          totalPages: number;
+          totalOrders: number;
+        };
+      }) => {
+        this.pageOrders = response.orders;
+        this.pageSize = response.orders.length;
+        this.numberOfPages = response.pagination.totalPages;
+        this.numberOfOrders = response.pagination.totalOrders;
+        console.log(
+          response.orders,
+          'current page: ' + this.currentPage,
+          'page size: ' + this.pageSize,
+          'number of pages: ' + this.numberOfPages,
+          'number of orders: ' + this.numberOfOrders
+        );
+      },
+      error: (error) => {
+        console.log('Error:', error);
+      },
+    });
   }
 
-  prevPage(): void {
-    if (this.currentPage > 0) {
-      this.currentPage--;
-      this.updateDisplayedProducts();
-    }
+  getProductName(product: any): string {
+    return product.name;
+  }
+
+  acceptOrder(order: Order): void {
+    this.orderService.updateOrderStatus(order._id, 'accept').subscribe({
+      next: (response) => {
+        console.log('Order accepted:', response);
+        this.loadOrders();
+      },
+      error: (error) => {
+        console.log('Error:', error);
+      },
+    });
+  }
+
+  rejectOrder(order: Order): void {
+    this.orderService.updateOrderStatus(order._id, 'reject').subscribe({
+      next: (response) => {
+        console.log('Order accepted:', response);
+        this.loadOrders();
+      },
+      error: (error) => {
+        console.log('Error:', error);
+      },
+    });
   }
 }

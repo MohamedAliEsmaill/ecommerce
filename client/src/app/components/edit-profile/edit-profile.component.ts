@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../../services/profile/profile.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
@@ -9,11 +9,19 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-edit-profile',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    SidebarComponent,
+    LoadingSpinnerComponent,
+  ],
   providers: [ProfileService],
   templateUrl: './edit-profile.component.html',
 })
@@ -21,10 +29,11 @@ export class EditProfileComponent implements OnInit {
   userForm: FormGroup;
   fileToUpload: File | null = null;
   userInfo: any = {};
-
+  isLoading = true;
   constructor(
     private profileService: ProfileService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {
     this.userForm = this.formBuilder.group({});
     this.profileService.getProfile().subscribe({
@@ -33,6 +42,7 @@ export class EditProfileComponent implements OnInit {
 
         console.log(data);
         this.userInfo = data;
+        this.isLoading = false;
       },
       error: (error) => {
         console.error(error);
@@ -78,6 +88,7 @@ export class EditProfileComponent implements OnInit {
       this.profileService.updateProfile(updatedUserData).subscribe({
         next: (response) => {
           console.log('Profile updated successfully:', response);
+          this.router.navigate(['/profile']);
         },
         error: (error) => {
           console.error('Error updating profile:', error);
@@ -92,7 +103,6 @@ export class EditProfileComponent implements OnInit {
       this.profileService.updateImage(this.fileToUpload).subscribe({
         next: (response) => {
           console.log('Image updated successfully:', response);
-          window.location.reload();
         },
         error: (error) => {
           console.error('Error updating image:', error);
