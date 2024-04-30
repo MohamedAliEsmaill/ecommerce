@@ -10,8 +10,8 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  getAllProducts() {
-    return this.http.get<Product[]>(this.API_URL);
+  getAllProducts(page: number = 1, limit: number = 10) {
+    return this.http.get<Product[]>(`${this.API_URL}?page=${page}&limit=${limit}`);
   }
 
   getProductById(id: string) {
@@ -32,6 +32,11 @@ export class ProductService {
 
   decreaseStock(products: { id: string, count: number }[]) {
     return this.http.post(`${this.API_URL}/decrease-stock`, { products });
+  }
+
+  uploadProductImage(data: FormData) {
+    console.log(data);
+    return this.http.patch(`${this.API_URL}/updateImage`, data)
   }
 
 }
