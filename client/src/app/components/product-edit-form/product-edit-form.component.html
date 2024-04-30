@@ -1,3 +1,10 @@
+@if (isLoading) {
+<div class="container mx-auto p-6 min-h-[70vh] min-w-[50vw] max-w-[90vw] max-h-[90vh]">
+
+  <app-loading-spinner></app-loading-spinner>
+</div>
+} @else {
+
 <div class="container mx-auto p-6 min-h-[70vh] min-w-[50vw] max-w-[90vw] max-h-[90vh]">
   <h1 class="text-2xl font-bold mb-4">Product</h1>
   <form [formGroup]="productForm" class="bg-white p-6 rounded-lg shadow-md">
@@ -107,3 +114,4 @@
     </div>
   </form>
 </div>
+}

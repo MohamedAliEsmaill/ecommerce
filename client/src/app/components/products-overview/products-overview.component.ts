@@ -35,16 +35,27 @@ export class ProductsOverviewComponent {
   }
 
   openDialog() {
-    this.dialog.open(ProductFormComponent, {
+    const dialogRef = this.dialog.open(ProductFormComponent, {
       panelClass: 'mat-dialog-container-large',
       data: this.create
     });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('create dialog closed');
+
+      this.loadProducts();
+    })
   }
 
   openEditDialog(product: any) {
-    this.dialog.open(ProductEditFormComponent, {
+    this.loadProducts();
+
+    const editDialog = this.dialog.open(ProductEditFormComponent, {
       panelClass: 'mat-dialog-container-large',
       data: { product }
+    })
+
+    editDialog.afterClosed().subscribe(result => {
+      this.loadProducts();
     })
   }
 
@@ -74,6 +85,7 @@ export class ProductsOverviewComponent {
       },
       error: (error) => console.log(error)
     })
+    this.loadProducts();
   }
 
   onPageChanged(event: PageEvent) {

@@ -5,11 +5,12 @@ import { Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { SimpleChanges } from '@angular/core';
+import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-product-edit-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, LoadingSpinnerComponent],
   templateUrl: './product-edit-form.component.html',
   styles: ``
 })
@@ -18,6 +19,8 @@ export class ProductEditFormComponent {
   product: any = {};
   imagesUrl: any;
   selectedFiles: File[] = [];
+  isLoading = false;
+
   constructor(private productService: ProductService, @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog) {
 
   }
@@ -50,19 +53,10 @@ export class ProductEditFormComponent {
     colors: new FormControl([]),
   });
 
-
-  onSubmit() {
-    this.productService.updateProduct(this.product._id, this.productForm.value).subscribe({
-      error: error => console.error(error)
-    });
-    this.dialog.closeAll();
-  }
-
   removeImage(image: any) {
     this.imagesUrl = this.imagesUrl.filter((img: any) => img != image);
     this.productForm.value.images = this.imagesUrl;
     console.log(this.productForm.value.images);
-
   }
 
   onFileChange(event: any) {
@@ -71,6 +65,7 @@ export class ProductEditFormComponent {
   }
 
   uploadFiles() {
+    this.isLoading = true;
     const formData = new FormData();
 
     // Append each selected file to the FormData object
@@ -81,7 +76,12 @@ export class ProductEditFormComponent {
 
     // Send the FormData to the server using HttpClient
     this.productService.uploadProductImage(formData).subscribe({
+      next: res => {
+        this.dialog.closeAll();
+        this.isLoading = false;
+      },
       error: error => console.log(error)
+
     })
   }
 
