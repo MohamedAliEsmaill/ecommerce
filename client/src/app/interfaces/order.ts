@@ -10,4 +10,6 @@ export interface Order {
   _id: string;
   user: string;
   status: 'pending' | 'accepted' | 'rejected';
+  uniqueProductIds: string[];
+  uniqueProducts: any[];
 }
