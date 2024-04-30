@@ -37,12 +37,28 @@
           <button
             class="px-2 py-1 mx-3 text-white bg-green-900 rounded"
             (click)="acceptOrder(order)"
+            [disabled]="
+              order.status === 'rejected' || order.status === 'accepted'
+            "
+            [ngClass]="
+              order.status === 'rejected' || order.status === 'accepted'
+                ? 'opacity-50'
+                : ''
+            "
           >
             Accept
           </button>
           <button
             class="px-2 py-1 mx-3 text-white bg-red-500 rounded"
             (click)="rejectOrder(order)"
+            [disabled]="
+              order.status === 'rejected' || order.status === 'accepted'
+            "
+            [ngClass]="
+              order.status === 'rejected' || order.status === 'accepted'
+                ? 'opacity-50'
+                : ''
+            "
           >
             Reject
           </button>
