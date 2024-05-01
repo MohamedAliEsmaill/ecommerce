@@ -38,7 +38,14 @@ export class EditProfileComponent implements OnInit {
     this.userForm = this.formBuilder.group({});
     this.profileService.getProfile().subscribe({
       next: (data: any) => {
-        data.image = 'data:image/png;base64,' + data.image;
+        if (
+          data.image.includes(
+            'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png'
+          )
+        ) {
+          data.image =
+            'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png';
+        } else data.image = 'data:image/png;base64,' + data.image;
 
         console.log(data);
         this.userInfo = data;
@@ -102,7 +109,7 @@ export class EditProfileComponent implements OnInit {
       this.fileToUpload = event.target.files[0];
       this.profileService.updateImage(this.fileToUpload).subscribe({
         next: (response) => {
-          console.log('Image updated successfully:', response);
+          window.location.reload();
         },
         error: (error) => {
           console.error('Error updating image:', error);

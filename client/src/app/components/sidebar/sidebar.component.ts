@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { AfterContentInit, Component, Input, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -6,8 +6,14 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [RouterModule],
   templateUrl: './sidebar.component.html',
-  styles: ``
+  styles: ``,
 })
 export class SidebarComponent {
   @Input() userInfo: any;
+
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    window.location.reload();
+  }
 }

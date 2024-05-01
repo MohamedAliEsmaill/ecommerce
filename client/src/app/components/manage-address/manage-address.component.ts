@@ -15,7 +15,13 @@ import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.comp
 @Component({
   selector: 'app-manage-address',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, SidebarComponent, LoadingSpinnerComponent],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    SidebarComponent,
+    LoadingSpinnerComponent,
+  ],
   providers: [ProfileService],
   templateUrl: './manage-address.component.html',
 })
@@ -60,11 +66,13 @@ export class ManageAddressComponent implements OnInit {
             state: address.state,
           });
         }
-        if (data.image) {
+        if (
+          !data.image.includes(
+            'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png'
+          )
+        )
           data.image = 'data:image/png;base64,' + data.image;
-        } else {
-          data.image = 'https://cdn-icons-png.freepik.com/256/12225/12225773.png?semt=ais_hybrid';
-        }
+
         this.userInfo = data;
         this.isLoading = false;
       },

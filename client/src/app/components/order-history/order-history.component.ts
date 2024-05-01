@@ -11,7 +11,12 @@ import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.comp
 @Component({
   selector: 'app-order-history',
   standalone: true,
-  imports: [CommonModule, RouterModule, SidebarComponent, LoadingSpinnerComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    SidebarComponent,
+    LoadingSpinnerComponent,
+  ],
   templateUrl: './order-history.component.html',
   styleUrl: './order-history.component.css',
   providers: [OrderService],
@@ -39,14 +44,13 @@ export class OrderHistoryComponent {
     totalPages: number;
     totalOrders: number;
   } = {
-      currentPage: 1,
-      totalPages: 1,
-      totalOrders: 0,
-    };
+    currentPage: 1,
+    totalPages: 1,
+    totalOrders: 0,
+  };
   selectedOrder: any = {};
   userInfo: any = {};
   isLoading = true;
-
 
   ngOnInit(): void {
     this.order.getOrders(this.pagination.currentPage, 5).subscribe({
@@ -63,12 +67,18 @@ export class OrderHistoryComponent {
     });
 
     this.profileService.getProfile().subscribe({
-      next: data => {
+      next: (data: any) => {
+        if (
+          !data.image.includes(
+            'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png'
+          )
+        )
+          data.image = 'data:image/png;base64,' + data.image;
+
         this.userInfo = data;
       },
-      error: error => console.error(error)
-    })
-
+      error: (error) => console.error(error),
+    });
   }
 
   getOrders() {
@@ -98,5 +108,8 @@ export class OrderHistoryComponent {
     }
   }
 
-  constructor(private order: OrderService, private profileService: ProfileService) { }
+  constructor(
+    private order: OrderService,
+    private profileService: ProfileService
+  ) {}
 }

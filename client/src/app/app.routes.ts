@@ -43,7 +43,7 @@ export const routes: Routes = [
     canActivate: [IsLoggedService, IsAdminService],
   },
   { path: '', component: HomeComponent, pathMatch: 'full' },
-  { path: 'home', redirectTo: 'profile', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent, pathMatch: 'full' },
   { path: 'contact-us', component: ContactUsComponent },
   {
     path: 'about-us',
@@ -71,15 +71,40 @@ export const routes: Routes = [
     ],
     canActivate: [IsLoggedService, IsUserService],
   },
-  { path: 'order-history', component: OrderHistoryComponent },
-  { path: 'orders/:id', component: OrderDetailComponent },
-  { path: 'profile-information', component: ProfileInformationComponent },
-  { path: 'edit-profile', component: EditProfileComponent },
-  { path: 'manage-address', component: ManageAddressComponent },
-  { path: 'change-password', component: ChangePasswordComponent },
+  {
+    path: 'order-history',
+    component: OrderHistoryComponent,
+    canActivate: [IsLoggedService, IsUserService],
+  },
+  {
+    path: 'orders/:id',
+    component: OrderDetailComponent,
+    canActivate: [IsLoggedService, IsUserService],
+  },
+  {
+    path: 'profile-information',
+    component: ProfileInformationComponent,
+    canActivate: [IsLoggedService, IsUserService],
+  },
+  {
+    path: 'edit-profile',
+    component: EditProfileComponent,
+    canActivate: [IsLoggedService, IsUserService],
+  },
+  {
+    path: 'manage-address',
+    component: ManageAddressComponent,
+    canActivate: [IsLoggedService, IsUserService],
+  },
+  {
+    path: 'change-password',
+    component: ChangePasswordComponent,
+    canActivate: [IsLoggedService, IsUserService],
+  },
   {
     path: 'wishList',
     component: WishlistComponent,
+    canActivate: [IsLoggedService, IsUserService],
   },
   {
     path: 'login',
@@ -104,27 +129,12 @@ export const routes: Routes = [
   {
     path: 'check-out',
     component: CheckOutComponent,
-    canActivate: [CardIsNotEmptyService],
+    canActivate: [IsLoggedService, IsUserService, CardIsNotEmptyService],
   },
 
-  // {
-  //   path: 'profile',
-  //   component: ProfileComponent,
-  //   canActivate: [!AuthServiceService],
-  // },
-  // {
-  //   path: 'products',
-  //   component: ProductsComponent,
-  //   canActivate: [!AuthServiceService],
-  // },
   {
     path: 'cart',
     component: CartComponent,
     canActivate: [IsLoggedService, IsUserService],
   },
-  // {
-  //   path: 'products',
-  //   component: ProductsComponent,
-  //   canActivate: [!AuthServiceService],
-  // },
 ];
