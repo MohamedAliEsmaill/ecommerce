@@ -50,7 +50,6 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.countService.selectedProduct.subscribe((value) => {
       this.data = value;
-      console.log(this.data);
     });
   }
   toggleMenu() {

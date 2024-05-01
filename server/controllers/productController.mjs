@@ -5,14 +5,20 @@ import Product from "../models/Product.mjs";
  */
 export const getAllProducts = async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 1;// Get page number, default to 1
-        const limit = parseInt(req.query.limit) || 10; // Get limit per page, default to 10
+        const page = parseInt(req.query.page);// Get page number, default to 1
+        const limit = parseInt(req.query.limit); // Get limit per page, default to 10
 
-        const skip = (page - 1) * limit; // Calculate documents to skip
+        let products;
 
-        const products = await Product.find({})
-            .skip(skip)
-            .limit(limit);
+        if (page && limit) {
+            const skip = (page - 1) * limit; // Calculate documents to skip
+
+            products = await Product.find({})
+                .skip(skip)
+                .limit(limit);
+        } else {
+            products = await Product.find({});
+        }
 
         const totalProducts = await Product.countDocuments(); // Get total count of products
 

@@ -8,9 +8,9 @@ import { Product } from '../../interfaces/product';
 export class ProductService {
   private API_URL = 'http://localhost:3000/api/products';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  getAllProducts(page: number = 1, limit: number = 10) {
+  getAllProducts(page: number | undefined = undefined, limit: number | undefined = undefined) {
     return this.http.get<Product[]>(
       `${this.API_URL}?page=${page}&limit=${limit}`
     );
