@@ -22,8 +22,6 @@ export class ProductCardComponent implements OnInit {
 
   ngOnInit(): void {
     let products: any = this.localStorage.getItem('wishList');
-    console.log(products);
-
     if (this.product) {
       if (products && products.some((prod: any) => prod._id === this.product._id)) {
         this.wishListBtn = true;

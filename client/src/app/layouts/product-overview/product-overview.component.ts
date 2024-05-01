@@ -6,6 +6,7 @@ import { UserServiceService } from '../../services/user/user-service.service';
 import Swal from 'sweetalert2';
 import { recommendation } from '../../Utils/products'
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
+import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-product-overview',
@@ -25,21 +26,31 @@ export class ProductOverviewComponent {
   stock = 0;
   recommendationProduct = recommendation;
   isLoading = true;
+  sizes = new Set<string>();
+  colors = new Set<string>();
+  wishListBtn = false;
 
-  constructor(myRoute: ActivatedRoute, private productService: ProductService, private userService: UserServiceService) {
+  constructor(myRoute: ActivatedRoute, private productService: ProductService, private userService: UserServiceService, private localStorage: LocalStorageService) {
     this.id = myRoute.snapshot.params['id'];
   }
 
   ngOnInit(): void {
     this.productService.getProductById(this.id).subscribe({
       next: (data) => {
-        console.log(data);
         this.product = data;
         this.stock = data.stock;
         this.isLoading = false;
+
+        const products: any = this.localStorage.getItem('wishList');
+        if (this.product) {
+          if (products && products.some((prod: any) => prod._id === this.product?._id)) {
+            this.wishListBtn = true;
+          }
+        }
       },
       error: (error) => console.error(error)
     })
+
   }
 
   activeImage(image: string) {
@@ -71,6 +82,39 @@ export class ProductOverviewComponent {
       title: 'Great!',
       text: 'Product Added To Your Cart Successfully'
     })
+  }
+
+  getColorFilters(colorVal: string) {
+    if (this.colors.has(colorVal)) {
+      this.colors.delete(colorVal);
+    } else {
+      this.colors.add(colorVal);
+    }
+  }
+
+  getSizeFilters(sizeVal: string) {
+    if (this.sizes.has(sizeVal)) {
+      this.sizes.delete(sizeVal);
+    } else {
+      this.sizes.add(sizeVal);
+    }
+  }
+
+  addProductToWishList() {
+    let products: any;
+    if (this.localStorage.getItem('wishList')) {
+      products = this.localStorage.getItem('wishList');
+      if (products.some((prod: any) => prod._id === this.product?._id)) {
+        products = products.filter((prod: any) => prod._id !== this.product?._id);
+      } else {
+        products.push(this.product)
+      }
+      this.localStorage.setItem('wishList', products);
+    } else {
+      products = [];
+      products.push(this.product);
+      this.localStorage.setItem('wishList', products);
+    }
   }
 
 }

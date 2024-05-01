@@ -135,7 +135,7 @@ export class CheckOutComponent {
           Swal.fire({
             icon: 'success',
             title: 'Great!',
-            text: 'Product Added To Your Cart Successfully'
+            text: 'Order Placed Successfully!'
           });
           this.router.navigate(['/order-history']);
           this.countService.setProduct();
