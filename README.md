@@ -98,8 +98,6 @@ This project is an online store web application that allows users to browse prod
             <a href="#" title="Reviewed Pull Requests">👀</a>
             <a href="#" title="Talks">📢</a>
         </td>
-      </tr>
-      <tr>
         <td align="center" valign="top" width="14.28%">
             <a href="https://github.com/xMohamd">
             <img
