@@ -8,4 +8,10 @@ import { RouterModule } from '@angular/router';
   templateUrl: './admin-dashboard.component.html',
   // styleUrls: ['./admin-dashboard.component.css'],
 })
-export class AdminDashboardComponent {}
+export class AdminDashboardComponent {
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    window.location.reload();
+  }
+}

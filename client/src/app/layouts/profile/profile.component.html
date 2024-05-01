@@ -38,64 +38,6 @@
   <!-- sidebar  -->
   <app-sidebar [userInfo]="userInfo"></app-sidebar>
   <!-- /sidebar  -->
-
-  <!-- <section
-          class="grid w-full max-w-[1200px] grid-cols-1 gap-3 px-5 pb-10 lg:grid-cols-3"
-        >
-          <div class="">
-            <div class="border py-5 shadow-md">
-              <div class="flex justify-between px-4 pb-5">
-                <p class="font-bold">Personal Profile</p>
-                <a
-                  class="text-sm text-violet-900"
-                  href="profile-information.html"
-                  >Edit</a
-                >
-              </div>
-
-              <div class="px-4">
-                <p>Sarah Johnson</p>
-                <p>sarah@yandex.com</p>
-                <p>20371</p>
-                <p class="">1223 3432 3344 0082</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="">
-            <div class="border py-5 shadow-md">
-              <div class="flex justify-between px-4 pb-5">
-                <p class="font-bold">Shipping Address</p>
-                <a class="text-sm text-violet-900" href="manage-address.html"
-                  >Edit</a
-                >
-              </div>
-
-              <div class="px-4">
-                <p>Sarah Johnson</p>
-                <p>Belgrade, Serbia</p>
-                <p>20371</p>
-                <p>1223 3432 3344 0082</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="">
-            <div class="border py-5 shadow-md">
-              <div class="flex justify-between px-4 pb-5">
-                <p class="font-bold">Billing Address</p>
-                <a class="text-sm text-violet-900" href="#">Edit</a>
-              </div>
-
-              <div class="px-4">
-                <p>Sarah Johnson</p>
-                <p>Belgrade, Serbia</p>
-                <p>20371</p>
-                <p>1223 3432 3344 0082</p>
-              </div>
-            </div>
-          </div>
-        </section> -->
   <div class="w-full">
     <section
       class="grid w-full max-w-[1200px] grid-cols-1 gap-3 px-5 pb-10 lg:grid-cols-3"
@@ -112,11 +54,15 @@
           <div class="px-4">
             <p>{{ userInfo.fullName }}</p>
             <p>{{ userInfo.email }}</p>
-            <p>{{ userInfo.address[0].street1 }}</p>
+            @if(!isAddressEmpty()){
+            <p>{{ userInfo?.address[0]?.street1 || "" }}</p>
+
             <p>
-              {{ userInfo.address[0].city }}, {{ userInfo.address[0].state }}
+              {{ userInfo?.address[0]?.city || "" }},
+              {{ userInfo?.address[0]?.state || "" }}
             </p>
-            <p>{{ userInfo.address[0].country }}</p>
+            <p>{{ userInfo?.address[0]?.country || "" }}</p>
+            }
           </div>
         </div>
       </div>
@@ -124,7 +70,7 @@
       <div class="">
         <div class="border py-5 shadow-md">
           <div class="flex justify-between px-4 pb-5">
-            <p class="font-bold">Shipping Address</p>
+            <p class="font-bold">Personal Profile</p>
             <a class="text-sm text-violet-900" routerLink="/manage-address"
               >Edit</a
             >
@@ -133,11 +79,15 @@
           <div class="px-4">
             <p>{{ userInfo.fullName }}</p>
             <p>{{ userInfo.email }}</p>
-            <p>{{ userInfo.address[0].street1 }}</p>
+            @if(!isAddressEmpty()){
+            <p>{{ userInfo?.address[0]?.street1 || "" }}</p>
+
             <p>
-              {{ userInfo.address[0].city }}, {{ userInfo.address[0].state }}
+              {{ userInfo?.address[0]?.city || "" }},
+              {{ userInfo?.address[0]?.state || "" }}
             </p>
-            <p>{{ userInfo.address[0].country }}</p>
+            <p>{{ userInfo?.address[0]?.country || "" }}</p>
+            }
           </div>
         </div>
       </div>
@@ -145,7 +95,7 @@
       <div class="">
         <div class="border py-5 shadow-md">
           <div class="flex justify-between px-4 pb-5">
-            <p class="font-bold">Billing Address</p>
+            <p class="font-bold">Personal Profile</p>
             <a class="text-sm text-violet-900" routerLink="/manage-address"
               >Edit</a
             >
@@ -154,14 +104,19 @@
           <div class="px-4">
             <p>{{ userInfo.fullName }}</p>
             <p>{{ userInfo.email }}</p>
-            <p>{{ userInfo.address[0].street1 }}</p>
+            @if(!isAddressEmpty()){
+            <p>{{ userInfo?.address[0]?.street1 || "" }}</p>
+
             <p>
-              {{ userInfo.address[0].city }}, {{ userInfo.address[0].state }}
+              {{ userInfo?.address[0]?.city || "" }},
+              {{ userInfo?.address[0]?.state || "" }}
             </p>
-            <p>{{ userInfo.address[0].country }}</p>
+            <p>{{ userInfo?.address[0]?.country || "" }}</p>
+            }
           </div>
         </div>
       </div>
+
     </section>
     <!-- /Option cards -->
   </div>

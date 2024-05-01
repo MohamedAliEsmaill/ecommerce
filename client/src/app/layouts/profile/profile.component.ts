@@ -1,5 +1,5 @@
 import { routes } from './../../app.routes';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   ActivatedRoute,
   NavigationEnd,
@@ -15,29 +15,42 @@ import { LoadingSpinnerComponent } from '../../components/loading-spinner/loadin
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [RouterModule, RouterOutlet, AccountComponent, SidebarComponent, LoadingSpinnerComponent],
+  imports: [
+    RouterModule,
+    RouterOutlet,
+    AccountComponent,
+    SidebarComponent,
+    LoadingSpinnerComponent,
+  ],
   providers: [ProfileService],
   templateUrl: './profile.component.html',
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   userInfo: any = {};
   showAccount: boolean = true;
   isLoading = true;
-  constructor(public profileService: ProfileService, private router: Router) {
+  address: string[] = [];
+  constructor(public profileService: ProfileService, private router: Router) {}
+
+  ngOnInit(): void {
     this.profileService.getProfile().subscribe({
       next: (data: any) => {
-        data.image = 'data:image/png;base64,' + data.image;
-        console.log(data);
-
+        if (
+          !data.image.includes(
+            'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png'
+          )
+        )
+          data.image = 'data:image/png;base64,' + data.image;
         this.userInfo = data;
+        this.address = this.userInfo.address;
+        console.log(this.userInfo);
         this.isLoading = false;
       },
       error: (error) => {
         console.error(error);
       },
-
     });
-    router.events.subscribe((val) => {
+    this.router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {
         if (val.url === '/profile') {
           this.showAccount = true;
@@ -46,11 +59,13 @@ export class ProfileComponent {
         }
       }
     });
-
   }
 
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
+  }
+  isAddressEmpty(): boolean {
+    return this.address.length === 0;
   }
 }
